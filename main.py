@@ -20,7 +20,7 @@ st.sidebar.title("System settings ")
 
 # Paramètres modifiables
 M = st.sidebar.slider("M : Mass (kg)", 1.0, 500.0, 80.0, step=1.0)
-K = st.sidebar.slider("K : Stiffness (N/m)", 1.0, 50000.0, 10000.0, step=1.0)
+K = st.sidebar.slider("K : Stiffness (N/m)", 1.0, 50000.0, 10000.0, step=100.0)
 zeta = st.sidebar.slider("zeta : Damping rate (%)", 0.0, 200.0, 5.0, step=1.0)
 
 # Upload du fichier CSV ou Excel
