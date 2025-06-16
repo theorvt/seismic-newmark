@@ -95,7 +95,6 @@ if uploaded_file is not None:
 
 
 else:
-    df = pd.read_csv('/Users/theorivet/Documents/stage_nz/donnee_seisme_site_web.csv', sep=';')
     df = pd.read_csv('donnee_seisme_site_web.csv', sep=';')
     # Définition des colonnes des temps et des accélérations et conversion de la première colonne en float (temps)
     time_data = pd.to_numeric(df.iloc[:, 4],
