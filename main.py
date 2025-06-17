@@ -66,6 +66,9 @@ if uploaded_file is not None:
             acc_col = h1_col
         elif selected_component == "Horizontal 2":
             acc_col = h2_col
+        else:
+            st.error("Composante sélectionnée introuvable.")
+            st.stop()
  
         if time_col is None or acc_col is None:
             st.error("Colonnes 'Time' et 'Vertical' non détectées.")
@@ -113,10 +116,9 @@ if uploaded_file is not None:
 else:
     df = pd.read_csv('donnee_seisme_site_web.csv', sep=';')
     # Définition des colonnes des temps et des accélérations et conversion de la première colonne en float (temps)
-    time_data = pd.to_numeric(df.iloc[:, 4],
-                              errors='coerce').values  # df.iloc[:, 4] Séléctionne la 5ième colonne du DataFrame
-    acc_data = pd.to_numeric(df.iloc[:, 0],
-                             errors='coerce').values  # pd.to_numeric(..., errors='coerce') : essaie de convertir chaque élément de cette colonne en nombre flottant (float).
+    time_data = pd.to_numeric(df.iloc[:, 4], errors='coerce').values  # df.iloc[:, 4] Séléctionne la 5ième colonne du DataFrame
+    acc_data = pd.to_numeric(df.iloc[:, 0], errors='coerce').values  # pd.to_numeric(..., errors='coerce') : essaie de convertir chaque élément de cette colonne en nombre flottant (float).
+    selected_component = "Vertical"
     # Si une valeur n’est pas convertible (ex. texte, cellule vide…), elle sera remplacée par NaN (Not a Number), grâce à errors='coerce'.
     # .values : transforme la série pandas en array NumPy pur, plus rapide à manipuler.
 
