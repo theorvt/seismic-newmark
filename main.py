@@ -36,7 +36,7 @@ if uploaded_file is not None:
         else:
             df = pd.read_excel(uploaded_file, skiprows=8)
 
-        st.write("🔍 Colonnes détectées après lecture :", df.columns.tolist())
+        #st.write("Colonnes détectées après lecture :", df.columns.tolist())
 
 
         # Normalisation des noms
@@ -108,11 +108,8 @@ if uploaded_file is not None:
         time_data = time_data[valid]
         acc_data = acc_data[valid]
 
-        st.success(f"✅ Données valides détectées : {len(time_data)} points")
-        st.write("📈 Exemple de données :", pd.DataFrame({
-            "Time (s)": time_data[:5],
-            "Acceleration": acc_data[:5]
-        }))
+        #st.success(f"Données valides détectées : {len(time_data)} points")
+        #st.write("Exemple de données :", pd.DataFrame({"Time (s)": time_data[:5],"Acceleration": acc_data[:5]}))
 
     except Exception as e:
         st.error(f"Erreur : {e}")
