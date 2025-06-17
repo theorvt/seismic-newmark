@@ -47,10 +47,10 @@ if uploaded_file is not None:
         col_map = {normalize(col): col for col in df.columns}
  
         # Récupérer les vrais noms de colonnes via leur nom normalisé
-        time_col = col_map.get("Time")
-        vertical_col = col_map.get("Vertical")
-        h1_col = col_map.get("Horizontal1")
-        h2_col = col_map.get("Horizontal2")
+        time_col = col_map.get("time")
+        vertical_col = col_map.get("vertical")
+        h1_col = col_map.get("horizontal1")
+        h2_col = col_map.get("horizontal2")
         
         component_options = []
         if vertical_col: component_options.append("Vertical")
