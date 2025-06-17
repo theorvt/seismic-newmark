@@ -52,8 +52,25 @@ if uploaded_file is not None:
         col_map = {normalize(col): col for col in df.columns}
 
         time_col = col_map.get("time")
-        acc_col = col_map.get("vertical")
+        vertical_col = col_map.get("vertical")
+        h1_col = col_map.get("horizontal1") or col_map.get("horizontal_1")
+        h2_col = col_map.get("horizontal2") or col_map.get("horizontal_2")
+        
+        component_options = []
+        if vertical_col: component_options.append("Vertical")
+        if h1_col: component_options.append("Horizontal 1")
+        if h2_col: component_options.append("Horizontal 2")
 
+        selected_component = st.sidebar.selectbox("🧭 Choose component", component_options)
+
+        # Récupérer les données selon le choix
+        if selected_component == "Vertical":
+            acc_col = vertical_col
+        elif selected_component == "Horizontal 1":
+            acc_col = h1_col
+        elif selected_component == "Horizontal 2":
+            acc_col = h2_col
+ 
         if time_col is None or acc_col is None:
             st.error("❌ Colonnes 'Time' et 'Vertical' non détectées.")
             st.stop()
@@ -131,8 +148,7 @@ C = (2 * (K * M) ** (1 / 2) * zeta) / 100
 st.sidebar.markdown(f"C : Damping coefficient : **{C:.2f} Ns/m**")
 
 # Filtrer les NaN
-valid_indices = ~np.isnan(time_data) & ~np.isnan(
-    acc_data)  # np.isnan(time_data) Cette fonction renvoie un tableau de booléens (True/False) de même taille que time_data.
+valid_indices = ~np.isnan(time_data) & ~np.isnan(acc_data)  # np.isnan(time_data) Cette fonction renvoie un tableau de booléens (True/False) de même taille que time_data.
 # Elle contient True là où les valeurs sont NaN (Not a Number), c’est-à-dire des valeurs manquantes ou invalides.
 # L’opérateur ~ est un NON logique (négation). Donc cette expression renvoie True pour les indices valides (non NaN) de time_data.
 time_data = time_data[valid_indices]
@@ -266,7 +282,7 @@ with col1:
     ax.plot(t, F, label="Force (N)", color="#0072CE")
     ax.set_xlabel("Time(s)")
     ax.set_ylabel("Force(N)")
-    ax.set_title("Earthquake Modelisation")
+    ax.set_title("Earthquake Modelisation - {selected_component}")
     ax.grid()
     ax.legend()
     st.pyplot(fig)
@@ -276,7 +292,7 @@ with col2:
     ax.plot(t, d, label="Movement (m)", color="#002B45")
     ax.set_xlabel("Time(s)")
     ax.set_ylabel("Movement")
-    ax.set_title("Movement - Newmark Method")
+    ax.set_title("Movement - Newmark Method - {selected_component}")
     ax.grid()
     ax.legend()
     st.pyplot(fig)
@@ -289,7 +305,7 @@ with col3:
     ax.plot(t, v, label="Velocity (m/s)", color="#009CA6")
     ax.set_xlabel("Time (s)")
     ax.set_ylabel("Velocity")
-    ax.set_title("Velocity - Newmark Method")
+    ax.set_title("Velocity - Newmark Method - {selected_component}")
     ax.grid()
     ax.legend()
     st.pyplot(fig)
@@ -299,7 +315,7 @@ with col4:
     ax.plot(t, a, label="Acceleration (m/s^2)", color="#1C2D3F")
     ax.set_xlabel("Time (s)")
     ax.set_ylabel("Acceleration")
-    ax.set_title("Acceleration - Newmark Method")
+    ax.set_title("Acceleration - Newmark Method - {selected_component}")
     ax.grid()
     ax.legend()
     st.pyplot(fig)
