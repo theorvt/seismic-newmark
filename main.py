@@ -56,7 +56,13 @@ if uploaded_file is not None:
         if vertical_col: component_options.append("Vertical")
         if h1_col: component_options.append("Horizontal 1")
         if h2_col: component_options.append("Horizontal 2")
+        
+        # Sécurité : vérifier qu’au moins une composante est disponible
+        if not component_options:
+            st.error("Aucune composante verticale ou horizontale détectée dans le fichier.")
+            st.stop()
 
+        # Choix de la composante
         selected_component = st.sidebar.selectbox("Choose component", component_options)
 
         # Récupérer les données selon le choix
