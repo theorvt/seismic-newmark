@@ -53,8 +53,8 @@ if uploaded_file is not None:
 
         time_col = col_map.get("time")
         vertical_col = col_map.get("vertical")
-        h1_col = col_map.get("horizontal1") or col_map.get("horizontal_1")
-        h2_col = col_map.get("horizontal2") or col_map.get("horizontal_2")
+        h1_col = col_map.get("horizontal 1") or col_map.get("horizontal_1")
+        h2_col = col_map.get("horizontal 2") or col_map.get("horizontal_2")
         
         component_options = []
         if vertical_col: component_options.append("Vertical")
