@@ -1,8 +1,3 @@
-# This is a sample Python script.
-
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
-
 import matplotlib.pyplot as plt
 import streamlit as st
 import numpy as np
@@ -45,16 +40,17 @@ if uploaded_file is not None:
 
 
         # Normalisation des noms
+        
         def normalize(col):
-            return str(col).strip().lower().replace(" ", "").replace("\xa0", "")
-
+            return str(col).strip().lower().replace(" ", "").replace("\xa0", "").replace("_", "")
 
         col_map = {normalize(col): col for col in df.columns}
-
+ 
+        # Récupérer les vrais noms de colonnes via leur nom normalisé
         time_col = col_map.get("time")
         vertical_col = col_map.get("vertical")
-        h1_col = col_map.get("horizontal 1") or col_map.get("horizontal_1")
-        h2_col = col_map.get("horizontal 2") or col_map.get("horizontal_2")
+        h1_col = col_map.get("horizontal1")
+        h2_col = col_map.get("horizontal2")
         
         component_options = []
         if vertical_col: component_options.append("Vertical")
