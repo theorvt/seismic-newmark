@@ -16,7 +16,7 @@ st.set_page_config(layout="wide")
 st.markdown("Seismic simulation - Newmark method")
 
 # Lien vers GeoNet
-st.info("📂 You can download seismic data from [GeoNet Strong Motion Database](https://data.geonet.org.nz/seismic-products/strong-motion/). Choose your station and event, then upload the `.csv` or `.txt` file below.")
+st.info("You can download seismic data from [GeoNet Strong Motion Database](https://data.geonet.org.nz/seismic-products/strong-motion/). Choose your station and event, then upload the `.csv` or `.txt` file below.")
 
 # Barre latérale
 st.sidebar.title("System settings ")
