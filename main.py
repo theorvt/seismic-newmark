@@ -36,7 +36,7 @@ if uploaded_file is not None:
                 # Lecture auto avec détection de séparateur
                 df = pd.read_csv(uploaded_file, skiprows=8, engine="python", sep=None)
             except Exception as e:
-                st.error(f"❌ Échec de lecture CSV : {e}")
+                st.error(f"Échec de lecture CSV : {e}")
                 st.stop()
         else:
             df = pd.read_excel(uploaded_file, skiprows=8)
@@ -61,7 +61,7 @@ if uploaded_file is not None:
         if h1_col: component_options.append("Horizontal 1")
         if h2_col: component_options.append("Horizontal 2")
 
-        selected_component = st.sidebar.selectbox("🧭 Choose component", component_options)
+        selected_component = st.sidebar.selectbox("Choose component", component_options)
 
         # Récupérer les données selon le choix
         if selected_component == "Vertical":
@@ -72,7 +72,7 @@ if uploaded_file is not None:
             acc_col = h2_col
  
         if time_col is None or acc_col is None:
-            st.error("❌ Colonnes 'Time' et 'Vertical' non détectées.")
+            st.error("Colonnes 'Time' et 'Vertical' non détectées.")
             st.stop()
 
         # Conversion du temps depuis format ISO 8601 en secondes écoulées
@@ -83,7 +83,7 @@ if uploaded_file is not None:
 
                 # Vérifier qu'aucune conversion n'a échoué
                 if df[time_col].isnull().any():
-                    st.error("❌ Conversion datetime impossible pour certains temps (valeurs invalides).")
+                    st.error("Conversion datetime impossible pour certains temps (valeurs invalides).")
                     st.stop()
 
                 # Calculer les secondes écoulées depuis le premier timestamp
@@ -91,7 +91,7 @@ if uploaded_file is not None:
                 df[time_col] = (df[time_col] - time_zero).dt.total_seconds()
 
             except Exception as e:
-                st.error(f"❌ Conversion de 'Time' impossible : {e}")
+                st.error(f"Conversion de 'Time' impossible : {e}")
                 st.stop()
 
         # Extraction des valeurs numériques
@@ -110,7 +110,7 @@ if uploaded_file is not None:
         }))
 
     except Exception as e:
-        st.error(f"❌ Erreur : {e}")
+        st.error(f"Erreur : {e}")
         st.stop()
 
 
