@@ -129,7 +129,7 @@ else:
     # .values : transforme la série pandas en array NumPy pur, plus rapide à manipuler.
 
 # Calcule automatique de la durée du fichier
-T_max = float(np.nanmax(time_data)) if len(time_data) > 0 else 180.0
+T_max = float(np.nanmax(time_data)) if len(time_data) > 0 else 1000.0
 T_default = round(T_max, 2)
 
 # Slider de durée, ajusté dynamiquement
