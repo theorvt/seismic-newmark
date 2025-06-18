@@ -223,7 +223,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
     # Conditions initiales
     d[0] = 0
     v[0] = 0
-    a[0] = (F[0] - C * v[0] - K * d[0]) / M
+    a[0] = (F[0] - C * v[0] - K * d[0]) / M   * 1000
 
     # Pré-calculs
     B = M + K * beta * dt ** 2 + C * gamma * dt
@@ -235,9 +235,9 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
     for i in range(n - 1):
         P = v[i] + ((1 - gamma) * dt) * a[i]
         H = d[i] + dt * v[i] + (1 / 2 - beta) * dt ** 2 * a[i]
-        a[i + 1] = (F[i + 1] - K * H - C * P) / B
-        v[i + 1] = P + gamma * dt * a[i + 1]
-        d[i + 1] = H + beta * dt ** 2 * a[i + 1]
+        a[i + 1] = (F[i + 1] - K * H - C * P) / B     *  1000
+        v[i + 1] = P + gamma * dt * a[i + 1]     *    1000
+        d[i + 1] = H + beta * dt ** 2 * a[i + 1]     *   1000
 
     # Sauvegarde des résultats
     st.session_state.results = {"t": t, "F": F, "d": d, "v": v, "a": a}
