@@ -171,9 +171,9 @@ if W == 0:
    
 # Définition de la période propre du système
 T0 = 1 / f
-st.sidebar.markdown(f"T0 : Natural frequency : **{T0:.2f} s**")
+st.sidebar.markdown(f"T₀ : Natural frequency : **{T0:.2f} s**")
 if W == 0:
-    st.error("Error: T0 is zero (check M and K)")
+    st.error("Error: T₀ is zero (check M and K)")
     st.stop()
 
 # Définition du pas de temps
