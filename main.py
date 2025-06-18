@@ -183,7 +183,7 @@ dt = dt1 * 0.9  # 90% de la limite de stabilité, par exemple
 st.sidebar.markdown(f"dt : Step time of the simulation : **{dt:.5f} s**")
 
 # Gestion des variables temporels
-t = ax.set_xticks(np.arange(0, T + dt,dt))  # fonction NumPy qui crée un tableau (array) des valeurs du temps espacées régulièrement et on fait + dt pour avoir la durée finale réelle
+t = np.arange(0, T + dt,dt)  # fonction NumPy qui crée un tableau (array) des valeurs du temps espacées régulièrement et on fait + dt pour avoir la durée finale réelle
 n = len(t)
 
 # 🔧 MODIF : bornes du slider
