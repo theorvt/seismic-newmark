@@ -209,8 +209,7 @@ elif st.session_state["previous_T"] != T:
     st.session_state["time_range_slider"] = (new_min, new_max)
     st.session_state["previous_T"] = T
 
-selected_range = st.sidebar.slider("Select the time range to display (s)", time_min, time_max, key="time_range_slider",
-                                   step=1.0)
+selected_range = st.sidebar.slider("Select the time range to display (s)", time_min, time_max, key="time_range_slider",step=1.0)
 
 # Défintion des conditions de stabilité du programme
 if len(time_data) == 0:
