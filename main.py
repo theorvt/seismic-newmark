@@ -24,7 +24,7 @@ zeta = st.sidebar.slider("zeta : Damping rate (%)", 0.0, 200.0, 5.0, step=1.0)
 d0 = st.sidebar.slider("d : Movement (m)", 0.0, 0.5, 0.0, step=0.001)
 v0 = st.sidebar.slider("v : Velocity (m/s)", 0.0, 2.0, 0.0, step=0.01)
 
-# Upload du fichier CSV ou Excel
+# Upload du fichier CSV ou Excel 
 uploaded_file = st.file_uploader("Upload a CSV or Excel file", type=["csv", "xls", "xlsx"])
 
 if uploaded_file is not None:
