@@ -238,8 +238,8 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
     a = np.zeros(n)
 
     # Conditions initiales
-    d = d0
-    v = v0
+    d[0] = d0
+    v[0] = v0
     a[0] = (F[0] - C * v[0] - K * d[0]) / M
 
     # Pré-calculs
