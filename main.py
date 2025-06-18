@@ -289,7 +289,7 @@ col1, col2 = st.columns(2)
 
 with col1:
     fig, ax = plt.subplots()
-    ax.plot(time_data, F, label="Force (N)", color="#0072CE")
+    ax.plot(t, F, label="Force (N)", color="#0072CE")
     ax.set_xlabel("Time(s)")
     ax.set_ylabel("Force(N)")
     ax.set_title(f"Earthquake Modelisation - {selected_component}")
