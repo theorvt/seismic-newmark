@@ -136,7 +136,7 @@ if "time_range_slider" not in st.session_state or st.session_state["previous_T"]
     st.session_state["time_range_slider"] = (0.0, T)
     st.session_state["previous_T"] = T  # Mettre à jour la référence
 
-params_key = (M, K, zeta, T, selected_component)
+params_key = (M, K, zeta, T, selected_component, d[0], v[0])
 
 # Définition du coefficent d'amortissement
 C = (2 * (K * M) ** (1 / 2) * zeta) / 100
@@ -223,6 +223,7 @@ if n == 0:
     st.error("Error : The array of moments t is empty (Check T)")
     st.stop()
 
+
 # Exécution unique de la simulation si les paramètres ont changé
 if "results" not in st.session_state or st.session_state.get("last_params") != params_key:
     # Interpolation linéaire
@@ -236,9 +237,11 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
     a = np.zeros(n)
 
     # Conditions initiales
-    d[0] = 0 
-    v[0] = 0 
-    a[0] = (F[0] - C * v[0] - K * d[0]) / M 
+    d[0] = st.sidebar.slider("d : Movement (m)", 0.0, 100.0, 0.0, step=1.0)
+    #d[0] = 0 
+    v[0] = st.sidebar.slider("v : Velocity (m/s)", 0.0, 100.0, 0.0, step=1.0)
+    #v[0] = 0 
+    a[0] = (F[0] - C * v[0] - K * d[0]) / M
 
     # Pré-calculs
     B = M + K * beta * dt ** 2 + C * gamma * dt
