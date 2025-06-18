@@ -183,8 +183,7 @@ dt = dt1 * 0.9  # 90% de la limite de stabilité, par exemple
 st.sidebar.markdown(f"dt : Step time of the simulation : **{dt:.5f} s**")
 
 # Gestion des variables temporels
-t = np.arange(0, T + dt,
-              dt)  # fonction NumPy qui crée un tableau (array) des valeurs du temps espacées régulièrement et on fait + dt pour avoir la durée finale réelle
+t = np.arange(0, T + dt,dt)  # fonction NumPy qui crée un tableau (array) des valeurs du temps espacées régulièrement et on fait + dt pour avoir la durée finale réelle
 n = len(t)
 
 # 🔧 MODIF : bornes du slider
@@ -290,7 +289,7 @@ col1, col2 = st.columns(2)
 
 with col1:
     fig, ax = plt.subplots()
-    ax.plot(t, F, label="Force (N)", color="#0072CE")
+    ax.plot(time_data, F, label="Force (N)", color="#0072CE")
     ax.set_xlabel("Time(s)")
     ax.set_ylabel("Force(N)")
     ax.set_title(f"Earthquake Modelisation - {selected_component}")
