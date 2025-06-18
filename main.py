@@ -273,9 +273,9 @@ mask = (t >= selected_range[0]) & (t <= selected_range[1])
 # Filtrage des données
 t = t[mask]
 F = F[mask]
-d = d[mask]
-v = v[mask]
-a = a[mask]
+d = d[mask] * 1000
+v = v[mask] * 1000
+a = a[mask] * 1000
 
 # Affichage
 
