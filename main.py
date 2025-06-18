@@ -163,7 +163,7 @@ if W == 0:
     st.stop()
   
 # Définition de la fréquence propre du système
-f = W / (2*pi)
+f = W / (2 * 3.14)
 st.sidebar.markdown(f"f : Natural frequency : **{f:.2f} Hz**")
 if W == 0:
     st.error("Error: f is zero (check M and K)")
