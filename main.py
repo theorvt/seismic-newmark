@@ -177,8 +177,9 @@ if W == 0:
     st.stop()
 
 # Définition du pas de temps
-dt1 = 2 / W * (1 / (1 - 2 * beta)) ** (1 / 2)
-dt = dt1 * 0.9  # 90% de la limite de stabilité, par exemple
+#dt1 = 2 / W * (1 / (1 - 2 * beta)) ** (1 / 2)
+#dt = dt1 * 0.9  # 90% de la limite de stabilité, par exemple
+dt = 0.02
 st.sidebar.markdown(f"dt : Step time the simulation use : **{dt:.5f} s**")
 
 # Gestion des variables temporels
