@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import streamlit as st
 import numpy as np
+from numpy import *
 import pandas as pd
 from scipy.interpolate import interp1d
 
@@ -154,11 +155,25 @@ acc_data = acc_data[valid_indices]
 beta = 1 / 6
 gamma = 1 / 2
 
-# Définition de la fréquence propre du système
+# Définition de la pulsation propre du système
 W = (K * M) ** (1 / 2)
-st.sidebar.markdown(f"ω₀ : Natural frequency : **{W:.2f} rad/s**")
+st.sidebar.markdown(f"ω₀ : Natural pulsation : **{W:.2f} rad/s**")
 if W == 0:
     st.error("Error: ω₀ is zero (check M and K)")
+    st.stop()
+  
+# Définition de la fréquence propre du système
+f = W / (2*pi)
+st.sidebar.markdown(f"f : Natural frequency : **{f:.2f} Hz**")
+if W == 0:
+    st.error("Error: f is zero (check M and K)")
+    st.stop()
+   
+# Définition de la période propre du système
+T = 1 / f
+st.sidebar.markdown(f"T : Natural frequency : **{T:.2f} s**")
+if W == 0:
+    st.error("Error: T is zero (check M and K)")
     st.stop()
 
 # Définition du pas de temps
