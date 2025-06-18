@@ -156,7 +156,7 @@ beta = 1 / 6
 gamma = 1 / 2
 
 # Définition de la pulsation propre du système
-W = sqrt((K * M))
+W = sqrt((K / M))
 st.sidebar.markdown(f"ω₀ : Natural pulsation : **{W:.2f} rad/s**")
 if W == 0:
     st.error("Error: ω₀ is zero (check M and K)")
