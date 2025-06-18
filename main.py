@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import streamlit as st
 import numpy as np
-from numpy import *
+from math import *
 import pandas as pd
 from scipy.interpolate import interp1d
 
@@ -163,17 +163,17 @@ if W == 0:
     st.stop()
   
 # Définition de la fréquence propre du système
-f = W / (2 * 3.14)
+f = W / (2 * pi)
 st.sidebar.markdown(f"f : Natural frequency : **{f:.2f} Hz**")
 if W == 0:
     st.error("Error: f is zero (check M and K)")
     st.stop()
    
 # Définition de la période propre du système
-T = 1 / f
-st.sidebar.markdown(f"T : Natural frequency : **{T:.2f} s**")
+T0 = 1 / f
+st.sidebar.markdown(f"T0 : Natural frequency : **{T0:.2f} s**")
 if W == 0:
-    st.error("Error: T is zero (check M and K)")
+    st.error("Error: T0 is zero (check M and K)")
     st.stop()
 
 # Définition du pas de temps
