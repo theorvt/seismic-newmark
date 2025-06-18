@@ -21,6 +21,8 @@ st.sidebar.title("System settings ")
 M = st.sidebar.slider("M : Mass (kg)", 1.0, 500.0, 80.0, step=1.0)
 K = st.sidebar.slider("K : Stiffness (N/m)", 0.0, 50000.0, 10000.0, step=100.0)
 zeta = st.sidebar.slider("zeta : Damping rate (%)", 0.0, 200.0, 5.0, step=1.0)
+d0 = st.sidebar.slider("d : Movement (m)", 0.0, 100.0, 0.0, step=1.0)
+v0 = st.sidebar.slider("v : Velocity (m/s)", 0.0, 100.0, 0.0, step=1.0)
 
 # Upload du fichier CSV ou Excel
 uploaded_file = st.file_uploader("Upload a CSV or Excel file", type=["csv", "xls", "xlsx"])
@@ -136,7 +138,7 @@ if "time_range_slider" not in st.session_state or st.session_state["previous_T"]
     st.session_state["time_range_slider"] = (0.0, T)
     st.session_state["previous_T"] = T  # Mettre à jour la référence
 
-params_key = (M, K, zeta, T, selected_component, d, v)
+params_key = (M, K, zeta, T, selected_component, d0, v0)
 
 # Définition du coefficent d'amortissement
 C = (2 * (K * M) ** (1 / 2) * zeta) / 100
@@ -237,10 +239,8 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
     a = np.zeros(n)
 
     # Conditions initiales
-    d[0] = st.sidebar.slider("d : Movement (m)", 0.0, 100.0, 0.0, step=1.0)
-    #d[0] = 0 
-    v[0] = st.sidebar.slider("v : Velocity (m/s)", 0.0, 100.0, 0.0, step=1.0)
-    #v[0] = 0 
+    d = d0
+    v = v0
     a[0] = (F[0] - C * v[0] - K * d[0]) / M
 
     # Pré-calculs
