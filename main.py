@@ -301,7 +301,7 @@ with col1:
 
 with col2:
     fig, ax = plt.subplots()
-    ax.plot(t, d, label="Movement (m)", color="#002B45")
+    ax.plot(t, d, label="Movement (mm)", color="#002B45")
     ax.set_xlabel("Time(s)")
     ax.set_ylabel("Movement")
     ax.set_title(f"Movement - Newmark Method - {selected_component}")
@@ -314,7 +314,7 @@ col3, col4 = st.columns(2)
 
 with col3:
     fig, ax = plt.subplots()
-    ax.plot(t, v, label="Velocity (m/s)", color="#009CA6")
+    ax.plot(t, v, label="Velocity (mm/s)", color="#009CA6")
     ax.set_xlabel("Time (s)")
     ax.set_ylabel("Velocity")
     ax.set_title(f"Velocity - Newmark Method - {selected_component}")
@@ -324,7 +324,7 @@ with col3:
 
 with col4:
     fig, ax = plt.subplots()
-    ax.plot(t, a, label="Acceleration (m/s^2)", color="#1C2D3F")
+    ax.plot(t, a, label="Acceleration (mm/s^2)", color="#1C2D3F")
     ax.set_xlabel("Time (s)")
     ax.set_ylabel("Acceleration")
     ax.set_title(f"Acceleration - Newmark Method - {selected_component}")
