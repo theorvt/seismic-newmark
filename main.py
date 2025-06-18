@@ -33,7 +33,7 @@ if uploaded_file is not None:
             try:
                 # Lecture auto avec détection de séparateur
                 df = pd.read_csv(uploaded_file, skiprows=8, engine="python", sep=None)
-            except Exception as e:
+            except Exception as e: 
                 st.error(f"Error : CSV read failure : {e}")
                 st.stop()
         else:
