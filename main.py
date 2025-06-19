@@ -169,7 +169,7 @@ f = W / (2 * pi)
 st.sidebar.markdown(f"f : Natural frequency : **{f:.2f} Hz**")
 if W == 0:
     st.error("Error: f is zero (check M and K)")
-    st.stop()
+    st.stop()  
    
 # Définition de la période propre du système
 T0 = 1 / f
