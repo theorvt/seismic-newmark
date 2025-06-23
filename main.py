@@ -23,8 +23,11 @@ dt = st.sidebar.number_input("dt : Time step (s)", min_value=0.001, max_value=1.
 M = st.sidebar.slider("M : Mass (kg)", 1.0, 500.0, 80.0, step=1.0)
 K = st.sidebar.slider("K : Stiffness (N/m)", 0.0, 50000.0, 10000.0, step=100.0)
 zeta = st.sidebar.slider("zeta : Damping rate (%)", 0.0, 200.0, 5.0, step=1.0)
-d0 = st.sidebar.slider("d : Movement (m)", 0.0, 0.01, 0.0, step=0.001)
-v0 = st.sidebar.slider("v : Velocity (m/s)", 0.0, 0.01, 0.0, step=0.001)
+
+dt = st.sidebar.number_input("dt : Time step (s)", min_value=0.001, max_value=1.0, value=0.05, step=0.001, format="%.4f")
+
+d0 = st.sidebar.slider("d : Movement (m)", 0.0, 0.1, 0.0, step=0.01)
+v0 = st.sidebar.slider("v : Velocity (m/s)", 0.0, 0.1, 0.0, step=0.01)
 
 
 # Upload du fichier CSV ou Excel 
@@ -186,12 +189,12 @@ st.sidebar.markdown(f"T₀ : Natural frequency : **{T0:.2f} s**")
 if W == 0:
     st.error("Error: T₀ is zero (check M and K)")
     st.stop()
-
-# Définition du pas de temps
-#dt1 = 2 / W * (1 / (1 - 2 * beta)) ** (1 / 2)
-#dt = dt1 * 0.9  # 90% de la limite de stabilité, par exemple
-#dt = 0.005
-#st.sidebar.markdown(f"dt : Step time of the simulation : **{dt:.5f} s**")
+    
+#Vérification de la valeur de dt
+dt1 = 2 / W * (1 / (1 - 2 * beta)) ** (1 / 2)
+if dt < dt1 : 
+    st.error(f"Error : Reduce the value of dt : {e}")
+    st.stop()
 
 
 # Gestion des variables temporels
