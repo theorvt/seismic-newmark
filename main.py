@@ -24,6 +24,8 @@ zeta = st.sidebar.slider("zeta : Damping rate (%)", 0.0, 200.0, 5.0, step=1.0)
 d0 = st.sidebar.slider("d : Movement (m)", 0.0, 0.01, 0.0, step=0.001)
 v0 = st.sidebar.slider("v : Velocity (m/s)", 0.0, 0.01, 0.0, step=0.001)
 
+dt = st.sidebar.number_input("dt : Time step (s)", min_value=0.001, max_value=1.0, value=0.005, step=0.01, format="%.4f")
+
 
 # Upload du fichier CSV ou Excel 
 uploaded_file = st.file_uploader("Upload a CSV or Excel file", type=["csv", "xls", "xlsx"]) 
@@ -141,7 +143,7 @@ if "time_range_slider" not in st.session_state or st.session_state["previous_T"]
 
 
 # Entrée manuelle du pas de temps
-dt = st.sidebar.number_input("dt : Time step (s)", min_value=0.001, max_value=1.0, value=0.005, step=0.01, format="%.4f")
+#dt = st.sidebar.number_input("dt : Time step (s)", min_value=0.001, max_value=1.0, value=0.005, step=0.01, format="%.4f")
 
 # Optionnel : rappel à l'utilisateur
 if dt >= T:
