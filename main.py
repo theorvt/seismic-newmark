@@ -191,9 +191,9 @@ if W == 0:
     st.stop()
     
 #Vérification de la valeur de dt
-dt1 = 2 / W * (1 / (1 - 2 * beta)) ** (1 / 2)
-if dt < dt1 : 
-    st.error(f"Error : Reduce the value of dt : {e}")
+dt1 = 2 / W * sqrt(1 / (1 - 2 * beta))  # Formule correcte
+if dt > dt1:
+    st.error(f"⚠️ Stability condition not met: dt = {dt:.4f} > dtₘₐₓ ≈ {dt1:.4f} s.\nTry reducing `dt` below this limit.")
     st.stop()
 
 
