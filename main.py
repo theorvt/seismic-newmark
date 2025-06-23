@@ -245,7 +245,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
     #F = - M * accel
     F = np.zeros(n)
     for i in range(n-1):
-        F[i] = sin(time_data)
+        F[i] = sin(t[i])
 
     # Initialisation des réponses
     d = np.zeros(n)
