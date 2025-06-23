@@ -17,14 +17,14 @@ st.info("You can download seismic data from [GeoNet Strong Motion Database](http
 # Barre latérale
 st.sidebar.title("System settings ")
 
+dt = st.sidebar.number_input("dt : Time step (s)", min_value=0.001, max_value=1.0, value=0.005, step=0.01, format="%.4f")
+
 # Paramètres modifiables
 M = st.sidebar.slider("M : Mass (kg)", 1.0, 500.0, 80.0, step=1.0)
 K = st.sidebar.slider("K : Stiffness (N/m)", 0.0, 50000.0, 10000.0, step=100.0)
 zeta = st.sidebar.slider("zeta : Damping rate (%)", 0.0, 200.0, 5.0, step=1.0)
 d0 = st.sidebar.slider("d : Movement (m)", 0.0, 0.01, 0.0, step=0.001)
 v0 = st.sidebar.slider("v : Velocity (m/s)", 0.0, 0.01, 0.0, step=0.001)
-
-dt = st.sidebar.number_input("dt : Time step (s)", min_value=0.001, max_value=1.0, value=0.005, step=0.01, format="%.4f")
 
 
 # Upload du fichier CSV ou Excel 
