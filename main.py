@@ -242,7 +242,8 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
     # Interpolation linéaire
     acc_interp = interp1d(time_data, acc_data, kind='linear', fill_value='extrapolate')
     accel = acc_interp(t)
-    F = - M * accel
+    g = 9.81
+    F = - M * accel * g
 
     # Initialisation des réponses
     d = np.zeros(n)
