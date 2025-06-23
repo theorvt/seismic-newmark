@@ -183,7 +183,7 @@ if W == 0:
 # Définition du pas de temps
 #dt1 = 2 / W * (1 / (1 - 2 * beta)) ** (1 / 2)
 #dt = dt1 * 0.9  # 90% de la limite de stabilité, par exemple
-dt = 0.005
+#dt = 0.005
 #st.sidebar.markdown(f"dt : Step time of the simulation : **{dt:.5f} s**")
 
 # Entrée manuelle du pas de temps
