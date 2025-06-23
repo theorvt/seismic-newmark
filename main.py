@@ -141,7 +141,7 @@ if "time_range_slider" not in st.session_state or st.session_state["previous_T"]
 
 
 # Entrée manuelle du pas de temps
-dt = st.sidebar.number_input("dt : Time step (s)", min_value=0.0001, max_value=1.0, value=0.005, step=0.0001, format="%.4f")
+dt = st.sidebar.number_input("dt : Time step (s)", min_value=0.001, max_value=1.0, value=0.005, step=0.01, format="%.4f")
 
 # Optionnel : rappel à l'utilisateur
 if dt >= T:
