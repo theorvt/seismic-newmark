@@ -139,7 +139,16 @@ if "time_range_slider" not in st.session_state or st.session_state["previous_T"]
     st.session_state["time_range_slider"] = (0.0, T)
     st.session_state["previous_T"] = T  # Mettre à jour la référence
 
-params_key = (M, K, zeta, T, selected_component, d0, v0)
+
+# Entrée manuelle du pas de temps
+dt = st.sidebar.number_input("dt : Time step (s)", min_value=0.0001, max_value=1.0, value=0.005, step=0.0001, format="%.4f")
+
+# Optionnel : rappel à l'utilisateur
+if dt >= T:
+    st.warning("⚠️ The time step `dt` is greater than or equal to the total simulation time `T`.")
+  
+    
+params_key = (M, K, zeta, T, selected_component, d0, v0, dt)
 
 
 # Définition du coefficent d'amortissement
@@ -186,12 +195,6 @@ if W == 0:
 #dt = 0.005
 #st.sidebar.markdown(f"dt : Step time of the simulation : **{dt:.5f} s**")
 
-# Entrée manuelle du pas de temps
-dt = st.sidebar.number_input("dt : Time step (s)", min_value=0.0001, max_value=1.0, value=0.005, step=0.0001, format="%.4f")
-
-# Optionnel : rappel à l'utilisateur
-if dt >= T:
-    st.warning("⚠️ The time step `dt` is greater than or equal to the total simulation time `T`.")
 
 # Gestion des variables temporels
 t = np.arange(0, T + dt,dt)  # fonction NumPy qui crée un tableau (array) des valeurs du temps espacées régulièrement et on fait + dt pour avoir la durée finale réelle
@@ -344,5 +347,5 @@ with col4:
 output_df = pd.DataFrame(
     {"Time (s)": t, "Displacement (m)": d, "Velocity (m/s)": v, "Acceleration (m/s²)": a, "Force (N)": F})
 csv = output_df.to_csv(index=False).encode('utf-8')
-st.download_button("📥 Download results as CSV", data=csv, file_name='newmark_results.csv', mime='text/csv')
+st.download_button("Download results as CSV", data=csv, file_name='newmark_results.csv', mime='text/csv')
 
