@@ -25,8 +25,8 @@ zeta = st.sidebar.slider("zeta : Damping rate (%)", 0.0, 200.0, 5.0, step=1.0)
 
 dt = st.sidebar.number_input("dt : Time step (s)", min_value=0.001, max_value=1.0, value=0.05, step=0.001, format="%.4f")
 
-d0 = st.sidebar.slider("d : Initial movement (m)", 0.0, 1.0, 0.0, step=0.01)
-v0 = st.sidebar.slider("v : Initial velocity (m/s)", 0.0, 0.1, 0.0, step=0.01)
+d0 = st.sidebar.slider("d : Initial movement (m)", 0.0, 0.5, 0.0, step=0.01)
+v0 = st.sidebar.slider("v : Initial velocity (m/s)", 0.0, 1.0, 0.0, step=0.01)
 
 
 # Upload du fichier CSV ou Excel 
