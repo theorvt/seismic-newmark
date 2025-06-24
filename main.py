@@ -41,8 +41,8 @@ if uploaded_file is not None:
             except Exception as e: 
                 st.error(f"Error : CSV read failure : {e}")
                 st.stop()
-        else:
-            df = pd.read_excel(uploaded_file, skiprows=8)
+        #else:
+            #df = pd.read_excel(uploaded_file, skiprows=8)
 
         # Normalisation des noms 
         def normalize(col):
