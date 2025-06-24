@@ -80,28 +80,28 @@ if uploaded_file is not None:
             st.error("Selected component not found.")
             st.stop()
  
-        if time_col is None or acc_col is None:
-            st.error("Columns 'Time' and 'Vertical' not detected.")
-            st.stop()
+        #if time_col is None or acc_col is None:
+            #st.error("Columns 'Time' and 'Vertical' not detected.")
+            #st.stop()
 
         # Conversion du temps depuis format ISO 8601 en secondes écoulées
-        if df[time_col].dtype == object:
-            try:
+        #if df[time_col].dtype == object:
+            #try:
                 # Convertir en datetime
-                df[time_col] = pd.to_datetime(df[time_col], errors='coerce')
+                #df[time_col] = pd.to_datetime(df[time_col], errors='coerce')
 
                 # Vérifier qu'aucune conversion n'a échoué
-                if df[time_col].isnull().any():
-                    st.error("Impossible datetime conversion for certain tenses (invalid values).")
-                    st.stop()
+                #if df[time_col].isnull().any():
+                    #st.error("Impossible datetime conversion for certain tenses (invalid values).")
+                    #st.stop()
 
                 # Calculer les secondes écoulées depuis le premier timestamp
-                time_zero = df[time_col].iloc[0]
-                df[time_col] = (df[time_col] - time_zero).dt.total_seconds()
+               # time_zero = df[time_col].iloc[0]
+                #df[time_col] = (df[time_col] - time_zero).dt.total_seconds()
 
-            except Exception as e:
-                st.error(f"Conversion of 'Time' impossible : {e}")
-                st.stop()
+            #except Exception as e:
+               # st.error(f"Conversion of 'Time' impossible : {e}")
+                #st.stop()
 
         # Extraction des valeurs numériques
         time_data = pd.to_numeric(df[time_col], errors='coerce').values
