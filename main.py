@@ -318,9 +318,9 @@ sol_v = st.session_state.results_solveivp["v"]
 sol_a = st.session_state.results_solveivp["a"]
 
 # Filtrage
-sol_d = sol_d[mask]
-sol_v = sol_v[mask]
-sol_a = sol_a[mask]
+#sol_d = sol_d[mask]
+#sol_v = sol_v[mask]
+#sol_a = sol_a[mask]
 
 
 
