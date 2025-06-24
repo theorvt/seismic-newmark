@@ -4,6 +4,7 @@ import numpy as np
 from math import *
 import pandas as pd
 from scipy.interpolate import interp1d
+from scipy.integrate import solve_ivp
 
 # Réduire les marges
 st.set_page_config(layout="wide")
@@ -290,6 +291,44 @@ v = v[mask]
 a = a[mask] 
 
 
+
+# --- Ajout solve_ivp ---
+if "results_solveivp" not in st.session_state or st.session_state.get("last_params_solveivp") != params_key:
+    def force_interp(tt):
+        return np.interp(tt, t, F)
+
+    def ode_system(tt, y):
+        d_, v_ = y
+        f_ = force_interp(tt)
+        a_ = (f_ - C*v_ - K*d_) / M
+        return [v_, a_]
+
+    y0 = [d0, v0]
+    sol = solve_ivp(ode_system, [t[0], t[-1]], y0, t_eval=t, method='RK45')
+    d_ivp = sol.y[0]
+    v_ivp = sol.y[1]
+    a_ivp = (np.interp(t, t, F) - C*v_ivp - K*d_ivp) / M
+
+    st.session_state.results_solveivp = {"d": d_ivp, "v": v_ivp, "a": a_ivp}
+    st.session_state.last_params_solveivp = params_key
+
+# Récupération solve_ivp
+sol_d = st.session_state.results_solveivp["d"]
+sol_v = st.session_state.results_solveivp["v"]
+sol_a = st.session_state.results_solveivp["a"]
+
+# Filtrage
+sol_d = sol_d[mask]
+sol_v = sol_v[mask]
+sol_a = sol_a[mask]
+
+
+
+
+
+
+
+
 # Affichage
 
 # 🔹 Affichage d'un titre si l'utilisateur n'a pas encore uploadé de fichier
@@ -344,6 +383,49 @@ with col4:
     ax.grid()
     ax.legend()
     st.pyplot(fig)
+    
+    
+    
+    
+# --- Affichage des comparaisons ---
+with col2:
+    fig, ax = plt.subplots()
+    ax.plot(t, d, label="Newmark", color="#002B45")
+    ax.plot(t, sol_d, label="solve_ivp", linestyle="--", color="orange")
+    ax.set_xlabel("Time(s)")
+    ax.set_ylabel("Movement")
+    ax.set_title(f"Displacement comparison - {selected_component}")
+    ax.grid()
+    ax.legend()
+    st.pyplot(fig)
+
+with col3:
+    fig, ax = plt.subplots()
+    ax.plot(t, v, label="Newmark", color="#009CA6")
+    ax.plot(t, sol_v, label="solve_ivp", linestyle="--", color="orange")
+    ax.set_xlabel("Time (s)")
+    ax.set_ylabel("Velocity")
+    ax.set_title(f"Velocity comparison - {selected_component}")
+    ax.grid()
+    ax.legend()
+    st.pyplot(fig)
+
+with col4:
+    fig, ax = plt.subplots()
+    ax.plot(t, a, label="Newmark", color="#1C2D3F")
+    ax.plot(t, sol_a, label="solve_ivp", linestyle="--", color="orange")
+    ax.set_xlabel("Time (s)")
+    ax.set_ylabel("Acceleration")
+    ax.set_title(f"Acceleration comparison - {selected_component}")
+    ax.grid()
+    ax.legend()
+    st.pyplot(fig)    
+    
+
+
+
+
+
 
 output_df = pd.DataFrame(
     {"Time (s)": t, "Displacement (m)": d, "Velocity (m/s)": v, "Acceleration (m/s²)": a, "Force (N)": F})
