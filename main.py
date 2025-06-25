@@ -416,7 +416,7 @@ with col4:
 
 # Affichage des comparaisons
 
-with col2:
+with col1:
     fig, ax = plt.subplots()
     ax.plot(t, d, label="Newmark", color="#002B45")
     ax.plot(t, sol_d, label="solve_ivp", linestyle="--", color="orange")
