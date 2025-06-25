@@ -321,10 +321,6 @@ d = d[mask]
 v = v[mask]
 a = a[mask] 
 
-Sd = Sd[mask] 
-Sv = Sv[mask]
-Sa = Sa[mask] 
-
 
 
 # --- Ajout solve_ivp ---
