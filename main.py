@@ -389,6 +389,7 @@ with col2:
     ax.legend()
     st.pyplot(fig)
 
+
 # Deuxième ligne : vitesse et accélération
 col3, col4 = st.columns(2)
 
@@ -412,17 +413,16 @@ with col4:
     ax.legend()
     st.pyplot(fig)
     
-    
-    
-    
-# --- Affichage des comparaisons ---
+
+# Affichage des comparaisons
+
 with col2:
     fig, ax = plt.subplots()
     ax.plot(t, d, label="Newmark", color="#002B45")
     ax.plot(t, sol_d, label="solve_ivp", linestyle="--", color="orange")
     ax.set_xlabel("Time(s)")
     ax.set_ylabel("Movement")
-    ax.set_title(f"Displacement comparison - {selected_component}")
+    ax.set_title(f"Movement comparison - {selected_component}")
     ax.grid()
     ax.legend()
     st.pyplot(fig)
@@ -449,13 +449,10 @@ with col4:
     ax.legend()
     st.pyplot(fig)    
     
-    
-    
+        
+# Affichage des spectres de réponse
 
-# Troixième ligne : spectre de réponse
-col5, col6 = st.columns(2)
-
-with col5:
+with col2:
     fig, ax = plt.subplots()
     ax.plot(T0_list, Sd, label="Newmark", color="#002B45")
     ax.set_xlabel("Period (s)")
@@ -465,7 +462,7 @@ with col5:
     ax.legend()
     st.pyplot(fig)
 
-with col6:
+with col3:
     fig, ax = plt.subplots()
     ax.plot(T0_list, Sv, label="Newmark", color="#002B45")
     ax.set_xlabel("Period (s)")
@@ -475,11 +472,7 @@ with col6:
     ax.legend()
     st.pyplot(fig)
 
-
-# Quatrième ligne : spectre de réponse
-col7, = st.columns(1)
-
-with col7:
+with col4:
     fig, ax = plt.subplots()
     ax.plot(T0_list, Sa, label="Newmark", color="#002B45")
     ax.set_xlabel("Period (s)")
