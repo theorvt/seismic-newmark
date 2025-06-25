@@ -298,9 +298,6 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         Sv.append(np.max(np.abs(vsp)))
         Sa.append(np.max(np.abs(asp)))
     
-        dsp = st.session_state.results["dsp"]
-        vsp = st.session_state.results["vsp"]
-        asp = st.session_state.results["asp"]
 
     # Sauvegarde des résultats
     st.session_state.results = {"t": t, "F": F, "d": d, "v": v, "a": a, "dsp": dsp, "vsp": v, "asp": asp}
