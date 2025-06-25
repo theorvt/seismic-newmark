@@ -268,7 +268,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         
         
     # Calcul du spectre de Fourrier
-    T0_list = np.logspace(np.log10(0.01), np.log10(30.0), 200)
+    T0_list = np.logspace(np.log10(0.01), np.log10(50.0), 500)
     
     Sd, Sv, Sa = [], [], []
     
