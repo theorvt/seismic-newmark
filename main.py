@@ -541,7 +541,7 @@ with col_err3:
     ax.set_xlabel("Time (s)")
     ax.set_ylabel("Error (m/s²)")
     ax.grid()
-
+    st.pyplot(fig)
 
     
     
