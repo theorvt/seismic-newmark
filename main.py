@@ -542,74 +542,9 @@ with col_err3:
     ax.set_ylabel("Error (m/s²)")
     ax.grid()
 
-col_err1, col_err2, col_err3 = st.columns(3)
 
-with col_err1:
-    fig, ax = plt.subplots()
-    ax.plot(t, err_d, label="Abs Error", color="red")
-    ax.set_title("Displacement Error")
-    ax.set_xlabel("Time (s)")
-    ax.set_ylabel("Error (m)")
-    ax.grid()
-    st.pyplot(fig)
-
-with col_err2:
-    fig, ax = plt.subplots()
-    ax.plot(t, err_v, label="Abs Error", color="red")
-    ax.set_title("Velocity Error")
-    ax.set_xlabel("Time (s)")
-    ax.set_ylabel("Error (m/s)")
-    ax.grid()
-    st.pyplot(fig)
-
-with col_err3:
-    fig, ax = plt.subplots()
-    ax.plot(t, err_a, label="Abs Error", color="red")
-    ax.set_title("Acceleration Error")
-    ax.set_xlabel("Time (s)")
-    ax.set_ylabel("Error (m/s²)")
-    ax.grid()
-    st.pyplot(fig)
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-st.markdown("### Error between Newmark and solve_ivp")
-
-col_err1, col_err2, col_err3 = st.columns(3)
-
-with col_err1:
-    fig, ax = plt.subplots()
-    ax.plot(t, err_d, label="Abs Error", color="red")
-    ax.set_title("Displacement Error")
-    ax.set_xlabel("Time (s)")
-    ax.set_ylabel("Error (m)")
-    ax.grid()
-    st.pyplot(fig)
-
-with col_err2:
-    fig, ax = plt.subplots()
-    ax.plot(t, err_v, label="Abs Error", color="red")
-    ax.set_title("Velocity Error")
-    ax.set_xlabel("Time (s)")
-    ax.set_ylabel("Error (m/s)")
-    ax.grid()
-    st.pyplot(fig)
-
-with col_err3:
-    fig, ax = plt.subplots()
-    ax.plot(t, err_a, label="Abs Error", color="red")
-    ax.set_title("Acceleration Error")
-    ax.set_xlabel("Time (s)")
-    ax.set_ylabel("Error (m/s²)")
-    ax.grid()
-    st.pyplot(fig)
     
     
     
