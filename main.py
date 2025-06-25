@@ -301,7 +301,9 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         Sv.append(np.max(np.abs(v)))
         Sa.append(np.max(np.abs(a)))
     
-    
+        dsp = st.session_state.results["dsp"]
+        vsp = st.session_state.results["vsp"]
+        asp = st.session_state.results["asp"]
 
     # Sauvegarde des résultats
     st.session_state.results = {"t": t, "F": F, "d": d, "v": v, "a": a, "dsp": dsp, "vsp": v, "asp": asp}
@@ -314,9 +316,6 @@ d = st.session_state.results["d"]
 v = st.session_state.results["v"]
 a = st.session_state.results["a"]
 
-dsp = st.session_state.results["dsp"]
-vsp = st.session_state.results["vsp"]
-asp = st.session_state.results["asp"]
 
 # Indices correspondant à la plage de temps sélectionnée
 mask = (t >= selected_range[0]) & (t <= selected_range[1])
