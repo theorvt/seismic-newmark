@@ -268,7 +268,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         
         
     # Calcul du spectre de Fourrier
-    T0_list = np.logspace(np.log10(0.1), np.log10(10.0), 200)
+    T0_list = np.logspace(np.log10(0.1), np.log10(20.0), 200)
     
     f_list = 1 / T0_list  # fréquence en Hz
     
@@ -480,9 +480,9 @@ with col4:
 with col2:
     fig, ax = plt.subplots()
     ax.plot(f_list, Sd, label="Newmark", color="#002B45")
-    ax.set_xlabel("Period (s)")
+    ax.set_xlabel("Natural frequency (Hz)")
     ax.set_ylabel("Movement")
-    ax.set_title(f"Movement fourrier response - {selected_component}")
+    ax.set_title(f"Peak Movement fourrier response - {selected_component}")
     ax.set_xscale("log")
     ax.grid()
     ax.legend()
@@ -491,9 +491,9 @@ with col2:
 with col3:
     fig, ax = plt.subplots()
     ax.plot(f_list, Sv, label="Newmark", color="#002B45")
-    ax.set_xlabel("Period (s)")
+    ax.set_xlabel("Natural frequency (Hz)")
     ax.set_ylabel("Velocity")
-    ax.set_title(f"Velocity fourrier response - {selected_component}")
+    ax.set_title(f"Peak Velocity fourrier response - {selected_component}")
     ax.set_xscale("log")
     ax.grid()
     ax.legend()
@@ -502,9 +502,9 @@ with col3:
 with col4:
     fig, ax = plt.subplots()
     ax.plot(f_list, Sa, label="Newmark", color="#002B45")
-    ax.set_xlabel("Period (s)")
+    ax.set_xlabel("Natural frequency (Hz)")
     ax.set_ylabel("Acceleration")
-    ax.set_title(f"Acceleration fourrier response - {selected_component}")
+    ax.set_title(f"Peak Acceleration fourrier response - {selected_component}")
     ax.set_xscale("log")
     ax.grid()
     ax.legend()
