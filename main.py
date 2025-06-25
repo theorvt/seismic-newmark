@@ -473,7 +473,7 @@ with col6:
 
 
 # Quatrième ligne : spectre de réponse
-col7 = st.columns(1)
+col7, = st.columns(1)
 
 with col7:
     fig, ax = plt.subplots()
