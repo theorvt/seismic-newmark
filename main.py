@@ -457,7 +457,7 @@ with col2:
     ax.plot(T0_list, Sd, label="Newmark", color="#002B45")
     ax.set_xlabel("Period (s)")
     ax.set_ylabel("Movement")
-    ax.set_title(f"Fourrier response - {selected_component}")
+    ax.set_title(f"Movement fourrier response - {selected_component}")
     ax.grid()
     ax.legend()
     st.pyplot(fig)
@@ -467,7 +467,7 @@ with col3:
     ax.plot(T0_list, Sv, label="Newmark", color="#002B45")
     ax.set_xlabel("Period (s)")
     ax.set_ylabel("Velocity")
-    ax.set_title(f"Fourrier response - {selected_component}")
+    ax.set_title(f"Velocity fourrier response - {selected_component}")
     ax.grid()
     ax.legend()
     st.pyplot(fig)
@@ -477,12 +477,10 @@ with col4:
     ax.plot(T0_list, Sa, label="Newmark", color="#002B45")
     ax.set_xlabel("Period (s)")
     ax.set_ylabel("Acceleration")
-    ax.set_title(f"Fourrier response - {selected_component}")
+    ax.set_title(f"Acceleration fourrier response - {selected_component}")
     ax.grid()
     ax.legend()
     st.pyplot(fig)
-
-
 
 
 
@@ -490,4 +488,3 @@ output_df = pd.DataFrame(
     {"Time (s)": t, "Displacement (m)": d, "Velocity (m/s)": v, "Acceleration (m/s²)": a, "Force (N)": F})
 csv = output_df.to_csv(index=False).encode('utf-8')
 st.download_button("Download results as CSV", data=csv, file_name='newmark_results.csv', mime='text/csv')
-
