@@ -282,7 +282,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         Fsp = -M * accel  # acc = accélération au sol interpolée sur t
         
         # Initialisation
-        dsp, vsp, asp, Sd, Sv, Sa = np.zeros(n), np.zeros(n), np.zeros(n), np.zeros(n), np.zeros(n)
+        dsp, vsp, asp, Sd, Sv, Sa = np.zeros(n), np.zeros(n), np.zeros(n), np.zeros(n), np.zeros(n), np.zeros(n)
         asp[0] = (Fsp[0] - C_i * vsp[0] - K_i * dsp[0]) / M
 
         # Newmark classique (β = 1/6, γ = 1/2)
