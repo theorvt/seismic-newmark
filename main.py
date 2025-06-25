@@ -313,6 +313,10 @@ a = st.session_state.results["a"]
 
 T0_list = st.session_state.results["T0_list"]
 
+Sd = st.session_state.results["Sd"]
+Sv = st.session_state.results["Sv"]
+Sa = st.session_state.results["Sa"]
+
 # Indices correspondant à la plage de temps sélectionnée
 mask = (t >= selected_range[0]) & (t <= selected_range[1])
 
