@@ -280,6 +280,15 @@ d = st.session_state.results["d"]
 v = st.session_state.results["v"]
 a = st.session_state.results["a"]
 
+
+
+# Recalculer l'accélération d'entrée complète (utilisée pour le spectre)
+accel = -F / M
+
+
+
+
+
 # Indices correspondant à la plage de temps sélectionnée
 mask = (t >= selected_range[0]) & (t <= selected_range[1])
 
