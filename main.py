@@ -338,46 +338,41 @@ Sd, Sv, Sa = [], [], []
 # Boucle sur les périodes pour générer le spectre
 with st.spinner("Computing response spectrum..."):
     for T0_i in T0_list:
-        omega_i = 2 * np.pi / T0_i
-        K_i = M * omega_i**2
-        C_i = 2 * M * omega_i * zeta / 100
+       omega_i = 2 * np.pi / T0_i
+       K_i = M * omega_i**2
+       C_i = 2 * M * omega_i * zeta / 100
 
-        # New simulation pour chaque période
-        d_i = np.zeros_like(t)
-        v_i = np.zeros_like(t)
-        a_i = np.zeros_like(t)
+    # Recalcul de la force pour le t complet (et pas le t filtré !)
+       F_i = -M * accel  # accel est la version complète interpolée, déjà définie plus haut
 
-        d_i[0] = 0.0
-        v_i[0] = 0.0
-        a_i[0] = (F[0] - C_i * v_i[0] - K_i * d_i[0]) / M
+    # Initialisation des réponses
+       d_i = np.zeros_like(accel)
+       v_i = np.zeros_like(accel)
+       a_i = np.zeros_like(accel)
 
-        B_i = M + K_i * beta * dt ** 2 + C_i * gamma * dt
-        if B_i == 0:
-            Sd.append(np.nan)
-            Sv.append(np.nan)
-            Sa.append(np.nan)
-            continue
+       d_i[0] = 0.0
+       v_i[0] = 0.0
+       a_i[0] = (F_i[0] - C_i * v_i[0] - K_i * d_i[0]) / M
 
-        for i in range(n - 1):
-            P_i = v_i[i] + (1 - gamma) * dt * a_i[i]
-            H_i = d_i[i] + dt * v_i[i] + (0.5 - beta) * dt ** 2 * a_i[i]
-            a_i[i + 1] = (F[i + 1] - K_i * H_i - C_i * P_i) / B_i
-            v_i[i + 1] = P_i + gamma * dt * a_i[i + 1]
-            d_i[i + 1] = H_i + beta * dt ** 2 * a_i[i + 1]
+       B_i = M + K_i * beta * dt ** 2 + C_i * gamma * dt
+       if B_i == 0:
+          Sd.append(np.nan)
+          Sv.append(np.nan)
+          Sa.append(np.nan)
+          continue
 
-        Sd.append(np.max(np.abs(d_i)))
-        Sv.append(np.max(np.abs(v_i)))
-        Sa.append(np.max(np.abs(a_i)))
+       for i in range(len(accel) - 1):  # attention : utiliser la taille de accel, pas de t réduit
+          P_i = v_i[i] + (1 - gamma) * dt * a_i[i]
+          H_i = d_i[i] + dt * v_i[i] + (0.5 - beta) * dt ** 2 * a_i[i]
+          a_i[i + 1] = (F_i[i + 1] - K_i * H_i - C_i * P_i) / B_i
+          v_i[i + 1] = P_i + gamma * dt * a_i[i + 1]
+          d_i[i + 1] = H_i + beta * dt ** 2 * a_i[i + 1]
 
-# Résultats de ta simulation actuelle
-T_sim = T0
-Sd_sim = np.max(np.abs(d))
-Sv_sim = np.max(np.abs(v))
-Sa_sim = np.max(np.abs(a))
+       Sd.append(np.max(np.abs(d_i)))
+       Sv.append(np.max(np.abs(v_i)))
+       Sa.append(np.max(np.abs(a_i)))
 
-# --- Affichage du spectre ---
 
-col_s1, col_s2 = st.columns(2)
 
 
 
