@@ -300,7 +300,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
     
 
     # Sauvegarde des résultats
-    st.session_state.results = {"t": t, "F": F, "d": d, "v": v, "a": a, "Sd": Sd, "Sv": Sv, "Sa": Sa}
+    st.session_state.results = {"t": t, "F": F, "d": d, "v": v, "a": a, "Sd": Sd, "Sv": Sv, "Sa": Sa, "T0_list": T0_list}
     st.session_state.last_params = params_key
 
 # Récupération des résultats depuis session_state
@@ -310,6 +310,7 @@ d = st.session_state.results["d"]
 v = st.session_state.results["v"]
 a = st.session_state.results["a"]
 
+T0_list = st.session_state.results["T0_list"]
 
 # Indices correspondant à la plage de temps sélectionnée
 mask = (t >= selected_range[0]) & (t <= selected_range[1])
