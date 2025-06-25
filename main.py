@@ -270,6 +270,8 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
     # Calcul du spectre de Fourrier
     T0_list = np.linspace(0.05, 30.0, 10000)  # 100 périodes de 0.05s à 5s
     
+    Sd, Sv, Sa = [], [], []
+    
     for T0_i in T0_list:
         ω_i = 2 * pi / T0_i
         K_i = M * ω_i**2
@@ -279,7 +281,6 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         
         # Initialisation
         dsp, vsp, asp = np.zeros(n), np.zeros(n), np.zeros(n)
-        Sd, Sv, Sa = [], [], []
         asp[0] = (Fsp[0] - C_i * vsp[0] - K_i * dsp[0]) / M
 
         # Newmark classique (β = 1/6, γ = 1/2)
