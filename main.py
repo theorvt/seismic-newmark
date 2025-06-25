@@ -329,6 +329,66 @@ sol_a = st.session_state.results_solveivp["a"]
 
 
 
+st.markdown("##Response Spectrum (Displacement, Velocity, Acceleration)")
+
+# Paramètres du spectre
+T0_list = np.linspace(0.05, 5.0, 100)
+Sd, Sv, Sa = [], [], []
+
+# Boucle sur les périodes pour générer le spectre
+with st.spinner("Computing response spectrum..."):
+    for T0_i in T0_list:
+        omega_i = 2 * np.pi / T0_i
+        K_i = M * omega_i**2
+        C_i = 2 * M * omega_i * zeta / 100
+
+        # New simulation pour chaque période
+        d_i = np.zeros_like(t)
+        v_i = np.zeros_like(t)
+        a_i = np.zeros_like(t)
+
+        d_i[0] = 0.0
+        v_i[0] = 0.0
+        a_i[0] = (F[0] - C_i * v_i[0] - K_i * d_i[0]) / M
+
+        B_i = M + K_i * beta * dt ** 2 + C_i * gamma * dt
+        if B_i == 0:
+            Sd.append(np.nan)
+            Sv.append(np.nan)
+            Sa.append(np.nan)
+            continue
+
+        for i in range(n - 1):
+            P_i = v_i[i] + (1 - gamma) * dt * a_i[i]
+            H_i = d_i[i] + dt * v_i[i] + (0.5 - beta) * dt ** 2 * a_i[i]
+            a_i[i + 1] = (F[i + 1] - K_i * H_i - C_i * P_i) / B_i
+            v_i[i + 1] = P_i + gamma * dt * a_i[i + 1]
+            d_i[i + 1] = H_i + beta * dt ** 2 * a_i[i + 1]
+
+        Sd.append(np.max(np.abs(d_i)))
+        Sv.append(np.max(np.abs(v_i)))
+        Sa.append(np.max(np.abs(a_i)))
+
+# Résultats de ta simulation actuelle
+T_sim = T0
+Sd_sim = np.max(np.abs(d))
+Sv_sim = np.max(np.abs(v))
+Sa_sim = np.max(np.abs(a))
+
+# --- Affichage du spectre ---
+
+col_s1, col_s2 = st.columns(2)
+
+
+
+
+
+
+
+
+
+
+
 # Affichage
 
 # 🔹 Affichage d'un titre si l'utilisateur n'a pas encore uploadé de fichier
@@ -421,6 +481,48 @@ with col4:
     ax.legend()
     st.pyplot(fig)    
     
+
+
+
+
+
+
+
+with col_s1:
+    fig, ax = plt.subplots()
+    ax.plot(T0_list, Sd, label="Spectre de déplacement", color="blue")
+    ax.scatter([T_sim], [Sd_sim], color="red", label="Simulation actuelle")
+    ax.set_xlabel("Période propre T₀ (s)")
+    ax.set_ylabel("Déplacement max (m)")
+    ax.set_title("Spectre de réponse - Déplacement")
+    ax.grid()
+    ax.legend()
+    st.pyplot(fig)
+
+with col_s2:
+    fig, ax = plt.subplots()
+    ax.plot(T0_list, Sv, label="Spectre de vitesse", color="green")
+    ax.scatter([T_sim], [Sv_sim], color="red", label="Simulation actuelle")
+    ax.set_xlabel("Période propre T₀ (s)")
+    ax.set_ylabel("Vitesse max (m/s)")
+    ax.set_title("Spectre de réponse - Vitesse")
+    ax.grid()
+    ax.legend()
+    st.pyplot(fig)
+
+fig, ax = plt.subplots()
+ax.plot(T0_list, Sa, label="Spectre d'accélération", color="orange")
+ax.scatter([T_sim], [Sa_sim], color="red", label="Simulation actuelle")
+ax.set_xlabel("Période propre T₀ (s)")
+ax.set_ylabel("Accélération max (m/s²)")
+ax.set_title("Spectre de réponse - Accélération")
+ax.grid()
+ax.legend()
+st.pyplot(fig)
+
+
+
+
 
 
 
