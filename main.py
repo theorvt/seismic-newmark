@@ -325,65 +325,6 @@ sol_a = st.session_state.results_solveivp["a"]
 
 
 
-
-
-
-
-st.markdown("##Response Spectrum (Displacement, Velocity, Acceleration)")
-
-# Paramètres du spectre
-T0_list = np.linspace(0.05, 5.0, 100)
-Sd, Sv, Sa = [], [], []
-
-# Boucle sur les périodes pour générer le spectre
-with st.spinner("Computing response spectrum..."):
-    for T0_i in T0_list:
-       omega_i = 2 * np.pi / T0_i
-       K_i = M * omega_i**2
-       C_i = 2 * M * omega_i * zeta / 100
-
-    # Recalcul de la force pour le t complet (et pas le t filtré !)
-       F_i = -M * accel  # accel est la version complète interpolée, déjà définie plus haut
-
-    # Initialisation des réponses
-       d_i = np.zeros_like(accel)
-       v_i = np.zeros_like(accel)
-       a_i = np.zeros_like(accel)
-
-       d_i[0] = 0.0
-       v_i[0] = 0.0
-       a_i[0] = (F_i[0] - C_i * v_i[0] - K_i * d_i[0]) / M
-
-       B_i = M + K_i * beta * dt ** 2 + C_i * gamma * dt
-       if B_i == 0:
-          Sd.append(np.nan)
-          Sv.append(np.nan)
-          Sa.append(np.nan)
-          continue
-
-       for i in range(len(accel) - 1):  # attention : utiliser la taille de accel, pas de t réduit
-          P_i = v_i[i] + (1 - gamma) * dt * a_i[i]
-          H_i = d_i[i] + dt * v_i[i] + (0.5 - beta) * dt ** 2 * a_i[i]
-          a_i[i + 1] = (F_i[i + 1] - K_i * H_i - C_i * P_i) / B_i
-          v_i[i + 1] = P_i + gamma * dt * a_i[i + 1]
-          d_i[i + 1] = H_i + beta * dt ** 2 * a_i[i + 1]
-
-       Sd.append(np.max(np.abs(d_i)))
-       Sv.append(np.max(np.abs(v_i)))
-       Sa.append(np.max(np.abs(a_i)))
-
-
-
-
-
-
-
-
-
-
-
-
-
 # Affichage
 
 # 🔹 Affichage d'un titre si l'utilisateur n'a pas encore uploadé de fichier
@@ -480,6 +421,54 @@ with col4:
 
 
 
+# 1. Détermination des valeurs de ta simulation actuelle
+T_sim = T0  # période propre du système actuel
+Sd_sim = np.max(np.abs(d))
+Sv_sim = np.max(np.abs(v))
+Sa_sim = np.max(np.abs(a))
+
+# 2. Calcul du spectre de réponse (correction IndexError)
+T0_list = np.linspace(0.05, 5.0, 100)
+Sd, Sv, Sa = [], [], []
+
+with st.spinner("Computing response spectrum..."):
+    for T0_i in T0_list:
+        omega_i = 2 * np.pi / T0_i
+        K_i = M * omega_i ** 2
+        C_i = 2 * M * omega_i * zeta / 100
+
+        F_i = -M * accel  # accel complet déjà interpolé plus haut
+        n_resp = len(F_i)
+
+        d_i = np.zeros(n_resp)
+        v_i = np.zeros(n_resp)
+        a_i = np.zeros(n_resp)
+
+        d_i[0] = 0.0
+        v_i[0] = 0.0
+        a_i[0] = (F_i[0] - C_i * v_i[0] - K_i * d_i[0]) / M
+
+        B_i = M + K_i * beta * dt ** 2 + C_i * gamma * dt
+        if B_i == 0:
+            Sd.append(np.nan)
+            Sv.append(np.nan)
+            Sa.append(np.nan)
+            continue
+
+        for i in range(n_resp - 1):
+            P_i = v_i[i] + (1 - gamma) * dt * a_i[i]
+            H_i = d_i[i] + dt * v_i[i] + (0.5 - beta) * dt ** 2 * a_i[i]
+            a_i[i + 1] = (F_i[i + 1] - K_i * H_i - C_i * P_i) / B_i
+            v_i[i + 1] = P_i + gamma * dt * a_i[i + 1]
+            d_i[i + 1] = H_i + beta * dt ** 2 * a_i[i + 1]
+
+        Sd.append(np.max(np.abs(d_i)))
+        Sv.append(np.max(np.abs(v_i)))
+        Sa.append(np.max(np.abs(a_i)))
+
+# 3. Affichage avec superposition de la simulation actuelle (point rouge)
+col_s1, col_s2 = st.columns(2)
+
 
 # --- Affichage du spectre ---
 
@@ -516,9 +505,6 @@ ax.set_title("Spectre de réponse - Accélération")
 ax.grid()
 ax.legend()
 st.pyplot(fig)
-
-
-
 
 
 
