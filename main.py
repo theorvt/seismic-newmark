@@ -486,7 +486,9 @@ with col4:
 
 
 
+# --- Affichage du spectre ---
 
+col_s1, col_s2 = st.columns(2)
 
 with col_s1:
     fig, ax = plt.subplots()
