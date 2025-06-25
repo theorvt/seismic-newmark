@@ -268,9 +268,43 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         a[i + 1] = (F[i + 1] - K * H - C * P) / B 
         v[i + 1] = P + gamma * dt * a[i + 1] 
         d[i + 1] = H + beta * dt ** 2 * a[i + 1] 
+        
+        
+        
+    # Calcul du spectre de Fourrier
+    T0_list = np.linspace(0.05, 5.0, 100)  # 100 périodes de 0.05s à 5s
+    
+    for T0_i in T0_list:
+        ω_i = 2 * π / T0_i
+        K_i = M * ω_i**2
+        C_i = 2 * M * ω_i * zeta / 100  # ζ en %
+
+        Fsp = -M * accel  # acc = accélération au sol interpolée sur t
+        
+        # Initialisation
+        dsp, vsp, asp, Sd, Sv, Sa = np.zeros(n), np.zeros(n), np.zeros(n), np.zeros(n), np.zeros(n)
+        asp[0] = (Fsp[0] - C_i * vsp[0] - K_i * dsp[0]) / M
+
+        # Newmark classique (β = 1/6, γ = 1/2)
+        B = M + K_i * beta * dt**2 + C_i * gamma * dt
+    
+        for i in range(n-1):
+            P = vsp[i] + (1 - gamma)*dt * asp[i]
+            H = dsp[i] + dt * vsp[i] + (0.5 - beta)*dt**2 * asp[i]
+            
+            asp[i+1] = (Fsp[i+1] - K_i * H - C_i * P) / B
+            vsp[i+1] = P + gamma*dt * asp[i+1]
+            dsp[i+1] = H + beta*dt**2 * asp[i+1]
+
+        # Stocker les maxima
+        Sd.append(np.max(np.abs(d)))
+        Sv.append(np.max(np.abs(v)))
+        Sa.append(np.max(np.abs(a)))
+    
+    
 
     # Sauvegarde des résultats
-    st.session_state.results = {"t": t, "F": F, "d": d, "v": v, "a": a}
+    st.session_state.results = {"t": t, "F": F, "d": d, "v": v, "a": a, "dsp": dsp, "vsp": v, "asp": asp}
     st.session_state.last_params = params_key
 
 # Récupération des résultats depuis session_state
@@ -279,6 +313,10 @@ F = st.session_state.results["F"]
 d = st.session_state.results["d"]
 v = st.session_state.results["v"]
 a = st.session_state.results["a"]
+
+dsp = st.session_state.results["dsp"]
+vsp = st.session_state.results["vsp"]
+asp = st.session_state.results["asp"]
 
 # Indices correspondant à la plage de temps sélectionnée
 mask = (t >= selected_range[0]) & (t <= selected_range[1])
@@ -289,6 +327,10 @@ F = F[mask]
 d = d[mask] 
 v = v[mask]
 a = a[mask] 
+
+dsp = dsp[mask] 
+vsp = vsp[mask]
+asp = asp[mask] 
 
 
 
@@ -412,15 +454,45 @@ with col4:
     ax.legend()
     st.pyplot(fig)    
     
+    
+    
+
+# Troixième ligne : spectre de réponse
+col5, col6 = st.columns(2)
+
+with col5:
+    fig, ax = plt.subplots()
+    ax.plot(T0_list, dsp, label="Newmark", color="#002B45")
+    ax.set_xlabel("Period (s)")
+    ax.set_ylabel("Movement")
+    ax.set_title(f"Fourrier response - {selected_component}")
+    ax.grid()
+    ax.legend()
+    st.pyplot(fig)
+
+with col6:
+    fig, ax = plt.subplots()
+    ax.plot(T0_list, vsp, label="Newmark", color="#002B45")
+    ax.set_xlabel("Period (s)")
+    ax.set_ylabel("Velocity")
+    ax.set_title(f"Fourrier response - {selected_component}")
+    ax.grid()
+    ax.legend()
+    st.pyplot(fig)
 
 
+# Quatrième ligne : spectre de réponse
+col7 = st.columns(1)
 
-
-
-
-
-
-
+with col7:
+    fig, ax = plt.subplots()
+    ax.plot(T0_list, asp, label="Newmark", color="#002B45")
+    ax.set_xlabel("Period (s)")
+    ax.set_ylabel("Acceleration")
+    ax.set_title(f"Fourrier response - {selected_component}")
+    ax.grid()
+    ax.legend()
+    st.pyplot(fig)
 
 
 
