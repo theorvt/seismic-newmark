@@ -268,7 +268,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         
         
     # Calcul du spectre de Fourrier
-    T0_list = np.linspace(0.05, 5.0, 100)  # 100 périodes de 0.05s à 5s
+    T0_list = np.linspace(0.05, 30.0, 10000)  # 100 périodes de 0.05s à 5s
     
     for T0_i in T0_list:
         ω_i = 2 * pi / T0_i
@@ -300,7 +300,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
     
 
     # Sauvegarde des résultats
-    st.session_state.results = {"t": t, "F": F, "d": d, "v": v, "a": a, "dsp": dsp, "vsp": v, "asp": asp}
+    st.session_state.results = {"t": t, "F": F, "d": d, "v": v, "a": a, "Sd": Sd, "Sv": Sv, "Sa": Sa}
     st.session_state.last_params = params_key
 
 # Récupération des résultats depuis session_state
@@ -321,9 +321,9 @@ d = d[mask]
 v = v[mask]
 a = a[mask] 
 
-dsp = dsp[mask] 
-vsp = vsp[mask]
-asp = asp[mask] 
+Sd = Sd[mask] 
+Sv = Sv[mask]
+Sa = Sa[mask] 
 
 
 
@@ -455,7 +455,7 @@ col5, col6 = st.columns(2)
 
 with col5:
     fig, ax = plt.subplots()
-    ax.plot(T0_list, dsp, label="Newmark", color="#002B45")
+    ax.plot(T0_list, Sd, label="Newmark", color="#002B45")
     ax.set_xlabel("Period (s)")
     ax.set_ylabel("Movement")
     ax.set_title(f"Fourrier response - {selected_component}")
@@ -465,7 +465,7 @@ with col5:
 
 with col6:
     fig, ax = plt.subplots()
-    ax.plot(T0_list, vsp, label="Newmark", color="#002B45")
+    ax.plot(T0_list, Sv, label="Newmark", color="#002B45")
     ax.set_xlabel("Period (s)")
     ax.set_ylabel("Velocity")
     ax.set_title(f"Fourrier response - {selected_component}")
@@ -479,7 +479,7 @@ col7 = st.columns(1)
 
 with col7:
     fig, ax = plt.subplots()
-    ax.plot(T0_list, asp, label="Newmark", color="#002B45")
+    ax.plot(T0_list, Sa, label="Newmark", color="#002B45")
     ax.set_xlabel("Period (s)")
     ax.set_ylabel("Acceleration")
     ax.set_title(f"Fourrier response - {selected_component}")
