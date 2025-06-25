@@ -268,7 +268,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         
         
     # Calcul du spectre de Fourrier
-    T0_list = np.linspace(0.0, 2.0, 100)  # 100 périodes de 0.05s à 5s
+    T0_list = np.linspace(0.05, 2.0, 100)  # 100 périodes de 0.05s à 5s
     
     Sd, Sv, Sa = [], [], []
     
@@ -353,6 +353,29 @@ if "results_solveivp" not in st.session_state or st.session_state.get("last_para
 sol_d = st.session_state.results_solveivp["d"]
 sol_v = st.session_state.results_solveivp["v"]
 sol_a = st.session_state.results_solveivp["a"]
+
+
+
+
+
+
+# Calcul des erreurs absolues
+err_d = np.abs(d - sol_d)
+err_v = np.abs(v - sol_v)
+err_a = np.abs(a - sol_a)
+
+# Calcul des erreurs relatives (%)
+# Éviter les divisions par zéro
+eps = 1e-8
+rel_err_d = 100 * err_d / (np.abs(sol_d) + eps)
+rel_err_v = 100 * err_v / (np.abs(sol_v) + eps)
+rel_err_a = 100 * err_a / (np.abs(sol_a) + eps)
+
+
+
+
+
+
 
 
 
@@ -481,6 +504,120 @@ with col4:
     ax.grid()
     ax.legend()
     st.pyplot(fig)
+    
+    
+    
+    
+    
+    
+    
+    
+st.markdown("### Error between Newmark and solve_ivp")
+
+col_err1, col_err2, col_err3 = st.columns(3)
+
+with col_err1:
+    fig, ax = plt.subplots()
+    ax.plot(t, err_d, label="Abs Error", color="red")
+    ax.set_title("Displacement Error")
+    ax.set_xlabel("Time (s)")
+    ax.set_ylabel("Error (m)")
+    ax.grid()
+    st.pyplot(fig)
+
+with col_err2:
+    fig, ax = plt.subplots()
+    ax.plot(t, err_v, label="Abs Error", color="red")
+    ax.set_title("Velocity Error")
+    ax.set_xlabel("Time (s)")
+    ax.set_ylabel("Error (m/s)")
+    ax.grid()
+    st.pyplot(fig)
+
+with col_err3:
+    fig, ax = plt.subplots()
+    ax.plot(t, err_a, label="Abs Error", color="red")
+    ax.set_title("Acceleration Error")
+    ax.set_xlabel("Time (s)")
+    ax.set_ylabel("Error (m/s²)")
+    ax.grid()
+    st.pyplot(fig)st.markdown("### Error between Newmark and solve_ivp")
+
+col_err1, col_err2, col_err3 = st.columns(3)
+
+with col_err1:
+    fig, ax = plt.subplots()
+    ax.plot(t, err_d, label="Abs Error", color="red")
+    ax.set_title("Displacement Error")
+    ax.set_xlabel("Time (s)")
+    ax.set_ylabel("Error (m)")
+    ax.grid()
+    st.pyplot(fig)
+
+with col_err2:
+    fig, ax = plt.subplots()
+    ax.plot(t, err_v, label="Abs Error", color="red")
+    ax.set_title("Velocity Error")
+    ax.set_xlabel("Time (s)")
+    ax.set_ylabel("Error (m/s)")
+    ax.grid()
+    st.pyplot(fig)
+
+with col_err3:
+    fig, ax = plt.subplots()
+    ax.plot(t, err_a, label="Abs Error", color="red")
+    ax.set_title("Acceleration Error")
+    ax.set_xlabel("Time (s)")
+    ax.set_ylabel("Error (m/s²)")
+    ax.grid()
+    st.pyplot(fig)
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+st.markdown("### Error between Newmark and solve_ivp")
+
+col_err1, col_err2, col_err3 = st.columns(3)
+
+with col_err1:
+    fig, ax = plt.subplots()
+    ax.plot(t, err_d, label="Abs Error", color="red")
+    ax.set_title("Displacement Error")
+    ax.set_xlabel("Time (s)")
+    ax.set_ylabel("Error (m)")
+    ax.grid()
+    st.pyplot(fig)
+
+with col_err2:
+    fig, ax = plt.subplots()
+    ax.plot(t, err_v, label="Abs Error", color="red")
+    ax.set_title("Velocity Error")
+    ax.set_xlabel("Time (s)")
+    ax.set_ylabel("Error (m/s)")
+    ax.grid()
+    st.pyplot(fig)
+
+with col_err3:
+    fig, ax = plt.subplots()
+    ax.plot(t, err_a, label="Abs Error", color="red")
+    ax.set_title("Acceleration Error")
+    ax.set_xlabel("Time (s)")
+    ax.set_ylabel("Error (m/s²)")
+    ax.grid()
+    st.pyplot(fig)
+    
+    
+    
+    
+    
+    
+    
 
 
 
