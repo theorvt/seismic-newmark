@@ -144,10 +144,6 @@ if "time_range_slider" not in st.session_state or st.session_state["previous_T"]
     st.session_state["time_range_slider"] = (0.0, T)
     st.session_state["previous_T"] = T  # Mettre à jour la référence
 
-# Optionnel : rappel à l'utilisateur
-#if dt >= T:
-    #st.warning("⚠️ The time step `dt` is greater than or equal to the total simulation time `T`.")
-  
     
 params_key = (M, K, zeta, T, selected_component, d0, v0, dt)
 
@@ -282,7 +278,8 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         Fsp = -M * accel  # acc = accélération au sol interpolée sur t
         
         # Initialisation
-        dsp, vsp, asp, Sd, Sv, Sa = np.zeros(n), np.zeros(n), np.zeros(n), np.zeros(n), np.zeros(n), np.zeros(n)
+        dsp, vsp, asp = np.zeros(n), np.zeros(n), np.zeros(n)
+        Sd, Sv, Sa = [], [], []
         asp[0] = (Fsp[0] - C_i * vsp[0] - K_i * dsp[0]) / M
 
         # Newmark classique (β = 1/6, γ = 1/2)
@@ -297,9 +294,9 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
             dsp[i+1] = H + beta*dt**2 * asp[i+1]
 
         # Stocker les maxima
-        Sd.append(np.max(np.abs(d)))
-        Sv.append(np.max(np.abs(v)))
-        Sa.append(np.max(np.abs(a)))
+        Sd.append(np.max(np.abs(dsp)))
+        Sv.append(np.max(np.abs(vsp)))
+        Sa.append(np.max(np.abs(asp)))
     
         dsp = st.session_state.results["dsp"]
         vsp = st.session_state.results["vsp"]
