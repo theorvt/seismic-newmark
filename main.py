@@ -100,7 +100,7 @@ if uploaded_file is not None:
                 time_zero = df[time_col].iloc[0]
                 df[time_col] = (df[time_col] - time_zero).dt.total_seconds()
 
-            #except Exception as e:
+            except Exception as e:
                 st.error(f"Conversion of 'Time' impossible : {e}")
                 st.stop()
 
