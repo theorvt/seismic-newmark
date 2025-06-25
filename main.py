@@ -275,7 +275,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
     T0_list = np.linspace(0.05, 5.0, 100)  # 100 périodes de 0.05s à 5s
     
     for T0_i in T0_list:
-        ω_i = 2 * π / T0_i
+        ω_i = 2 * pi / T0_i
         K_i = M * ω_i**2
         C_i = 2 * M * ω_i * zeta / 100  # ζ en %
 
