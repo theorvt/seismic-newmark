@@ -541,7 +541,6 @@ with col_err3:
     ax.set_xlabel("Time (s)")
     ax.set_ylabel("Error (m/s²)")
     ax.grid()
-    st.pyplot(fig)st.markdown("### Error between Newmark and solve_ivp")
 
 col_err1, col_err2, col_err3 = st.columns(3)
 
