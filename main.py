@@ -25,7 +25,7 @@ K = st.sidebar.slider("K : Stiffness (N/m)", 0.0, 50000.0, 10000.0, step=100.0)
 zeta = st.sidebar.slider("zeta : Damping rate (%)", 0.0, 200.0, 5.0, step=1.0)
 
 dt = st.sidebar.number_input("dt : Time step (s)", min_value=0.001, max_value=1.0, value=0.05, step=0.001, format="%.4f")
-F1 = st.sidebar.number_input("F1 : Amplitude coefficient (N)", min_value=0.0, max_value=1000, value=1.0, step=1.0, format="%.4f")
+F1 = st.sidebar.number_input("F1 : Amplitude coefficient (N)", min_value=0.0, max_value=100.0, value=1.0, step=1.0, format="%.4f")
 
 d0 = st.sidebar.slider("d : Initial movement (m)", 0.0, 0.5, 0.0, step=0.01)
 v0 = st.sidebar.slider("v : Initial velocity (m/s)", 0.0, 1.0, 0.0, step=0.01)
