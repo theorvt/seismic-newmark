@@ -341,8 +341,11 @@ if uploaded_file is None:
     st.info(
         "You are currently viewing a simulation example with predefined data. To use your own seismic data, import a CSV or Excel file at the top of the page.")
 
+
 # Première ligne : Force et déplacement
-col1, col2 = st.columns(2)
+col1, col2, col3 = st.columns(3)
+
+st.markdown("Earthquake input")
 
 with col1:
     fig, ax = plt.subplots()
@@ -353,67 +356,8 @@ with col1:
     ax.grid()
     ax.legend()
     st.pyplot(fig)
-
-with col2:
-    fig, ax = plt.subplots()
-    ax.plot(t, d, label="Movement (m)", color="#002B45")
-    ax.set_xlabel("Time(s)")
-    ax.set_ylabel("Movement")
-    ax.set_title(f"Movement - Newmark Method - {selected_component}")
-    ax.grid()
-    ax.legend()
-    st.pyplot(fig)
-
-
-# Deuxième ligne : vitesse et accélération
-col3, col4 = st.columns(2)
-
-with col3:
-    fig, ax = plt.subplots()
-    ax.plot(t, v, label="Velocity (m/s)", color="#009CA6")
-    ax.set_xlabel("Time (s)")
-    ax.set_ylabel("Velocity")
-    ax.set_title(f"Velocity - Newmark Method - {selected_component}")
-    ax.grid()
-    ax.legend()
-    st.pyplot(fig)
-
-with col4:
-    fig, ax = plt.subplots()
-    ax.plot(t, a, label="Acceleration (m/s^2)", color="#1C2D3F")
-    ax.set_xlabel("Time (s)")
-    ax.set_ylabel("Acceleration")
-    ax.set_title(f"Acceleration - Newmark Method - {selected_component}")
-    ax.grid()
-    ax.legend()
-    st.pyplot(fig)
     
-     
-# Affichage des spectres de réponse
-
 with col2:
-    fig, ax = plt.subplots()
-    ax.plot(T0_list, Sd, label="Newmark", color="#002B45")
-    ax.set_xlabel("Natural frequency (Hz)")
-    ax.set_ylabel("Movement")
-    ax.set_title(f"Peak Movement fourrier response - {selected_component}")
-    ax.set_xscale("log")
-    ax.grid()
-    ax.legend()
-    st.pyplot(fig)
-
-with col3:
-    fig, ax = plt.subplots()
-    ax.plot(T0_list, Sv, label="Newmark", color="#002B45")
-    ax.set_xlabel("Natural frequency (Hz)")
-    ax.set_ylabel("Velocity")
-    ax.set_title(f"Peak Velocity fourrier response - {selected_component}")
-    ax.set_xscale("log")
-    ax.grid()
-    ax.legend()
-    st.pyplot(fig)
-
-with col4:
     fig, ax = plt.subplots()
     ax.plot(T0_list, Sa, label="Newmark", color="#002B45")
     ax.set_xlabel("Natural frequency (Hz)")
@@ -424,7 +368,50 @@ with col4:
     ax.legend()
     st.pyplot(fig)
     
+with col3:
+    fig, ax = plt.subplots()
+    ax.plot(T0_list, Sd, label="Newmark", color="#002B45")
+    ax.set_xlabel("Natural frequency (Hz)")
+    ax.set_ylabel("Movement")
+    ax.set_title(f"Peak Movement fourrier response - {selected_component}")
+    ax.set_xscale("log")
+    ax.grid()
+    ax.legend()
+    st.pyplot(fig)    
     
+st.markdown("SDOF Structural response")   
+
+with col1:
+    fig, ax = plt.subplots()
+    ax.plot(t, d, label="Movement (m)", color="#002B45")
+    ax.set_xlabel("Time(s)")
+    ax.set_ylabel("Movement")
+    ax.set_title(f"Movement - Newmark Method - {selected_component}")
+    ax.grid()
+    ax.legend()
+    st.pyplot(fig)
+
+with col2:
+    fig, ax = plt.subplots()
+    ax.plot(t, v, label="Velocity (m/s)", color="#009CA6")
+    ax.set_xlabel("Time (s)")
+    ax.set_ylabel("Velocity")
+    ax.set_title(f"Velocity - Newmark Method - {selected_component}")
+    ax.grid()
+    ax.legend()
+    st.pyplot(fig)
+
+with col3:
+    fig, ax = plt.subplots()
+    ax.plot(t, a, label="Acceleration (m/s^2)", color="#1C2D3F")
+    ax.set_xlabel("Time (s)")
+    ax.set_ylabel("Acceleration")
+    ax.set_title(f"Acceleration - Newmark Method - {selected_component}")
+    ax.grid()
+    ax.legend()
+    st.pyplot(fig)
+    
+      
 output_df = pd.DataFrame(
     {"Time (s)": t, "Displacement (m)": d, "Velocity (m/s)": v, "Acceleration (m/s²)": a, "Force (N)": F})
 csv = output_df.to_csv(index=False).encode('utf-8')
