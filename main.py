@@ -348,10 +348,25 @@ st.markdown("Earthquake input")
 
 col1, col2, col3 = st.columns(3)
 
+
+def apply_plotly_dark_mode_style(fig):
+    fig.update_layout(
+        template=None,
+        paper_bgcolor="rgba(0,0,0,0)",  # fond transparent (s'aligne avec Streamlit dark)
+        plot_bgcolor="rgba(0,0,0,0)",
+        font=dict(size=14, color="white"),
+        xaxis=dict(showgrid=True, gridcolor="gray", zeroline=False, color="white", title_font=dict(size=16, color="white"), tickfont=dict(size=12, color="white")),
+        yaxis=dict(showgrid=True, gridcolor="gray", zeroline=False, color="white", title_font=dict(size=16, color="white"), tickfont=dict(size=12, color="white")),
+        margin=dict(l=60, r=30, t=50, b=50)
+    )
+    return fig
+
+
 with col1:
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=t, y=F, mode="lines", name="Force (N)", line=dict(color="#0072CE")))
     fig.update_layout(title=f"Earthquake Modelisation - {selected_component}", xaxis_title="Time (s)", yaxis_title="Force (N)", template="simple_white")
+    fig = apply_plotly_dark_mode_style(fig)
     st.plotly_chart(fig, use_container_width=True)
 
 with col2:
@@ -359,12 +374,14 @@ with col2:
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=freq_list, y=Sa, mode="lines", name="Newmark", line=dict(color="#002B45")))
     fig.update_layout(title=f"Peak Acceleration Fourier Response - {selected_component}", xaxis_title="Natural frequency (Hz)", yaxis_title="Acceleration", xaxis_type="log", template="simple_white")
+    fig = apply_plotly_dark_mode_style(fig)
     st.plotly_chart(fig, use_container_width=True)
 
 with col3:
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=freq_list, y=Sd, mode="lines", name="Newmark", line=dict(color="#002B45")))
     fig.update_layout(title=f"Peak Movement Fourier Response - {selected_component}", xaxis_title="Natural frequency (Hz)", yaxis_title="Movement", xaxis_type="log", template="simple_white")
+    fig = apply_plotly_dark_mode_style(fig)
     st.plotly_chart(fig, use_container_width=True)  
      
 st.markdown("SDOF Structural response")   
@@ -375,18 +392,21 @@ with col1:
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=t, y=d, mode="lines", name="Movement (m)", line=dict(color="#002B45")))
     fig.update_layout(title=f"Movement - Newmark Method - {selected_component}", xaxis_title="Time (s)", yaxis_title="Movement", template="simple_white")
+    fig = apply_plotly_dark_mode_style(fig)
     st.plotly_chart(fig, use_container_width=True)
 
 with col2:
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=t, y=v, mode="lines", name="Velocity (m/s)", line=dict(color="#009CA6")))
     fig.update_layout(title=f"Velocity - Newmark Method - {selected_component}", xaxis_title="Time (s)", yaxis_title="Velocity", template="simple_white")
+    fig = apply_plotly_dark_mode_style(fig)
     st.plotly_chart(fig, use_container_width=True)
 
 with col3:
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=t, y=a, mode="lines", name="Acceleration (m/s²)", line=dict(color="#1C2D3F")))
     fig.update_layout(title=f"Acceleration - Newmark Method - {selected_component}", xaxis_title="Time (s)", yaxis_title="Acceleration", template="simple_white")
+    fig = apply_plotly_dark_mode_style(fig)
     st.plotly_chart(fig, use_container_width=True)
     
       
