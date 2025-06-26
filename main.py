@@ -25,6 +25,7 @@ K = st.sidebar.slider("K : Stiffness (N/m)", 0.0, 50000.0, 10000.0, step=100.0)
 zeta = st.sidebar.slider("zeta : Damping rate (%)", 0.0, 200.0, 5.0, step=1.0)
 
 dt = st.sidebar.number_input("dt : Time step (s)", min_value=0.001, max_value=1.0, value=0.05, step=0.001, format="%.4f")
+F1 = st.sidebar.number_input("F1 : Amplitude coefficient (N)", min_value=0.0, max_value=1000, value=0.0, step=1, format="%.4f")
 
 d0 = st.sidebar.slider("d : Initial movement (m)", 0.0, 0.5, 0.0, step=0.01)
 v0 = st.sidebar.slider("v : Initial velocity (m/s)", 0.0, 1.0, 0.0, step=0.01)
@@ -86,23 +87,23 @@ if uploaded_file is not None:
             st.stop()
 
         # Conversion du temps depuis format ISO 8601 en secondes écoulées
-        #if df[time_col].dtype == object:
-            #try:
+        if df[time_col].dtype == object:
+            try:
                 # Convertir en datetime
-                #df[time_col] = pd.to_datetime(df[time_col], errors='coerce')
+                df[time_col] = pd.to_datetime(df[time_col], errors='coerce')
 
                 # Vérifier qu'aucune conversion n'a échoué
-                #if df[time_col].isnull().any():
-                    #st.error("Impossible datetime conversion for certain tenses (invalid values).")
-                    #st.stop()
+                if df[time_col].isnull().any():
+                    st.error("Impossible datetime conversion for certain tenses (invalid values).")
+                    st.stop()
 
                 # Calculer les secondes écoulées depuis le premier timestamp
-                #time_zero = df[time_col].iloc[0]
-                #df[time_col] = (df[time_col] - time_zero).dt.total_seconds()
+                time_zero = df[time_col].iloc[0]
+                df[time_col] = (df[time_col] - time_zero).dt.total_seconds()
 
-            #except Exception as e:
-                #st.error(f"Conversion of 'Time' impossible : {e}")
-                #st.stop()
+            except Exception as e:
+                st.error(f"Conversion of 'Time' impossible : {e}")
+                st.stop()
 
         # Extraction des valeurs numériques
         time_data = pd.to_numeric(df[time_col], errors='coerce').values
@@ -145,7 +146,7 @@ if "time_range_slider" not in st.session_state or st.session_state["previous_T"]
     st.session_state["previous_T"] = T  # Mettre à jour la référence
 
     
-params_key = (M, K, zeta, T, selected_component, d0, v0, dt)
+params_key = (M, K, zeta, T, selected_component, d0, v0, dt, F1)
 
 
 # Définition du coefficent d'amortissement
@@ -239,7 +240,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
     # Interpolation linéaire
     acc_interp = interp1d(time_data, acc_data, kind='linear', fill_value='extrapolate')
     accel = acc_interp(t)
-    F = - M * accel * 9.81
+    F = - F1 * M * accel * 9.81
     
     # Initialisation des réponses
     d = np.zeros(n)
@@ -331,57 +332,6 @@ a = a[mask]
 
 
 
-# --- Ajout solve_ivp ---
-if "results_solveivp" not in st.session_state or st.session_state.get("last_params_solveivp") != params_key:
-    def force_interp(tt):
-        return np.interp(tt, t, F)
-
-    def ode_system(tt, y):
-        d_, v_ = y
-        f_ = force_interp(tt)
-        a_ = (f_ - C*v_ - K*d_) / M
-        return [v_, a_]
-
-    y0 = [d0, v0]
-    sol = solve_ivp(ode_system, [t[0], t[-1]], y0, t_eval=t, method='RK45')
-    d_ivp = sol.y[0]
-    v_ivp = sol.y[1]
-    a_ivp = (np.interp(t, t, F) - C*v_ivp - K*d_ivp) / M
-
-    st.session_state.results_solveivp = {"d": d_ivp, "v": v_ivp, "a": a_ivp}
-    st.session_state.last_params_solveivp = params_key
-
-# Récupération solve_ivp
-sol_d = st.session_state.results_solveivp["d"]
-sol_v = st.session_state.results_solveivp["v"]
-sol_a = st.session_state.results_solveivp["a"]
-
-
-
-
-
-
-# Calcul des erreurs absolues
-err_d = np.abs(d - sol_d)
-err_v = np.abs(v - sol_v)
-err_a = np.abs(a - sol_a)
-
-# Calcul des erreurs relatives (%)
-# Éviter les divisions par zéro
-eps = 1e-8
-rel_err_d = 100 * err_d / (np.abs(sol_d) + eps)
-rel_err_v = 100 * err_v / (np.abs(sol_v) + eps)
-rel_err_a = 100 * err_a / (np.abs(sol_a) + eps)
-
-
-
-
-
-
-
-
-
-
 # Affichage
 
 # 🔹 Affichage d'un titre si l'utilisateur n'a pas encore uploadé de fichier
@@ -438,43 +388,7 @@ with col4:
     ax.legend()
     st.pyplot(fig)
     
-
-# Affichage des comparaisons
-
-with col1:
-    fig, ax = plt.subplots()
-    ax.plot(t, d, label="Newmark", color="#002B45")
-    ax.plot(t, sol_d, label="solve_ivp", linestyle="--", color="orange")
-    ax.set_xlabel("Time(s)")
-    ax.set_ylabel("Movement")
-    ax.set_title(f"Movement comparison - {selected_component}")
-    ax.grid()
-    ax.legend()
-    st.pyplot(fig)
-
-with col3:
-    fig, ax = plt.subplots()
-    ax.plot(t, v, label="Newmark", color="#009CA6")
-    ax.plot(t, sol_v, label="solve_ivp", linestyle="--", color="orange")
-    ax.set_xlabel("Time (s)")
-    ax.set_ylabel("Velocity")
-    ax.set_title(f"Velocity comparison - {selected_component}")
-    ax.grid()
-    ax.legend()
-    st.pyplot(fig)
-
-with col4:
-    fig, ax = plt.subplots()
-    ax.plot(t, a, label="Newmark", color="#1C2D3F")
-    ax.plot(t, sol_a, label="solve_ivp", linestyle="--", color="orange")
-    ax.set_xlabel("Time (s)")
-    ax.set_ylabel("Acceleration")
-    ax.set_title(f"Acceleration comparison - {selected_component}")
-    ax.grid()
-    ax.legend()
-    st.pyplot(fig)    
-    
-        
+     
 # Affichage des spectres de réponse
 
 with col2:
@@ -511,54 +425,6 @@ with col4:
     st.pyplot(fig)
     
     
-    
-    
-    
-    
-    
-    
-st.markdown("### Error between Newmark and solve_ivp")
-
-col_err1, col_err2, col_err3 = st.columns(3)
-
-with col_err1:
-    fig, ax = plt.subplots()
-    ax.plot(t, err_d, label="Abs Error", color="red")
-    ax.set_title("Displacement Error")
-    ax.set_xlabel("Time (s)")
-    ax.set_ylabel("Error (m)")
-    ax.grid()
-    st.pyplot(fig)
-
-with col_err2:
-    fig, ax = plt.subplots()
-    ax.plot(t, err_v, label="Abs Error", color="red")
-    ax.set_title("Velocity Error")
-    ax.set_xlabel("Time (s)")
-    ax.set_ylabel("Error (m/s)")
-    ax.grid()
-    st.pyplot(fig)
-
-with col_err3:
-    fig, ax = plt.subplots()
-    ax.plot(t, err_a, label="Abs Error", color="red")
-    ax.set_title("Acceleration Error")
-    ax.set_xlabel("Time (s)")
-    ax.set_ylabel("Error (m/s²)")
-    ax.grid()
-    st.pyplot(fig)
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-
-
 output_df = pd.DataFrame(
     {"Time (s)": t, "Displacement (m)": d, "Velocity (m/s)": v, "Acceleration (m/s²)": a, "Force (N)": F})
 csv = output_df.to_csv(index=False).encode('utf-8')
