@@ -343,9 +343,10 @@ if uploaded_file is None:
 
 
 # Première ligne : Force et déplacement
-col1, col2, col3 = st.columns(3)
 
 st.markdown("Earthquake input")
+
+col1, col2, col3 = st.columns(3)
 
 with col1:
     fig, ax = plt.subplots()
@@ -380,6 +381,8 @@ with col3:
     st.pyplot(fig)    
     
 st.markdown("SDOF Structural response")   
+
+col1, col2, col3 = st.columns(3)
 
 with col1:
     fig, ax = plt.subplots()
