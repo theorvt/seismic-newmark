@@ -4,10 +4,7 @@ import numpy as np
 from math import *
 import pandas as pd
 from scipy.interpolate import interp1d
-from scipy.integrate import solve_ivp
-import plotly.tools as tls
 import plotly.graph_objects as go
-import plotly.io as pio
 
 # Réduire les marges
 st.set_page_config(layout="wide")
