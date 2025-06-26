@@ -408,7 +408,7 @@ with col3:
     ax.plot(t, a, label="Acceleration (m/s^2)", color="#1C2D3F")
     ax.set_xlabel("Time (s)")
     ax.set_ylabel("Acceleration")
-    ax.set_title(f"Acceleration - Newmark Method - {selected_component}")
+    ax.set_title(f"Acceleration - Newmark Method - {selected_component}") 
     ax.grid()
     ax.legend()
     st.pyplot(fig)
