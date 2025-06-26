@@ -5,6 +5,9 @@ from math import *
 import pandas as pd
 from scipy.interpolate import interp1d
 from scipy.integrate import solve_ivp
+import plotly.tools as tls
+import plotly.graph_objects as go
+import plotly.io as pio
 
 # Réduire les marges
 st.set_page_config(layout="wide")
@@ -356,7 +359,8 @@ with col1:
     ax.set_title(f"Earthquake Modelisation - {selected_component}")
     ax.grid()
     ax.legend()
-    st.pyplot(fig)
+    fig_plotly = tls.mpl_to_plotly(fig)
+    st.plotly_chart(fig_plotly, use_container_width=True)
     
 with col2:
     fig, ax = plt.subplots()
@@ -367,7 +371,8 @@ with col2:
     ax.set_xscale("log")
     ax.grid()
     ax.legend()
-    st.pyplot(fig)
+    fig_plotly = tls.mpl_to_plotly(fig)
+    st.plotly_chart(fig_plotly, use_container_width=True)
     
 with col3:
     fig, ax = plt.subplots()
@@ -378,8 +383,9 @@ with col3:
     ax.set_xscale("log")
     ax.grid()
     ax.legend()
-    st.pyplot(fig)    
-    
+    fig_plotly = tls.mpl_to_plotly(fig)
+    st.plotly_chart(fig_plotly, use_container_width=True)   
+     
 st.markdown("SDOF Structural response")   
 
 col1, col2, col3 = st.columns(3)
@@ -392,7 +398,8 @@ with col1:
     ax.set_title(f"Movement - Newmark Method - {selected_component}")
     ax.grid()
     ax.legend()
-    st.pyplot(fig)
+    fig_plotly = tls.mpl_to_plotly(fig)
+    st.plotly_chart(fig_plotly, use_container_width=True)
 
 with col2:
     fig, ax = plt.subplots()
@@ -402,7 +409,8 @@ with col2:
     ax.set_title(f"Velocity - Newmark Method - {selected_component}")
     ax.grid()
     ax.legend()
-    st.pyplot(fig)
+    fig_plotly = tls.mpl_to_plotly(fig)
+    st.plotly_chart(fig_plotly, use_container_width=True)
 
 with col3:
     fig, ax = plt.subplots()
@@ -412,7 +420,8 @@ with col3:
     ax.set_title(f"Acceleration - Newmark Method - {selected_component}")
     ax.grid()
     ax.legend()
-    st.pyplot(fig)
+    fig_plotly = tls.mpl_to_plotly(fig)
+    st.plotly_chart(fig_plotly, use_container_width=True)
     
       
 output_df = pd.DataFrame(
