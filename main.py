@@ -29,7 +29,7 @@ F1 = st.sidebar.number_input("F1 : Amplitude coefficient (N)", min_value=0.0, ma
 d0 = st.sidebar.slider("d : Initial movement (m)", 0.0, 0.5, 0.0, step=0.01)
 v0 = st.sidebar.slider("v : Initial velocity (m/s)", 0.0, 1.0, 0.0, step=0.01)
 
-scale = st.sidebar.radio("Échelle de l'axe des périodes", ("linear", "log"))
+scale = st.sidebar.radio("Period axis scale for response spectra", ("linear", "log"))
 
 
 # Upload du fichier CSV ou Excel 
@@ -266,7 +266,6 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         a[i + 1] = (F[i + 1] - K * H - C * P) / B 
         v[i + 1] = P + gamma * dt * a[i + 1] 
         d[i + 1] = H + beta * dt ** 2 * a[i + 1] 
-        
         
         
     # Calcul du spectre de Fourrier
