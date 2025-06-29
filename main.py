@@ -341,6 +341,9 @@ if uploaded_file is None:
         "You are currently viewing a simulation example with predefined data. To use your own seismic data, import a CSV or Excel file at the top of the page.")
 
 
+scale = st.sidebar.radio("Échelle de l'axe des périodes", ("linéaire", "logarithmique"))
+
+
 # Première ligne : Force et déplacement
 
 st.markdown("Earthquake input")
@@ -353,6 +356,7 @@ with col1:
     ax.set_xlabel("Time(s)")
     ax.set_ylabel("Force(N)")
     ax.set_title(f"Ground acceleration - {selected_component}")
+    ax.set_xscale(scale)
     ax.grid()
     ax.legend()
     st.pyplot(fig)
@@ -363,6 +367,7 @@ with col2:
     ax.set_xlabel("Period (s)")
     ax.set_ylabel("Peak Acceleration")
     ax.set_title(f"Acceleration response spectrum - {selected_component}")
+    ax.set_xscale(scale)
     #ax.set_xscale("log")
     ax.grid()
     ax.legend()
@@ -374,6 +379,7 @@ with col3:
     ax.set_xlabel("Period (s)")
     ax.set_ylabel("Peak Displacement")
     ax.set_title(f"Displacement response spectrum  - {selected_component}")
+    ax.set_xscale(scale)
     #ax.set_xscale("log")
     ax.grid()
     ax.legend()
@@ -389,6 +395,7 @@ with col1:
     ax.set_xlabel("Time(s)")
     ax.set_ylabel("Displacement")
     ax.set_title(f"Displacement time history - Newmark Method - {selected_component}")
+    ax.set_xscale(scale)
     ax.grid()
     ax.legend()
     st.pyplot(fig)
@@ -399,6 +406,7 @@ with col2:
     ax.set_xlabel("Time (s)")
     ax.set_ylabel("Velocity")
     ax.set_title(f"Velocity time history - {selected_component}")
+    ax.set_xscale(scale)
     ax.grid()
     ax.legend()
     st.pyplot(fig)
@@ -409,6 +417,7 @@ with col3:
     ax.set_xlabel("Time (s)")
     ax.set_ylabel("Acceleration")
     ax.set_title(f"Acceleration time history - {selected_component}") 
+    ax.set_xscale(scale)
     ax.grid()
     ax.legend()
     st.pyplot(fig)
