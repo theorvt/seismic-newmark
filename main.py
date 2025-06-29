@@ -29,6 +29,8 @@ F1 = st.sidebar.number_input("F1 : Amplitude coefficient (N)", min_value=0.0, ma
 d0 = st.sidebar.slider("d : Initial movement (m)", 0.0, 0.5, 0.0, step=0.01)
 v0 = st.sidebar.slider("v : Initial velocity (m/s)", 0.0, 1.0, 0.0, step=0.01)
 
+scale = st.sidebar.radio("Échelle de l'axe des périodes", ("linéaire", "logarithmique"))
+
 
 # Upload du fichier CSV ou Excel 
 uploaded_file = st.file_uploader("Upload a CSV or Excel file", type=["csv", "xls", "xlsx"]) 
@@ -145,7 +147,7 @@ if "time_range_slider" not in st.session_state or st.session_state["previous_T"]
     st.session_state["previous_T"] = T  # Mettre à jour la référence
 
     
-params_key = (M, K, zeta, T, selected_component, d0, v0, dt, F1)
+params_key = (M, K, zeta, T, selected_component, d0, v0, dt, F1, scale)
 
 
 # Définition du coefficent d'amortissement
@@ -339,9 +341,6 @@ if uploaded_file is None:
     st.markdown("### Example of simulation with default data")
     st.info(
         "You are currently viewing a simulation example with predefined data. To use your own seismic data, import a CSV or Excel file at the top of the page.")
-
-
-scale = st.sidebar.radio("Échelle de l'axe des périodes", ("linéaire", "logarithmique"))
 
 
 # Première ligne : Force et déplacement
