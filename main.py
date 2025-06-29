@@ -268,7 +268,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         
         
     # Calcul du spectre de Fourrier
-    #T0_list = np.logspace(np.log10(0.1), np.log10(20.0), 200)
+    
     T0_list = np.linspace(0.1, 20.0, 200)
     
     #f_list = 1 / T0_list  # fréquence en Hz
