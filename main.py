@@ -350,7 +350,7 @@ col1, col2, col3 = st.columns(3)
 
 with col1:
     fig, ax = plt.subplots()
-    ax.plot(t, F, label="Force (N)", color="#0072CE")
+    ax.plot(t, F, color="#0072CE")
     ax.set_xlabel("Time(s)")
     ax.set_ylabel("Force(N)")
     ax.set_title(f"Ground acceleration - {selected_component}")
@@ -360,7 +360,7 @@ with col1:
     
 with col2:
     fig, ax = plt.subplots()
-    ax.plot(T0_list, Sa, label="Newmark", color="#002B45")
+    ax.plot(T0_list, Sa, color="#002B45")
     ax.set_xlabel("Period (s)")
     ax.set_ylabel("Peak Acceleration")
     ax.set_title(f"Acceleration response spectrum - {selected_component}")
@@ -371,7 +371,7 @@ with col2:
     
 with col3:
     fig, ax = plt.subplots()
-    ax.plot(T0_list, Sd, label="Newmark", color="#002B45")
+    ax.plot(T0_list, Sd, color="#002B45")
     ax.set_xlabel("Period (s)")
     ax.set_ylabel("Peak Displacement")
     ax.set_title(f"Displacement response spectrum  - {selected_component}")
@@ -386,7 +386,7 @@ col1, col2, col3 = st.columns(3)
 
 with col1:
     fig, ax = plt.subplots()
-    ax.plot(t, d, label="Displacement (m)", color="#002B45")
+    ax.plot(t, d, color="#002B45")
     ax.set_xlabel("Time(s)")
     ax.set_ylabel("Displacement")
     ax.set_title(f"Displacement time history - Newmark Method - {selected_component}")
@@ -396,7 +396,7 @@ with col1:
 
 with col2:
     fig, ax = plt.subplots()
-    ax.plot(t, v, label="Velocity (m/s)", color="#009CA6")
+    ax.plot(t, v, color="#009CA6")
     ax.set_xlabel("Time (s)")
     ax.set_ylabel("Velocity")
     ax.set_title(f"Velocity time history - {selected_component}")
@@ -406,7 +406,7 @@ with col2:
 
 with col3:
     fig, ax = plt.subplots()
-    ax.plot(t, a, label="Acceleration (m/s^2)", color="#1C2D3F")
+    ax.plot(t, a, color="#1C2D3F")
     ax.set_xlabel("Time (s)")
     ax.set_ylabel("Acceleration")
     ax.set_title(f"Acceleration time history - {selected_component}") 
