@@ -270,7 +270,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         
         
     # Calcul du spectre de Fourrier
-    T0_list = np.logspace(np.log10(0.02), np.log10(20), 250)
+    T0_list = np.linspace(0.02, 20, 250)
     
     #f_list = 1 / T0_list  # fréquence en Hz
     
@@ -355,7 +355,6 @@ with col1:
     ax.set_xlabel("Time(s)")
     ax.set_ylabel("Force(N)")
     ax.set_title(f"Ground acceleration - {selected_component}")
-    ax.set_xscale(scale)
     ax.grid()
     ax.legend()
     st.pyplot(fig)
@@ -394,7 +393,6 @@ with col1:
     ax.set_xlabel("Time(s)")
     ax.set_ylabel("Displacement")
     ax.set_title(f"Displacement time history - Newmark Method - {selected_component}")
-    ax.set_xscale(scale)
     ax.grid()
     ax.legend()
     st.pyplot(fig)
@@ -405,7 +403,6 @@ with col2:
     ax.set_xlabel("Time (s)")
     ax.set_ylabel("Velocity")
     ax.set_title(f"Velocity time history - {selected_component}")
-    ax.set_xscale(scale)
     ax.grid()
     ax.legend()
     st.pyplot(fig)
@@ -416,7 +413,6 @@ with col3:
     ax.set_xlabel("Time (s)")
     ax.set_ylabel("Acceleration")
     ax.set_title(f"Acceleration time history - {selected_component}") 
-    ax.set_xscale(scale)
     ax.grid()
     ax.legend()
     st.pyplot(fig)
