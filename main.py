@@ -29,7 +29,7 @@ F1 = st.sidebar.number_input("F1 : Amplitude coefficient (N)", min_value=0.0, ma
 d0 = st.sidebar.slider("d : Initial movement (m)", 0.0, 0.5, 0.0, step=0.01)
 v0 = st.sidebar.slider("v : Initial velocity (m/s)", 0.0, 1.0, 0.0, step=0.01)
 
-scale = st.sidebar.radio("Échelle de l'axe des périodes", ("linéaire", "logarithmique"))
+scale = st.sidebar.radio("Échelle de l'axe des périodes", ("linear", "log"))
 
 
 # Upload du fichier CSV ou Excel 
