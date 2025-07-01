@@ -440,7 +440,7 @@ if friction_enabled:
     ax.set_title("Friction force over time")
     ax.grid()
     st.pyplot(fig)
-    
+     
       
 output_df = pd.DataFrame(
     {"Time (s)": t, "Displacement (m)": d, "Velocity (m/s)": v, "Acceleration (m/s²)": a, "Force (N)": F})
