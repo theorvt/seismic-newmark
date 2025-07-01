@@ -434,7 +434,7 @@ with col3:
 if friction_enabled:
     friction_values = mu * N_force * np.tanh(v / v_eps)
     fig, ax = plt.subplots()
-    ax.plot(t, friction_values, label="Friction force", color="red")
+    ax.plot(t, a, color="red")
     ax.set_xlabel("Time (s)")
     ax.set_ylabel("Friction force (N)")
     ax.set_title("Friction force over time")
