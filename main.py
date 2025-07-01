@@ -291,7 +291,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         v[i + 1] = P + gamma * dt * a[i + 1] 
         d[i + 1] = H + beta * dt ** 2 * a[i + 1] 
         
-        a_friction[i + 1] = (F[i + 1] - K * H - C * P) / B 
+        a_friction[i + 1] = (F_friction[i + 1] - K * H - C * P) / B 
         v_friction[i + 1] = P + gamma * dt * a[i + 1] 
         d_friction[i + 1] = H + beta * dt ** 2 * a[i + 1] 
         
