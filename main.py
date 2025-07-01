@@ -331,7 +331,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
     
 
     # Sauvegarde des résultats
-    st.session_state.results = {"t": t, "F": F, "d": d, "v": v, "a": a, "Sd": Sd, "Sv": Sv, "Sa": Sa, "T0_list": T0_list}
+    st.session_state.results = {"t": t, "F": F, "d": d, "v": v, "a": a, "Sd": Sd, "Sv": Sv, "Sa": Sa, "T0_list": T0_list, "a_friction": a_friction}
     st.session_state.last_params = params_key
 
 # Récupération des résultats depuis session_state
@@ -340,6 +340,8 @@ F = st.session_state.results["F"]
 d = st.session_state.results["d"]
 v = st.session_state.results["v"]
 a = st.session_state.results["a"]
+
+a_friction = st.session_state.results["a_friction"]
 
 T0_list = st.session_state.results["T0_list"]
 
@@ -356,6 +358,8 @@ F = F[mask]
 d = d[mask] 
 v = v[mask]
 a = a[mask] 
+
+a_friction = a_friction[mask]
 
 
 
