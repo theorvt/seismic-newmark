@@ -250,16 +250,25 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
     
     F_base = - F1 * M * accel
     F = np.zeros_like(F_base)
+    F_friction = np.zeros_like(F_base)
     
     # Initialisation des réponses
     d = np.zeros(n)
     v = np.zeros(n)
     a = np.zeros(n)
+    
+    d_friction = np.zeros(n)
+    v_friction = np.zeros(n)
+    a_friction = np.zeros(n)
 
     # Conditions initiales
     d[0] = d0
     v[0] = v0
     a[0] = (F[0] - C * v[0] - K * d[0]) / M
+    
+    d_friction[0] = d0
+    v_friction[0] = v0
+    a_friction[0] = (F[0] - C * v[0] - K * d[0]) / M
 
     # Pré-calculs
     B = M + K * beta * dt ** 2 + C * gamma * dt
@@ -276,11 +285,15 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         friction = mu * N_force * np.tanh(v[i] / v_eps) if friction_enabled else 0.0
 
         # Force totale (avec frottement)
-        F[i+1] = F_base[i+1] - friction
+        F_friction[i+1] = F_base[i+1] - friction
 
         a[i + 1] = (F[i + 1] - K * H - C * P) / B 
         v[i + 1] = P + gamma * dt * a[i + 1] 
         d[i + 1] = H + beta * dt ** 2 * a[i + 1] 
+        
+        a_friction[i + 1] = (F[i + 1] - K * H - C * P) / B 
+        v_friction[i + 1] = P + gamma * dt * a[i + 1] 
+        d_friction[i + 1] = H + beta * dt ** 2 * a[i + 1] 
         
         
     # Calcul du spectre de Fourrier
@@ -434,7 +447,7 @@ with col3:
 if friction_enabled:
     friction_values = mu * N_force * np.tanh(v / v_eps)
     fig, ax = plt.subplots()
-    ax.plot(t, a, color="red")
+    ax.plot(t, a_friction, color="red")
     ax.set_xlabel("Time (s)")
     ax.set_ylabel("Friction force (N)")
     ax.set_title("Friction force over time")
