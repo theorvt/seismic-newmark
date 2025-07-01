@@ -31,6 +31,12 @@ v0 = st.sidebar.slider("v : Initial velocity (m/s)", 0.0, 1.0, 0.0, step=0.01)
 
 scale = st.sidebar.radio("Period axis scale for response spectra", ("linear", "log"))
 
+friction_enabled = st.sidebar.checkbox("Include Coulomb friction")
+
+mu = st.sidebar.slider("μ : Friction coefficient", 0.0, 2.0, 0.5, step=0.01)
+v_eps = 0.01  # petite valeur pour régularisation
+N_force = M * 9.81  # force normale supposée
+
 
 # Upload du fichier CSV ou Excel 
 uploaded_file = st.file_uploader("Upload a CSV or Excel file", type=["csv", "xls", "xlsx"]) 
@@ -241,7 +247,9 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
     # Interpolation linéaire
     acc_interp = interp1d(time_data, acc_data, kind='linear', fill_value='extrapolate')
     accel = acc_interp(t)
-    F = - F1 * M * accel  
+    
+    F_base = - F1 * M * accel
+    F = np.zeros_like(F_base)
     
     # Initialisation des réponses
     d = np.zeros(n)
@@ -263,6 +271,13 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
     for i in range(n - 1):
         P = v[i] + ((1 - gamma) * dt) * a[i]
         H = d[i] + dt * v[i] + (1 / 2 - beta) * dt ** 2 * a[i]
+        
+        # Friction régulière (approximation continue)
+        friction = mu * N_force * np.tanh(v[i] / v_eps) if friction_enabled else 0.0
+
+        # Force totale (avec frottement)
+        F[i+1] = F_base[i+1] - friction
+
         a[i + 1] = (F[i + 1] - K * H - C * P) / B 
         v[i + 1] = P + gamma * dt * a[i + 1] 
         d[i + 1] = H + beta * dt ** 2 * a[i + 1] 
@@ -414,6 +429,16 @@ with col3:
     ax.set_title(f"Acceleration time history - {selected_component}") 
     ax.grid()
     ax.legend()
+    st.pyplot(fig)
+    
+if friction_enabled:
+    friction_values = mu * N_force * np.tanh(v / v_eps)
+    fig, ax = plt.subplots()
+    ax.plot(t, friction_values, label="Friction force", color="red")
+    ax.set_xlabel("Time (s)")
+    ax.set_ylabel("Friction force (N)")
+    ax.set_title("Friction force over time")
+    ax.grid()
     st.pyplot(fig)
     
       
