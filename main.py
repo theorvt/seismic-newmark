@@ -248,9 +248,8 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
     acc_interp = interp1d(time_data, acc_data, kind='linear', fill_value='extrapolate')
     accel = acc_interp(t)
     
-    F_base = - F1 * M * accel
-    F = np.zeros_like(F_base)
-    F_friction = np.zeros_like(F_base)
+    F = - F1 * M * accel
+    F_friction = np.zeros_like(F)
     
     # Initialisation des réponses
     d = np.zeros(n)
@@ -285,7 +284,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         friction = mu * N_force * np.tanh(v[i] / v_eps) if friction_enabled else 0.0
 
         # Force totale (avec frottement)
-        F_friction[i+1] = F_base[i+1] - friction
+        F_friction[i+1] = F[i+1] - friction
 
         a[i + 1] = (F[i + 1] - K * H - C * P) / B 
         v[i + 1] = P + gamma * dt * a[i + 1] 
