@@ -34,6 +34,7 @@ scale = st.sidebar.radio("Period axis scale for response spectra", ("linear", "l
 friction_enabled = st.sidebar.checkbox("Include Coulomb friction")
 
 mu = st.sidebar.slider("μ : Friction coefficient", 0.0, 2.0, 0.5, step=0.01)
+
 v_eps = 0.01  # petite valeur pour régularisation
 N_force = M * 9.81  # force normale supposée
 
