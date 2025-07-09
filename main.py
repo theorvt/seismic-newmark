@@ -35,7 +35,7 @@ friction_enabled = st.sidebar.checkbox("Include Coulomb friction")
 
 mu = st.sidebar.slider("μ : Friction coefficient", 0.0, 2.0, 0.5, step=0.01)
 
-K3 = st.sidebar.slider("K3 : Non-linear stiffness", 0.0, 1000000.0, 100000.0, step=100)
+K3 = st.sidebar.slider("K3 : Non-linear stiffness", 0.0, 1000000.0, 100000.0, step=100.0)
 
 v_eps = 0.01  # petite valeur pour régularisation
 N_force = M * 9.81  # force normale supposée
