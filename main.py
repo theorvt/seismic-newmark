@@ -35,7 +35,7 @@ friction_enabled = st.sidebar.checkbox("Include Coulomb friction")
 
 mu = st.sidebar.slider("μ : Friction coefficient", 0.0, 2.0, 0.5, step=0.01)
 
-k3 = st.sidebar.slider("K3 : Non-linear stiffness", 0.0, 1000000.0, 100000.0, step=100)
+K3 = st.sidebar.slider("K3 : Non-linear stiffness", 0.0, 1000000.0, 100000.0, step=100)
 
 v_eps = 0.01  # petite valeur pour régularisation
 N_force = M * 9.81  # force normale supposée
@@ -156,7 +156,7 @@ if "time_range_slider" not in st.session_state or st.session_state["previous_T"]
     st.session_state["previous_T"] = T  # Mettre à jour la référence
 
     
-params_key = (M, K, zeta, T, selected_component, d0, v0, dt, F1, scale, mu, k3)
+params_key = (M, K, zeta, T, selected_component, d0, v0, dt, F1, scale, mu, K3)
 
 
 # Définition du coefficent d'amortissement
@@ -255,10 +255,10 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
     F_friction = np.zeros_like(F)
     
     
-    def restoring_force(u, k1=K, k3=1e5):
+    def restoring_force(u, k1=K, k3=K3):
         return k1 * u + k3 * u**3
 
-    def tangent_stiffness(u, k1=K, k3=1e5):
+    def tangent_stiffness(u, k1=K, k3=K3):
         return k1 + 3 * k3 * u**2
     
     
