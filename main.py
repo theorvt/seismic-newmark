@@ -156,7 +156,7 @@ if "time_range_slider" not in st.session_state or st.session_state["previous_T"]
     st.session_state["previous_T"] = T  # Mettre à jour la référence
 
     
-params_key = (M, K, zeta, T, selected_component, d0, v0, dt, F1, scale, mu, K3)
+params_key = (M, K, zeta, T, selected_component, d0, v0, dt, F1, scale, mu, K3, friction_enabled)
 
 
 # Définition du coefficent d'amortissement
