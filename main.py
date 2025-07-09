@@ -310,10 +310,10 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
             delta_d = -R / dR
             d_next += delta_d
 
-        if abs(delta_d) < tol:
-           break
-    else:
-        st.warning(f"Newton-Raphson did not converge at step {i+1}")
+            if abs(delta_d) < tol:
+               break
+        else:
+            st.warning(f"Newton-Raphson did not converge at step {i+1}")
         
         # Friction régulière (approximation continue)
         friction = mu * N_force * np.tanh(v[i] / v_eps) if friction_enabled else 0.0
