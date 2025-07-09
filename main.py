@@ -252,6 +252,14 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
     F = - F1 * M * accel
     F_friction = np.zeros_like(F)
     
+    
+    def restoring_force(u, k1=K, k3=1e5):
+        return k1 * u + k3 * u**3
+
+    def tangent_stiffness(u, k1=K, k3=1e5):
+        return k1 + 3 * k3 * u**2
+    
+    
     # Initialisation des réponses
     d = np.zeros(n)
     v = np.zeros(n)
@@ -278,8 +286,34 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
 
     # Newmark
     for i in range(n - 1):
-        P = v[i] + ((1 - gamma) * dt) * a[i]
-        H = d[i] + dt * v[i] + (1 / 2 - beta) * dt ** 2 * a[i]
+        # Prédictions Newmark
+        P = v[i] + (1 - gamma) * dt * a[i]
+        H = d[i] + dt * v[i] + (0.5 - beta) * dt**2 * a[i]
+
+        # Newton-Raphson pour d[i+1]
+        d_next = H  # initial guess
+        tol = 1e-6
+        max_iter = 50
+
+        for iteration in range(max_iter):
+            # Calcul de l'accélération et vitesse à partir de d_next
+            a_next = (d_next - H) / (beta * dt**2)
+            v_next = P + gamma * dt * a_next
+
+            # Résidu non linéaire
+            R = M * a_next + C * v_next + restoring_force(d_next) - F[i+1]
+
+            # Dérivée du résidu (jacobien)
+            dR = M / (beta * dt**2) + C * gamma / (beta * dt) + tangent_stiffness(d_next)
+
+            # Incrément
+            delta_d = -R / dR
+            d_next += delta_d
+
+        if abs(delta_d) < tol:
+           break
+    else:
+        st.warning(f"Newton-Raphson did not converge at step {i+1}")
         
         # Friction régulière (approximation continue)
         friction = mu * N_force * np.tanh(v[i] / v_eps) if friction_enabled else 0.0
@@ -287,9 +321,10 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         # Force totale (avec frottement)
         F_friction[i+1] = F[i+1] - friction
 
-        a[i + 1] = (F[i + 1] - K * H - C * P) / B 
-        v[i + 1] = P + gamma * dt * a[i + 1] 
-        d[i + 1] = H + beta * dt ** 2 * a[i + 1] 
+        # Mettre à jour les états
+        d[i+1] = d_next
+        a[i+1] = (d[i+1] - H) / (beta * dt**2)
+        v[i+1] = P + gamma * dt * a[i+1] 
         
         a_friction[i + 1] = (F_friction[i + 1] - K * H - C * P) / B 
         v_friction[i + 1] = P + gamma * dt * a[i + 1] 
