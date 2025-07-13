@@ -254,14 +254,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
     F = - F1 * M * accel
     F_friction = np.zeros_like(F)
     
-    
-    def restoring_force(u, k1=K, k3=K3):
-        return k1 * u + k3 * u**3
 
-    def tangent_stiffness(u, k1=K, k3=K3):
-        return k1 + 3 * k3 * u**2
-    
-    
     # Initialisation des réponses
     d = np.zeros(n)
     v = np.zeros(n)
@@ -270,15 +263,30 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
     d_friction = np.zeros(n)
     v_friction = np.zeros(n)
     a_friction = np.zeros(n)
+    
+    d_non_linéaire = np.zeros(n)
+    v_non_linéaire = np.zeros(n)
+    a_non_linéaire = np.zeros(n)
 
-    # Conditions initiales
+    # Conditions initiales - Modéle linéaire
     d[0] = d0
     v[0] = v0
     a[0] = (F[0] - C * v[0] - K * d[0]) / M
     
+    # Conditions initiales - Modéle Avec friction
     d_friction[0] = d0
     v_friction[0] = v0
     a_friction[0] = (F[0] - C * v[0] - K * d[0]) / M
+    
+    # Conditions initiales - Modèle avec friction non-linéaire
+    d_non_linéaire[0] = 0
+    v_non_linéaire[0] = 0
+    a_non_linéaire[0] = (F[0] - C * v[0] - K * d[0] - K3 * d[0]**3) / M
+    
+    # === Newton-Raphson + Newmark ===
+    tol = 1e-6
+    max_iter = 20
+    
 
     # Pré-calculs
     B = M + K * beta * dt ** 2 + C * gamma * dt
@@ -292,31 +300,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         P = v[i] + (1 - gamma) * dt * a[i]
         H = d[i] + dt * v[i] + (0.5 - beta) * dt**2 * a[i]
 
-        # Newton-Raphson pour d[i+1]
-        d_next = H  # initial guess
-        tol = 1e-6
-        max_iter = 50
-
-        for iteration in range(max_iter):
-            # Calcul de l'accélération et vitesse à partir de d_next
-            a_next = (d_next - H) / (beta * dt**2)
-            v_next = P + gamma * dt * a_next
-
-            # Résidu non linéaire
-            R = M * a_next + C * v_next + restoring_force(d_next) - F[i+1]
-
-            # Dérivée du résidu (jacobien)
-            dR = M / (beta * dt**2) + C * gamma / (beta * dt) + tangent_stiffness(d_next)
-
-            # Incrément
-            delta_d = -R / dR
-            d_next += delta_d
-
-            if abs(delta_d) < tol:
-               break
-        else:
-            st.warning(f"Newton-Raphson did not converge at step {i+1}")
-        
+      
         # Friction régulière (approximation continue)
         friction = mu * N_force * np.tanh(v[i] / v_eps) if friction_enabled else 0.0
 
@@ -324,14 +308,53 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         F_friction[i+1] = F[i+1] - friction
 
         # Mettre à jour les états
-        d[i+1] = d_next
-        a[i+1] = (d[i+1] - H) / (beta * dt**2)
-        v[i+1] = P + gamma * dt * a[i+1] 
+        a[i+1] = (F[i+1] - K * H - C * P) / B
+        v[i+1] = P + gamma * dt * a[i+1]
+        d[i+1] = H + beta * dt**2 * a[i+1]
         
         a_friction[i + 1] = (F_friction[i + 1] - K * H - C * P) / B 
         v_friction[i + 1] = P + gamma * dt * a[i + 1] 
         d_friction[i + 1] = H + beta * dt ** 2 * a[i + 1] 
         
+    
+    # Modèle non-linéaire
+    for i in range(n - 1):
+        # Prédiction
+        H = d[i] + dt*v[i] + (0.5 - beta)*dt**2*a[i]
+        P = v[i] + (1 - gamma)*dt*a[i]
+
+        d_guess = d[i]
+        
+        for it in range(max_iter):
+            a_guess = (d_guess - H) / (beta * dt**2)
+            v_guess = P + gamma * dt * a_guess
+
+            # Frottement régularisé
+            friction = mu * N_force * np.tanh(v_guess / v_eps)
+            
+            # Résidu
+            R = M * a_guess + C * v_guess + K * d_guess + K3 * d_guess**3 + friction - F[i+1]
+
+            # Dérivée du résidu
+            dR_dd = (M / (beta * dt**2) + gamma * dt * C / (beta * dt**2) + K + 3 * K3 * d_guess**2)
+            
+            d_tanh = (1 - np.tanh(v_guess / v_eps)**2) / v_eps
+            dR_dd += C * gamma * dt * mu * N_force * d_tanh / (beta * dt**2)
+
+            delta_d = -R / dR_dd
+            d_guess += delta_d
+
+            if abs(delta_d) < tol:
+               break
+           
+        else:
+            print(f"⚠️ Newton-Raphson did not converge at step {i+1}")
+        
+        # Mise à jour des états
+        d_non_linéaire[i+1] = d_guess
+        a_non_linéaire[i+1] = (d[i+1] - H) / (beta * dt**2)
+        v_non_linéaire[i+1] = P + gamma * dt * a[i+1]
+    
         
     # Calcul du spectre de Fourrier
     T0_list = np.linspace(0.02, 20, 250)
@@ -434,7 +457,6 @@ with col2:
     ax.set_ylabel("Peak Acceleration")
     ax.set_title(f"Acceleration response spectrum - {selected_component}")
     ax.set_xscale(scale)
-    #ax.set_xscale("log")
     ax.grid()
     ax.legend()
     st.pyplot(fig)
@@ -446,7 +468,6 @@ with col3:
     ax.set_ylabel("Peak Displacement")
     ax.set_title(f"Displacement response spectrum  - {selected_component}")
     ax.set_xscale(scale)
-    #ax.set_xscale("log")
     ax.grid()
     ax.legend()
     st.pyplot(fig)    
@@ -460,7 +481,7 @@ with col1:
     ax.plot(t, d, color="#002B45")
     ax.set_xlabel("Time(s)")
     ax.set_ylabel("Displacement")
-    ax.set_title(f"Displacement time history - Newmark Method - {selected_component}")
+    ax.set_title(f"Displacement time history - {selected_component}")
     ax.grid()
     ax.legend()
     st.pyplot(fig)
@@ -494,7 +515,41 @@ if friction_enabled:
     ax.set_title("Friction force over time")
     ax.grid()
     st.pyplot(fig)
-     
+    
+st.markdown("Non-linear Modelisation")   
+
+col1, col2, col3 = st.columns(3)
+
+with col1:
+    fig, ax = plt.subplots()
+    ax.plot(t, d_non_linéaire, color="#002B45")
+    ax.set_xlabel("Time(s)")
+    ax.set_ylabel("Displacement")
+    ax.set_title(f"Displacement time history - Non Linear - {selected_component}")
+    ax.grid()
+    ax.legend()
+    st.pyplot(fig)
+
+with col2:
+    fig, ax = plt.subplots()
+    ax.plot(t, v_non_linéaire, color="#009CA6")
+    ax.set_xlabel("Time (s)")
+    ax.set_ylabel("Velocity")
+    ax.set_title(f"Velocity time history - Non Linear - {selected_component}")
+    ax.grid()
+    ax.legend()
+    st.pyplot(fig)
+
+with col3:
+    fig, ax = plt.subplots()
+    ax.plot(t, a_non_linéaire, color="#1C2D3F")
+    ax.set_xlabel("Time (s)")
+    ax.set_ylabel("Acceleration")
+    ax.set_title(f"Acceleration time history - Non Linear - {selected_component}") 
+    ax.grid()
+    ax.legend()
+    st.pyplot(fig)
+
       
 output_df = pd.DataFrame(
     {"Time (s)": t, "Displacement (m)": d, "Velocity (m/s)": v, "Acceleration (m/s²)": a, "Force (N)": F})
