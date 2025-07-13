@@ -264,9 +264,9 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
     v_friction = np.zeros(n)
     a_friction = np.zeros(n)
     
-    d_non_linéaire = np.zeros(n)
-    v_non_linéaire = np.zeros(n)
-    a_non_linéaire = np.zeros(n)
+    d_non_lineaire = np.zeros(n)
+    v_non_lineaire = np.zeros(n)
+    a_non_lineaire = np.zeros(n)
 
     # Conditions initiales - Modéle linéaire
     d[0] = d0
@@ -279,9 +279,9 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
     a_friction[0] = (F[0] - C * v[0] - K * d[0]) / M
     
     # Conditions initiales - Modèle avec friction non-linéaire
-    d_non_linéaire[0] = 0
-    v_non_linéaire[0] = 0
-    a_non_linéaire[0] = (F[0] - C * v[0] - K * d[0] - K3 * d[0]**3) / M
+    d_non_lineaire[0] = 0
+    v_non_lineaire[0] = 0
+    a_non_lineaire[0] = (F[0] - C * v[0] - K * d[0] - K3 * d[0]**3) / M
     
     # === Newton-Raphson + Newmark ===
     tol = 1e-6
@@ -351,9 +351,9 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
             print(f"⚠️ Newton-Raphson did not converge at step {i+1}")
         
         # Mise à jour des états
-        d_non_linéaire[i+1] = d_guess
-        a_non_linéaire[i+1] = (d[i+1] - H) / (beta * dt**2)
-        v_non_linéaire[i+1] = P + gamma * dt * a[i+1]
+        d_non_lineaire[i+1] = d_guess
+        a_non_lineaire[i+1] = (d[i+1] - H) / (beta * dt**2)
+        v_non_lineaire[i+1] = P + gamma * dt * a[i+1]
     
         
     # Calcul du spectre de Fourrier
@@ -522,7 +522,7 @@ col1, col2, col3 = st.columns(3)
 
 with col1:
     fig, ax = plt.subplots()
-    ax.plot(t, d_non_linéaire, color="#002B45")
+    ax.plot(t, d_non_lineaire, color="#002B45")
     ax.set_xlabel("Time(s)")
     ax.set_ylabel("Displacement")
     ax.set_title(f"Displacement time history - Non Linear - {selected_component}")
@@ -532,7 +532,7 @@ with col1:
 
 with col2:
     fig, ax = plt.subplots()
-    ax.plot(t, v_non_linéaire, color="#009CA6")
+    ax.plot(t, v_non_lineaire, color="#009CA6")
     ax.set_xlabel("Time (s)")
     ax.set_ylabel("Velocity")
     ax.set_title(f"Velocity time history - Non Linear - {selected_component}")
@@ -542,7 +542,7 @@ with col2:
 
 with col3:
     fig, ax = plt.subplots()
-    ax.plot(t, a_non_linéaire, color="#1C2D3F")
+    ax.plot(t, a_non_lineaire, color="#1C2D3F")
     ax.set_xlabel("Time (s)")
     ax.set_ylabel("Acceleration")
     ax.set_title(f"Acceleration time history - Non Linear - {selected_component}") 
