@@ -398,7 +398,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
             dR_non_lineaire_friction_dd += C * gamma * dt * mu * N_force * d_tanh / (beta * dt**2)
 
             delta_d = -R_non_lineaire_friction / dR_non_lineaire_friction_dd
-            d_guess += delta_d
+            d_guess_friction += delta_d
 
             if abs(delta_d) < tol:
                break
