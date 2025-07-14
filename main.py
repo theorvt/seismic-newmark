@@ -529,11 +529,12 @@ col1, col2, col3 = st.columns(3)
 
 with col1:
     fig, ax = plt.subplots()
-    ax.plot(t, d_non_lineaire, color="#002B45")
+    ax.plot(t, d, label="Linear")
+    ax.plot(t, d_friction, label="With friction")
+    ax.plot(t, d_non_lineaire, label="Non-linear")
     ax.set_xlabel("Time(s)")
-    ax.set_ylabel("Displacement")
-    ax.set_title(f"Displacement time history - Non Linear - {selected_component}")
-    ax.grid()
+    ax.set_ylabel("Displacement (m)")
+    ax.set_title("Displacement comparison")
     ax.legend()
     st.pyplot(fig)
 
