@@ -31,8 +31,6 @@ v0 = st.sidebar.slider("v : Initial velocity (m/s)", 0.0, 1.0, 0.0, step=0.01)
 
 scale = st.sidebar.radio("Period axis scale for response spectra", ("linear", "log"))
 
-friction_enabled = st.sidebar.checkbox("Include Coulomb friction")
-
 mu = st.sidebar.slider("μ : Friction coefficient", 0.0, 2.0, 0.5, step=0.01)
 
 K3 = st.sidebar.slider("K3 : Non-linear stiffness", 0.0, 1000000.0, 100000.0, step=100.0)
@@ -156,7 +154,7 @@ if "time_range_slider" not in st.session_state or st.session_state["previous_T"]
     st.session_state["previous_T"] = T  # Mettre à jour la référence
 
     
-params_key = (M, K, zeta, T, selected_component, d0, v0, dt, F1, scale, mu, K3, friction_enabled)
+params_key = (M, K, zeta, T, selected_component, d0, v0, dt, F1, scale, mu, K3)
 
 
 # Définition du coefficent d'amortissement
@@ -254,7 +252,6 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
     F = - F1 * M * accel
     F_friction = np.zeros_like(F)
     
-
     # Initialisation des réponses
     d = np.zeros(n)
     v = np.zeros(n)
@@ -267,6 +264,14 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
     d_non_lineaire = np.zeros(n)
     v_non_lineaire = np.zeros(n)
     a_non_lineaire = np.zeros(n)
+    
+    d_non_lineaire_friction = np.zeros(n)
+    v_non_lineaire_friction = np.zeros(n)
+    a_non_lineaire_friction = np.zeros(n)
+
+    #Conditions initiales - Friction
+    friction = mu * N_force * np.tanh(v[0] / v_eps) 
+    F_friction[0] = F[0] - friction
 
     # Conditions initiales - Modéle linéaire
     d[0] = d0
@@ -276,12 +281,18 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
     # Conditions initiales - Modéle Avec friction
     d_friction[0] = d0
     v_friction[0] = v0
-    a_friction[0] = (F[0] - C * v[0] - K * d[0]) / M
+    a_friction[0] = (F_friction[0] - C * v_friction[0] - K * d_friction[0]) / M
     
-    # Conditions initiales - Modèle avec friction non-linéaire
+    # Conditions initiales - Modèle non-linéaire
     d_non_lineaire[0] = d0
     v_non_lineaire[0] = v0
-    a_non_lineaire[0] = (F[0] - C * v[0] - K * d[0] - K3 * d[0]**3) / M
+    a_non_lineaire[0] = (F[0] - C * v_non_lineaire[0] - K * d_non_lineaire[0] - K3 * d_non_lineaire[0]**3) / M
+    
+    # Conditions initiales - Modèle avec friction non-linéaire
+    d_non_lineaire_friction[0] = d0
+    v_non_lineaire_friction[0] = v0
+    a_non_lineaire_friction[0] = (F_friction[0] - C * v_non_lineaire_friction[0] - K * d_non_lineaire_friction[0] - K3 * d_non_lineaire_friction[0]**3) / M
+    
     
     # === Newton-Raphson + Newmark ===
     tol = 1e-6
@@ -294,54 +305,57 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         st.error("Error: Denominator B is zero. Try adjusting M, K, damping zeta, or time step dt.")
         st.stop()
 
-    # Newmark
+    # Modèle linéaire
     for i in range(n - 1):
         # Prédictions Newmark
         P = v[i] + (1 - gamma) * dt * a[i]
         H = d[i] + dt * v[i] + (0.5 - beta) * dt**2 * a[i]
 
-      
-        # Friction régulière (approximation continue)
-        friction = mu * N_force * np.tanh(v[i] / v_eps) if friction_enabled else 0.0
-
-        # Force totale (avec frottement)
-        F_friction[i+1] = F[i+1] - friction
-
         # Mettre à jour les états
         a[i+1] = (F[i+1] - K * H - C * P) / B
         v[i+1] = P + gamma * dt * a[i+1]
         d[i+1] = H + beta * dt**2 * a[i+1]
+     
         
-        a_friction[i + 1] = (F_friction[i + 1] - K * H - C * P) / B 
-        v_friction[i + 1] = P + gamma * dt * a[i + 1] 
-        d_friction[i + 1] = H + beta * dt ** 2 * a[i + 1] 
+    # Modèle linéaire avec friction
+    for i in range(n - 1): 
+        # Friction régulière (approximation continue)
+        friction = mu * N_force * np.tanh(v_friction[i] / v_eps) 
+
+        # Force totale (avec frottement)
+        F_friction[i+1] = F[i+1] - friction
+         
+        # Mettre à jour les états
+        P_friction = v_friction[i] + (1 - gamma) * dt * a_friction[i]
+        H_friction = d_friction[i] + dt * v_friction[i] + (0.5 - beta) * dt**2 * a_friction[i]
+        
+        a_friction[i + 1] = (F_friction[i + 1] - K * H_friction - C * P_friction) / B 
+        v_friction[i + 1] = P_friction + gamma * dt * a_friction[i + 1] 
+        d_friction[i + 1] = H_friction + beta * dt ** 2 * a_friction[i + 1] 
         
     
     # Modèle non-linéaire
     for i in range(n - 1):
         # Prédiction
-        H = d_non_lineaire[i] + dt * v_non_lineaire[i] + (0.5 - beta) * dt ** 2 * a_non_lineaire[i]
-        P = v_non_lineaire[i] + (1 - gamma) * dt * a_non_lineaire[i]
+        H_non_lineaire = d_non_lineaire[i] + dt * v_non_lineaire[i] + (0.5 - beta) * dt ** 2 * a_non_lineaire[i]
+        P_non_lineaire = v_non_lineaire[i] + (1 - gamma) * dt * a_non_lineaire[i]
 
         d_guess = d_non_lineaire[i]
         
         for it in range(max_iter):
-            a_guess = (d_guess - H) / (beta * dt**2)
-            v_guess = P + gamma * dt * a_guess
+            a_guess = (d_guess - H_non_lineaire) / (beta * dt**2)
+            v_guess = P_non_lineaire + gamma * dt * a_guess
 
-            # Frottement régularisé
-            friction = mu * N_force * np.tanh(v_guess / v_eps)
-            
             # Résidu
-            R = M * a_guess + C * v_guess + K * d_guess + K3 * d_guess**3 + friction - F[i+1]
+            R_non_lineaire = M * a_guess + C * v_guess + K * d_guess + K3 * d_guess**3 - F[i+1]
 
             # Dérivée du résidu
-            dR_dd = (M / (beta * dt**2) + gamma * dt * C / (beta * dt**2) + K + 3 * K3 * d_guess**2)
+            dR_non_lineaire_dd = (M / (beta * dt**2) + gamma * dt * C / (beta * dt**2) + K + 3 * K3 * d_guess**2)
             
             d_tanh = (1 - np.tanh(v_guess / v_eps)**2) / v_eps
-            dR_dd += C * gamma * dt * mu * N_force * d_tanh / (beta * dt**2)
+            dR_non_lineaire_dd += C * gamma * dt * mu * N_force * d_tanh / (beta * dt**2)
 
-            delta_d = -R / dR_dd
+            delta_d = -R_non_lineaire / dR_non_lineaire_dd
             d_guess += delta_d
 
             if abs(delta_d) < tol:
@@ -352,8 +366,50 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         
         # Mise à jour des états
         d_non_lineaire[i+1] = d_guess
-        a_non_lineaire[i+1] = (d_non_lineaire[i+1] - H) / (beta * dt**2)
-        v_non_lineaire[i+1] = P + gamma * dt * a_non_lineaire[i+1]
+        a_non_lineaire[i+1] = (d_non_lineaire[i+1] - H_non_lineaire) / (beta * dt**2)
+        v_non_lineaire[i+1] = P_non_lineaire + gamma * dt * a_non_lineaire[i+1]
+        
+        
+    # Modèle non-linéaire - avec friction
+    for i in range(n - 1):
+        # Prédiction
+        H_non_lineaire_friction = d_non_lineaire_friction[i] + dt * v_non_lineaire_friction[i] + (0.5 - beta) * dt ** 2 * a_non_lineaire_friction[i]
+        P_non_lineaire_friction = v_non_lineaire_friction[i] + (1 - gamma) * dt * a_non_lineaire_friction[i]
+
+        d_guess_friction = d_non_lineaire_friction[i]
+        
+        for it in range(max_iter):
+            a_guess_friction = (d_guess_friction - H_non_lineaire_friction) / (beta * dt**2)
+            v_guess_friction = P_non_lineaire_friction + gamma * dt * a_guess_friction
+
+            # Friction régulière (approximation continue)
+            friction = mu * N_force * np.tanh(v_non_lineaire_friction[i] / v_eps) 
+
+            # Force totale (avec frottement)
+            F_friction[i+1] = F[i+1] - friction
+
+            # Résidu
+            R_non_lineaire_friction = M * a_guess_friction + C * v_guess_friction + K * d_guess_friction + K3 * d_guess_friction **3 - F_friction[i+1]
+
+            # Dérivée du résidu
+            dR_non_lineaire_friction_dd = (M / (beta * dt**2) + gamma * dt * C / (beta * dt**2) + K + 3 * K3 * d_guess_friction ** 2)
+            
+            d_tanh = (1 - np.tanh(v_guess_friction / v_eps)**2) / v_eps
+            dR_non_lineaire_friction_dd += C * gamma * dt * mu * N_force * d_tanh / (beta * dt**2)
+
+            delta_d = -R_non_lineaire_friction / dR_non_lineaire_friction_dd
+            d_guess += delta_d
+
+            if abs(delta_d) < tol:
+               break
+           
+        else:
+            print(f"⚠️ Newton-Raphson did not converge at step {i+1}")
+        
+        # Mise à jour des états
+        d_non_lineaire_friction[i+1] = d_guess_friction
+        a_non_lineaire_friction[i+1] = (d_non_lineaire_friction[i+1] - H_non_lineaire_friction) / (beta * dt**2)
+        v_non_lineaire_friction[i+1] = P_non_lineaire_friction + gamma * dt * a_non_lineaire_friction[i+1]
     
         
     # Calcul du spectre de Fourrier
@@ -392,21 +448,28 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
     
 
     # Sauvegarde des résultats
-    st.session_state.results = {"t": t, "F": F, "d": d, "v": v, "a": a, "Sd": Sd, "Sv": Sv, "Sa": Sa, "T0_list": T0_list, "a_friction": a_friction, "d_non_lineaire": d_non_lineaire, "v_non_lineaire": v_non_lineaire, "a_non_lineaire": a_non_lineaire}
+    st.session_state.results = {"t": t, "F": F, "d": d, "v": v, "a": a, "Sd": Sd, "Sv": Sv, "Sa": Sa, "T0_list": T0_list, "d_friction": d_friction, "v_friction": v_friction, "a_friction": a_friction, "d_non_lineaire": d_non_lineaire, "v_non_lineaire": v_non_lineaire, "a_non_lineaire": a_non_lineaire, "d_non_lineaire_friction": d_non_lineaire_friction, "v_non_lineaire_friction": v_non_lineaire_friction, "a_non_lineaire_friction": a_non_lineaire_friction}
     st.session_state.last_params = params_key
 
 # Récupération des résultats depuis session_state
 t = st.session_state.results["t"]
 F = st.session_state.results["F"]
+
 d = st.session_state.results["d"]
 v = st.session_state.results["v"]
 a = st.session_state.results["a"]
 
+d_friction = st.session_state.results["d_friction"]
+v_friction = st.session_state.results["v_friction"]
 a_friction = st.session_state.results["a_friction"]
 
 d_non_lineaire = st.session_state.results["d_non_lineaire"]
 v_non_lineaire = st.session_state.results["v_non_lineaire"]
 a_non_lineaire = st.session_state.results["a_non_lineaire"]
+
+d_non_lineaire_friction = st.session_state.results["d_non_lineaire_friction"]
+v_non_lineaire_friction = st.session_state.results["v_non_lineaire_friction"]
+a_non_lineaire_friction = st.session_state.results["a_non_lineaire_friction"]
 
 T0_list = st.session_state.results["T0_list"]
 
@@ -424,11 +487,17 @@ d = d[mask]
 v = v[mask]
 a = a[mask] 
 
+d_friction = d_friction[mask]
+v_friction = v_friction[mask]
 a_friction = a_friction[mask]
 
 d_non_lineaire = d_non_lineaire[mask]
 v_non_lineaire = v_non_lineaire[mask]
 a_non_lineaire = a_non_lineaire[mask]
+
+d_non_lineaire_friction = d_non_lineaire_friction[mask]
+v_non_lineaire_friction = v_non_lineaire_friction[mask]
+a_non_lineaire_friction = a_non_lineaire_friction[mask]
 
 
 # Affichage
@@ -442,7 +511,6 @@ if uploaded_file is None:
 
 
 # Première ligne : Force et déplacement
-
 st.markdown("Earthquake input")
 
 col1, col2, col3 = st.columns(3)
@@ -479,7 +547,9 @@ with col3:
     ax.legend()
     st.pyplot(fig)    
     
-st.markdown("SDOF Structural response")   
+    
+# Mode linéaire
+st.markdown("SDOF Structural response - Linear Model")   
 
 col1, col2, col3 = st.columns(3)
 
@@ -512,18 +582,43 @@ with col3:
     ax.grid()
     ax.legend()
     st.pyplot(fig)
+  
     
-if friction_enabled:
-    friction_values = mu * N_force * np.tanh(v / v_eps)
+# Mode linéaire avec friction
+st.markdown("SDOF Structural response - Linear Model with Friction")   
+
+col1, col2, col3 = st.columns(3)  
+   
+with col1:
+    fig, ax = plt.subplots()
+    ax.plot(t, d_friction, color="red")
+    ax.set_xlabel("Time (s)")
+    ax.set_ylabel("Displacement")
+    ax.set_title("Displacement time history - {selected_component}")
+    ax.grid()
+    st.pyplot(fig)
+
+with col2:
+    fig, ax = plt.subplots()
+    ax.plot(t, v_friction, color="red")
+    ax.set_xlabel("Time (s)")
+    ax.set_ylabel("Velocity")
+    ax.set_title("Velocity time history - {selected_component}")
+    ax.grid()
+    st.pyplot(fig)
+
+with col3:
     fig, ax = plt.subplots()
     ax.plot(t, a_friction, color="red")
     ax.set_xlabel("Time (s)")
-    ax.set_ylabel("Friction force (N)")
-    ax.set_title("Friction force over time")
+    ax.set_ylabel("Acceleration")
+    ax.set_title("Acceleration time history - {selected_component}")
     ax.grid()
     st.pyplot(fig)
     
-st.markdown("Non-linear Modelisation")   
+    
+# Mode non-linéaire
+st.markdown("SDOF Structural response - Non Linear Model")   
 
 col1, col2, col3 = st.columns(3)
 
@@ -557,17 +652,43 @@ with col3:
     ax.legend()
     st.pyplot(fig)
     
-fig, ax = plt.subplots()
-ax.plot(t, d, label="Linear")
-ax.plot(t, d_friction, label="With friction")
-ax.plot(t, d_non_lineaire, label="Non-linear")
-ax.set_xlabel("Time(s)")
-ax.set_ylabel("Displacement (m)")
-ax.set_title("Displacement comparison")
-ax.legend()
-st.pyplot(fig)
+    
+# Mode non-linéaire avec friction
+st.markdown("SDOF Structural response - Non Linear Model with Friction")   
 
-      
+col1, col2, col3 = st.columns(3)
+
+with col1:
+    fig, ax = plt.subplots()
+    ax.plot(t, d_non_lineaire_friction, color="#002B45")
+    ax.set_xlabel("Time(s)")
+    ax.set_ylabel("Displacement")
+    ax.set_title(f"Displacement time history - Non Linear - Friction - {selected_component}")
+    ax.grid()
+    ax.legend()
+    st.pyplot(fig)
+
+with col2:
+    fig, ax = plt.subplots()
+    ax.plot(t, v_non_lineaire_friction, color="#009CA6")
+    ax.set_xlabel("Time (s)")
+    ax.set_ylabel("Velocity")
+    ax.set_title(f"Velocity time history - Non Linear - Friction - {selected_component}")
+    ax.grid()
+    ax.legend()
+    st.pyplot(fig)
+
+with col3:
+    fig, ax = plt.subplots()
+    ax.plot(t, a_non_lineaire_friction, color="#1C2D3F")
+    ax.set_xlabel("Time (s)")
+    ax.set_ylabel("Acceleration")
+    ax.set_title(f"Acceleration time history - Non Linear - Friction - {selected_component}") 
+    ax.grid()
+    ax.legend()
+    st.pyplot(fig)
+    
+  
 output_df = pd.DataFrame(
     {"Time (s)": t, "Displacement (m)": d, "Velocity (m/s)": v, "Acceleration (m/s²)": a, "Force (N)": F})
 csv = output_df.to_csv(index=False).encode('utf-8')
