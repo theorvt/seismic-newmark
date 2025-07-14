@@ -352,9 +352,6 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
             # Dérivée du résidu
             dR_non_lineaire_dd = (M / (beta * dt**2) + gamma * dt * C / (beta * dt**2) + K + 3 * K3 * d_guess**2)
             
-            d_tanh = (1 - np.tanh(v_guess / v_eps)**2) / v_eps
-            dR_non_lineaire_dd += C * gamma * dt * mu * N_force * d_tanh / (beta * dt**2)
-
             delta_d = -R_non_lineaire / dR_non_lineaire_dd
             d_guess += delta_d
 
@@ -397,8 +394,8 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
             d_tanh = (1 - np.tanh(v_guess_friction / v_eps)**2) / v_eps
             dR_non_lineaire_friction_dd += C * gamma * dt * mu * N_force * d_tanh / (beta * dt**2)
 
-            delta_d = -R_non_lineaire_friction / dR_non_lineaire_friction_dd
-            d_guess_friction += delta_d
+            delta_d_friction = -R_non_lineaire_friction / dR_non_lineaire_friction_dd
+            d_guess_friction += delta_d_friction
 
             if abs(delta_d) < tol:
                break
