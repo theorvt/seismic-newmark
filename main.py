@@ -352,8 +352,8 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         
         # Mise à jour des états
         d_non_lineaire[i+1] = d_guess
-        a_non_lineaire[i+1] = (d[i+1] - H) / (beta * dt**2)
-        v_non_lineaire[i+1] = P + gamma * dt * a[i+1]
+        a_non_lineaire[i+1] = (d_non_lineaire[i+1] - H) / (beta * dt**2)
+        v_non_lineaire[i+1] = P + gamma * dt * a_non_lineaire[i+1]
     
         
     # Calcul du spectre de Fourrier
