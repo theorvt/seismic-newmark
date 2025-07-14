@@ -594,7 +594,7 @@ with col1:
     ax.plot(t, d_friction, color="red")
     ax.set_xlabel("Time (s)")
     ax.set_ylabel("Displacement")
-    ax.set_title("Displacement time history - {selected_component}")
+    ax.set_title(f"Displacement time history - {selected_component}")
     ax.grid()
     st.pyplot(fig)
 
@@ -603,7 +603,7 @@ with col2:
     ax.plot(t, v_friction, color="red")
     ax.set_xlabel("Time (s)")
     ax.set_ylabel("Velocity")
-    ax.set_title("Velocity time history - {selected_component}")
+    ax.set_title(f"Velocity time history - {selected_component}")
     ax.grid()
     st.pyplot(fig)
 
@@ -612,7 +612,7 @@ with col3:
     ax.plot(t, a_friction, color="red")
     ax.set_xlabel("Time (s)")
     ax.set_ylabel("Acceleration")
-    ax.set_title("Acceleration time history - {selected_component}")
+    ax.set_title(f"Acceleration time history - {selected_component}")
     ax.grid()
     st.pyplot(fig)
     
