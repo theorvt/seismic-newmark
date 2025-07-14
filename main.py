@@ -410,7 +410,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         d_non_lineaire_friction[i+1] = d_guess_friction
         a_non_lineaire_friction[i+1] = (d_non_lineaire_friction[i+1] - H_non_lineaire_friction) / (beta * dt**2)
         v_non_lineaire_friction[i+1] = P_non_lineaire_friction + gamma * dt * a_non_lineaire_friction[i+1]
-    
+        
         
     # Calcul du spectre de Fourrier
     T0_list = np.linspace(0.02, 20, 250)
