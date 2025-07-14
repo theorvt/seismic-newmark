@@ -305,6 +305,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         st.error("Error: Denominator B is zero. Try adjusting M, K, damping zeta, or time step dt.")
         st.stop()
 
+
     # Modèle linéaire
     for i in range(n - 1):
         # Prédictions Newmark
@@ -507,7 +508,8 @@ if uploaded_file is None:
         "You are currently viewing a simulation example with predefined data. To use your own seismic data, import a CSV or Excel file at the top of the page.")
 
 
-# Première ligne : Force et déplacement
+
+# Enregistrement du séisme et spectre de réponse
 st.markdown("Earthquake input")
 
 col1, col2, col3 = st.columns(3)
@@ -545,6 +547,7 @@ with col3:
     st.pyplot(fig)    
     
     
+    
 # Mode linéaire
 st.markdown("SDOF Structural response - Linear Model")   
 
@@ -555,7 +558,7 @@ with col1:
     ax.plot(t, d, color="#002B45")
     ax.set_xlabel("Time(s)")
     ax.set_ylabel("Displacement")
-    ax.set_title(f"Displacement time history - {selected_component}")
+    ax.set_title(f"Displacement time history - Linear model - {selected_component}")
     ax.grid()
     ax.legend()
     st.pyplot(fig)
@@ -565,7 +568,7 @@ with col2:
     ax.plot(t, v, color="#009CA6")
     ax.set_xlabel("Time (s)")
     ax.set_ylabel("Velocity")
-    ax.set_title(f"Velocity time history - {selected_component}")
+    ax.set_title(f"Velocity time history - Linear model - {selected_component}")
     ax.grid()
     ax.legend()
     st.pyplot(fig)
@@ -575,11 +578,49 @@ with col3:
     ax.plot(t, a, color="#1C2D3F")
     ax.set_xlabel("Time (s)")
     ax.set_ylabel("Acceleration")
-    ax.set_title(f"Acceleration time history - {selected_component}") 
+    ax.set_title(f"Acceleration time history - Linear model - {selected_component}") 
     ax.grid()
     ax.legend()
     st.pyplot(fig)
   
+    
+
+# Mode non-linéaire
+st.markdown("SDOF Structural response - Non Linear Model")   
+
+col1, col2, col3 = st.columns(3)
+
+with col1:
+    fig, ax = plt.subplots()
+    ax.plot(t, d_non_lineaire, color="#002B45")
+    ax.set_xlabel("Time(s)")
+    ax.set_ylabel("Displacement")
+    ax.set_title(f"Displacement time history - Non Linear model - {selected_component}")
+    ax.grid()
+    ax.legend()
+    st.pyplot(fig)
+
+with col2:
+    fig, ax = plt.subplots()
+    ax.plot(t, v_non_lineaire, color="#009CA6")
+    ax.set_xlabel("Time (s)")
+    ax.set_ylabel("Velocity")
+    ax.set_title(f"Velocity time history - Non Linear model - {selected_component}")
+    ax.grid()
+    ax.legend()
+    st.pyplot(fig)
+
+with col3:
+    fig, ax = plt.subplots()
+    ax.plot(t, a_non_lineaire, color="#1C2D3F")
+    ax.set_xlabel("Time (s)")
+    ax.set_ylabel("Acceleration")
+    ax.set_title(f"Acceleration time history - Non Linear model - {selected_component}") 
+    ax.grid()
+    ax.legend()
+    st.pyplot(fig)
+    
+    
     
 # Mode linéaire avec friction
 st.markdown("SDOF Structural response - Linear Model with Friction")   
@@ -591,7 +632,7 @@ with col1:
     ax.plot(t, d_friction, color="red")
     ax.set_xlabel("Time (s)")
     ax.set_ylabel("Displacement")
-    ax.set_title(f"Displacement time history - {selected_component}")
+    ax.set_title(f"Displacement time history - Linear model with friction - {selected_component}")
     ax.grid()
     st.pyplot(fig)
 
@@ -600,7 +641,7 @@ with col2:
     ax.plot(t, v_friction, color="red")
     ax.set_xlabel("Time (s)")
     ax.set_ylabel("Velocity")
-    ax.set_title(f"Velocity time history - {selected_component}")
+    ax.set_title(f"Velocity time history - Linear model with friction - {selected_component}")
     ax.grid()
     st.pyplot(fig)
 
@@ -609,45 +650,10 @@ with col3:
     ax.plot(t, a_friction, color="red")
     ax.set_xlabel("Time (s)")
     ax.set_ylabel("Acceleration")
-    ax.set_title(f"Acceleration time history - {selected_component}")
+    ax.set_title(f"Acceleration time history - Linear model with friction - {selected_component}")
     ax.grid()
     st.pyplot(fig)
     
-    
-# Mode non-linéaire
-st.markdown("SDOF Structural response - Non Linear Model")   
-
-col1, col2, col3 = st.columns(3)
-
-with col1:
-    fig, ax = plt.subplots()
-    ax.plot(t, d_non_lineaire, color="#002B45")
-    ax.set_xlabel("Time(s)")
-    ax.set_ylabel("Displacement")
-    ax.set_title(f"Displacement time history - Non Linear - {selected_component}")
-    ax.grid()
-    ax.legend()
-    st.pyplot(fig)
-
-with col2:
-    fig, ax = plt.subplots()
-    ax.plot(t, v_non_lineaire, color="#009CA6")
-    ax.set_xlabel("Time (s)")
-    ax.set_ylabel("Velocity")
-    ax.set_title(f"Velocity time history - Non Linear - {selected_component}")
-    ax.grid()
-    ax.legend()
-    st.pyplot(fig)
-
-with col3:
-    fig, ax = plt.subplots()
-    ax.plot(t, a_non_lineaire, color="#1C2D3F")
-    ax.set_xlabel("Time (s)")
-    ax.set_ylabel("Acceleration")
-    ax.set_title(f"Acceleration time history - Non Linear - {selected_component}") 
-    ax.grid()
-    ax.legend()
-    st.pyplot(fig)
     
     
 # Mode non-linéaire avec friction
@@ -660,7 +666,7 @@ with col1:
     ax.plot(t, d_non_lineaire_friction, color="#002B45")
     ax.set_xlabel("Time(s)")
     ax.set_ylabel("Displacement")
-    ax.set_title(f"Displacement time history - Non Linear - Friction - {selected_component}")
+    ax.set_title(f"Displacement time history - Non Linear model - Friction - {selected_component}")
     ax.grid()
     ax.legend()
     st.pyplot(fig)
@@ -670,7 +676,7 @@ with col2:
     ax.plot(t, v_non_lineaire_friction, color="#009CA6")
     ax.set_xlabel("Time (s)")
     ax.set_ylabel("Velocity")
-    ax.set_title(f"Velocity time history - Non Linear - Friction - {selected_component}")
+    ax.set_title(f"Velocity time history - Non Linear model - Friction - {selected_component}")
     ax.grid()
     ax.legend()
     st.pyplot(fig)
@@ -680,7 +686,7 @@ with col3:
     ax.plot(t, a_non_lineaire_friction, color="#1C2D3F")
     ax.set_xlabel("Time (s)")
     ax.set_ylabel("Acceleration")
-    ax.set_title(f"Acceleration time history - Non Linear - Friction - {selected_component}") 
+    ax.set_title(f"Acceleration time history - Non Linear model - Friction - {selected_component}") 
     ax.grid()
     ax.legend()
     st.pyplot(fig)
