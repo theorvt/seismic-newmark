@@ -279,8 +279,8 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
     a_friction[0] = (F[0] - C * v[0] - K * d[0]) / M
     
     # Conditions initiales - Modèle avec friction non-linéaire
-    d_non_lineaire[0] = 0
-    v_non_lineaire[0] = 0
+    d_non_lineaire[0] = d0
+    v_non_lineaire[0] = v0
     a_non_lineaire[0] = (F[0] - C * v[0] - K * d[0] - K3 * d[0]**3) / M
     
     # === Newton-Raphson + Newmark ===
