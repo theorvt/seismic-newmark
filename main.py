@@ -320,10 +320,10 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
     # Modèle non-linéaire
     for i in range(n - 1):
         # Prédiction
-        H = d[i] + dt*v[i] + (0.5 - beta)*dt**2*a[i]
-        P = v[i] + (1 - gamma)*dt*a[i]
+        H = d_non_lineaire[i] + dt * v_non_lineaire[i] + (0.5 - beta) * dt ** 2 * a_non_lineaire[i]
+        P = v_non_lineaire[i] + (1 - gamma) * dt * a_non_lineaire[i]
 
-        d_guess = d[i]
+        d_guess = d_non_lineaire[i]
         
         for it in range(max_iter):
             a_guess = (d_guess - H) / (beta * dt**2)
