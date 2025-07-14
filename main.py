@@ -556,6 +556,16 @@ with col3:
     ax.grid()
     ax.legend()
     st.pyplot(fig)
+    
+fig, ax = plt.subplots()
+ax.plot(t, d, label="Linear")
+ax.plot(t, d_friction, label="With friction")
+ax.plot(t, d_non_lineaire, label="Non-linear")
+ax.set_xlabel("Time(s)")
+ax.set_ylabel("Displacement (m)")
+ax.set_title("Displacement comparison")
+ax.legend()
+st.pyplot(fig)
 
       
 output_df = pd.DataFrame(
