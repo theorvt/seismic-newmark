@@ -323,7 +323,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
     # Modèle linéaire avec friction
     for i in range(n - 1): 
         # Friction régulière (approximation continue)
-        friction = mu * N_force * (2 / np.pi) * np.arctan(v / v_eps)
+        friction = mu * N_force * (2 / np.pi) * np.arctan(v_friction / v_eps)
         # Force totale (avec frottement)
         F_friction[i+1] = F[i+1] - friction
          
