@@ -271,8 +271,8 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
     v_non_lineaire_friction = np.zeros(n)
     a_non_lineaire_friction = np.zeros(n)
 
-    #Conditions initiales - Friction
-    friction = mu * N_force * np.tanh(v[0] / v_eps) 
+    #Conditions initiales - Friction 
+    friction = mu * N_force * (2 / np.pi) * np.arctan(v_friction[0] / v_eps)
     F_friction[0] = F[0] - friction
 
     # Conditions initiales - Modéle linéaire
@@ -323,7 +323,8 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
     # Modèle linéaire avec friction
     for i in range(n - 1): 
         # Friction régulière (approximation continue)
-        friction = mu * N_force * (2 / np.pi) * np.arctan(v_friction / v_eps)
+        friction = mu * N_force * (2 / np.pi) * np.arctan(v_friction[i] / v_eps)
+
         # Force totale (avec frottement)
         F_friction[i+1] = F[i+1] - friction
          
@@ -382,7 +383,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
             v_guess_friction = P_non_lineaire_friction + gamma * dt * a_guess_friction
 
             # Friction régulière (approximation continue)
-            friction = mu * N_force * np.tanh(v_non_lineaire_friction[i] / v_eps) 
+            friction = mu * N_force * (2 / np.pi) * np.arctan(v_friction[i] / v_eps) 
 
             # Force totale (avec frottement)
             F_friction[i+1] = F[i+1] - friction
@@ -393,8 +394,8 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
             # Dérivée du résidu
             dR_non_lineaire_friction_dd = (M / (beta * dt**2) + gamma * dt * C / (beta * dt**2) + K + 3 * K3 * d_guess_friction ** 2)
             
-            d_tanh = (1 - np.tanh(v_guess_friction / v_eps)**2) / v_eps
-            dR_non_lineaire_friction_dd += C * gamma * dt * mu * N_force * d_tanh / (beta * dt**2)
+            d_arctan = (2 / np.pi) * 1 / (1 + (v_guess / v_eps)**2) / v_eps
+            dR_non_lineaire_friction_dd += C * gamma * dt * mu * N_force * d_arctan / (beta * dt**2)
 
             delta_d_friction = -R_non_lineaire_friction / dR_non_lineaire_friction_dd
             d_guess_friction += delta_d_friction
