@@ -506,8 +506,7 @@ a_non_lineaire_friction = a_non_lineaire_friction[mask]
 if uploaded_file is None:
     selected_component = "Vertical"
     st.markdown("### Example of simulation with default data")
-    st.info(
-        "You are currently viewing a simulation example with predefined data. To use your own seismic data, import a CSV or Excel file at the top of the page.")
+    st.info("You are currently viewing a simulation example with predefined data. To use your own seismic data, import a CSV or Excel file at the top of the page.")
 
 
 
