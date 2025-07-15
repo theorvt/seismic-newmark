@@ -33,7 +33,7 @@ scale = st.sidebar.radio("Period axis scale for response spectra", ("linear", "l
 
 mu = st.sidebar.slider("μ : Friction coefficient", 0.0, 2.0, 0.5, step=0.01)
 #K3 = st.sidebar.slider("K3 : Non-linear stiffness", 0.0, 1000000000.0, 100000.0, step=100.0)
-log_K3 = st.sidebar.slider("log₁₀(K3)", 3, 9, 5, step=1)
+log_K3 = st.sidebar.slider("log₁₀(K3)", 3, 20, 5, step=1)
 K3 = 10 ** log_K3
 st.sidebar.markdown(f"K3 : Non-linear stiffness = **{K3:.1e} N/m³**")
 
