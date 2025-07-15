@@ -697,21 +697,17 @@ def raideur_non_lineaire(d_non_lineaire):
         F_raideur_non_lineaire[i] = K * d_non_lineaire[i] + K3 * d_non_lineaire[i] ** 3
     return F_raideur_non_lineaire
 
-
 # Représentation graphique de la raideur non_linéaire
 st.markdown("Non linear stiffness")   
 
-col1 = st.columns(1)
-
-with col1:
-    fig, ax = plt.subplots()
-    ax.plot(d_non_lineaire, F_raideur_non_lineaire, color="#002B45")
-    ax.set_xlabel("Displacement (m)")
-    ax.set_ylabel("Stiffness force")
-    ax.set_title(f"Stiffness force - Non Linear model - {selected_component}")
-    ax.grid()
-    ax.legend()
-    st.pyplot(fig)
+fig, ax = plt.subplots()
+ax.plot(d_non_lineaire, F_raideur_non_lineaire, color="#002B45")
+ax.set_xlabel("Displacement (m)")
+ax.set_ylabel("Stiffness force")
+ax.set_title(f"Stiffness force - Non Linear model - {selected_component}")
+ax.grid()
+ax.legend()
+st.pyplot(fig)
     
   
 output_df = pd.DataFrame(
