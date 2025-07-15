@@ -383,7 +383,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
             v_guess_friction = P_non_lineaire_friction + gamma * dt * a_guess_friction
 
             # Friction régulière (approximation continue)
-            friction = mu * N_force * (2 / np.pi) * np.arctan(v_friction[i] / v_eps) 
+            friction = mu * N_force * (2 / np.pi) * np.arctan(v_guess_friction[i] / v_eps) 
 
             # Force totale (avec frottement)
             F_friction[i+1] = F[i+1] - friction
@@ -400,7 +400,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
             delta_d_friction = -R_non_lineaire_friction / dR_non_lineaire_friction_dd
             d_guess_friction += delta_d_friction
 
-            if abs(delta_d) < tol:
+            if abs(delta_d_friction) < tol:
                break
            
         else:
