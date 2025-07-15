@@ -394,7 +394,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
             # Dérivée du résidu
             dR_non_lineaire_friction_dd = (M / (beta * dt**2) + gamma * dt * C / (beta * dt**2) + K + 3 * K3 * d_guess_friction ** 2)
             
-            d_arctan = (2 / np.pi) * 1 / (1 + (v_guess / v_eps)**2) / v_eps
+            d_arctan = (2 / np.pi) * 1 / (1 + (v_guess_friction / v_eps)**2) / v_eps
             dR_non_lineaire_friction_dd += C * gamma * dt * mu * N_force * d_arctan / (beta * dt**2)
 
             delta_d_friction = -R_non_lineaire_friction / dR_non_lineaire_friction_dd
