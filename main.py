@@ -697,6 +697,8 @@ def raideur_non_lineaire(d_non_lineaire):
         F_raideur_non_lineaire[i] = K * d_non_lineaire[i] + K3 * d_non_lineaire[i] ** 3
     return F_raideur_non_lineaire
 
+F_raideur_non_lineaire = raideur_non_lineaire(d_non_lineaire)
+
 # Représentation graphique de la raideur non_linéaire
 st.markdown("Non linear stiffness")   
 
