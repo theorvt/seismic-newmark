@@ -498,7 +498,7 @@ a_non_lineaire = a_non_lineaire[mask]
 d_non_lineaire_friction = d_non_lineaire_friction[mask]
 v_non_lineaire_friction = v_non_lineaire_friction[mask]
 a_non_lineaire_friction = a_non_lineaire_friction[mask]
-
+ 
 
 # Affichage
 
