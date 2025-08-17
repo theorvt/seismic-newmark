@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import streamlit as st
 import numpy as np
-from math import *
+from math import * 
 import pandas as pd
 from scipy.interpolate import interp1d
 
