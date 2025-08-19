@@ -213,20 +213,19 @@ time_data = time_data[valid_indices]
 acc_data = acc_data[valid_indices]
 
 
-
 # Pour les etages
 # Filtrer les NaN
-acc_data_etages = []
+acc_data_etage = []
 for i in range(1, 11):  # Étages 1 à 10
-    acc_data_etages.append(pd.to_numeric(df_etage.iloc[:, 11 - i], errors="coerce").values)
+    acc_data_etage.append(pd.to_numeric(df_etage.iloc[:, 11 - i], errors="coerce").values)
 
 # Masque global
 global_valid = ~np.isnan(time_data_etage)
-for acc in acc_data_etages:
+for acc in acc_data_etage:
     global_valid &= ~np.isnan(acc)
 
 time_data_etage = time_data_etage[global_valid]
-acc_data_etages = [acc[global_valid] for acc in acc_data_etages]
+acc_data_etage = [acc[global_valid] for acc in acc_data_etage]
 
 # Définition d'un pas de temps adapté
 
@@ -561,7 +560,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         
     #Version avec les etages
     # Interpolation linéaire
-    acc_interp_etage_10 = interp1d(time_data_etage, acc_data_etage_10, kind='linear', fill_value='extrapolate')
+    acc_interp_etage_10 = interp1d(time_data_etage, acc_data_etage[1], kind='linear', fill_value='extrapolate')
     accel_etage_10 = acc_interp_etage_10(t)
     
     # Calcul du spectre de Fourrier
@@ -598,7 +597,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         
         
         # Interpolation linéaire
-        acc_interp_etage_1 = interp1d(time_data_etage, acc_data_etage_1, kind='linear', fill_value='extrapolate')
+        acc_interp_etage_1 = interp1d(time_data_etage, acc_data_etage[10], kind='linear', fill_value='extrapolate')
         accel_etage_1 = acc_interp_etage_1(t)
         
         # Calcul du spectre de Fourrier
@@ -635,7 +634,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
             
         
         # Interpolation linéaire
-        acc_interp_etage_2 = interp1d(time_data_etage, acc_data_etage_2, kind='linear', fill_value='extrapolate')
+        acc_interp_etage_2 = interp1d(time_data_etage, acc_data_etage[9], kind='linear', fill_value='extrapolate')
         accel_etage_2 = acc_interp_etage_2(t)
         
         # Calcul du spectre de Fourrier
@@ -672,7 +671,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         
         
         # Interpolation linéaire
-        acc_interp_etage_3 = interp1d(time_data_etage, acc_data_etage_3, kind='linear', fill_value='extrapolate')
+        acc_interp_etage_3 = interp1d(time_data_etage, acc_data_etage[8], kind='linear', fill_value='extrapolate')
         accel_etage_3 = acc_interp_etage_3(t)
         
         # Calcul du spectre de Fourrier
@@ -710,7 +709,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
             
             
         # Interpolation linéaire
-        acc_interp_etage_4 = interp1d(time_data_etage, acc_data_etage_4, kind='linear', fill_value='extrapolate')
+        acc_interp_etage_4 = interp1d(time_data_etage, acc_data_etage[7], kind='linear', fill_value='extrapolate')
         accel_etage_4 = acc_interp_etage_4(t)
         
         # Calcul du spectre de Fourrier
@@ -747,7 +746,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
             
             
         # Interpolation linéaire
-        acc_interp_etage_5 = interp1d(time_data_etage, acc_data_etage_5, kind='linear', fill_value='extrapolate')
+        acc_interp_etage_5 = interp1d(time_data_etage, acc_data_etage[6], kind='linear', fill_value='extrapolate')
         accel_etage_5 = acc_interp_etage_5(t)
         
         # Calcul du spectre de Fourrier
@@ -784,7 +783,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         
         
         # Interpolation linéaire
-        acc_interp_etage_6 = interp1d(time_data_etage, acc_data_etage_6, kind='linear', fill_value='extrapolate')
+        acc_interp_etage_6 = interp1d(time_data_etage, acc_data_etage[5], kind='linear', fill_value='extrapolate')
         accel_etage_6 = acc_interp_etage_6(t)
         
         # Calcul du spectre de Fourrier
@@ -821,7 +820,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
             
             
         # Interpolation linéaire
-        acc_interp_etage_7 = interp1d(time_data_etage, acc_data_etage_7, kind='linear', fill_value='extrapolate')
+        acc_interp_etage_7 = interp1d(time_data_etage, acc_data_etage[4], kind='linear', fill_value='extrapolate')
         accel_etage_7 = acc_interp_etage_7(t)
         
         # Calcul du spectre de Fourrier
@@ -858,7 +857,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
             
             
         # Interpolation linéaire
-        acc_interp_etage_8 = interp1d(time_data_etage, acc_data_etage_8, kind='linear', fill_value='extrapolate')
+        acc_interp_etage_8 = interp1d(time_data_etage, acc_data_etage[3], kind='linear', fill_value='extrapolate')
         accel_etage_8 = acc_interp_etage_8(t)
         
         # Calcul du spectre de Fourrier
@@ -895,7 +894,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
             
             
         # Interpolation linéaire
-        acc_interp_etage_9 = interp1d(time_data_etage, acc_data_etage_9, kind='linear', fill_value='extrapolate')
+        acc_interp_etage_9 = interp1d(time_data_etage, acc_data_etage[2], kind='linear', fill_value='extrapolate')
         accel_etage_9 = acc_interp_etage_9(t)
         
         # Calcul du spectre de Fourrier
