@@ -162,7 +162,7 @@ acc_data_etage_7 = pd.to_numeric(df_etage.iloc[:, 4], errors='coerce').values
 #Etage 6
 time_data_etage_6 = pd.to_numeric(df_etage.iloc[:, 0], errors='coerce').values  
 acc_data_etage_6 = pd.to_numeric(df_etage.iloc[:, 5], errors='coerce').values
-
+   
 #Etage 5
 time_data_etage_5 = pd.to_numeric(df_etage.iloc[:, 0], errors='coerce').values  
 acc_data_etage_5 = pd.to_numeric(df_etage.iloc[:, 6], errors='coerce').values
