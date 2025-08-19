@@ -216,46 +216,17 @@ acc_data = acc_data[valid_indices]
 
 # Pour les etages
 # Filtrer les NaN
-valid_indices_etage_10 = ~np.isnan(time_data_etage) & ~np.isnan(acc_data_etage_10)  
-time_data_etage = time_data_etage[valid_indices_etage_10]
-acc_data_etage_10 = acc_data_etage_10[valid_indices_etage_10]
+acc_data_etages = []
+for i in range(1, 11):  # Étages 1 à 10
+    acc_data_etages.append(pd.to_numeric(df_etage.iloc[:, 11 - i], errors="coerce").values)
 
-valid_indices_etage_9 = ~np.isnan(time_data_etage) & ~np.isnan(acc_data_etage_9)  
-time_data_etage = time_data_etage[valid_indices_etage_9]
-acc_data_etage_9 = acc_data_etage_9[valid_indices_etage_9]
+# Masque global
+global_valid = ~np.isnan(time_data_etage)
+for acc in acc_data_etages:
+    global_valid &= ~np.isnan(acc)
 
-valid_indices_etage_8 = ~np.isnan(time_data_etage) & ~np.isnan(acc_data_etage_8)  
-time_data_etage = time_data_etage[valid_indices_etage_8]
-acc_data_etage_8 = acc_data_etage_8[valid_indices_etage_8]
-
-valid_indices_etage_7 = ~np.isnan(time_data_etage) & ~np.isnan(acc_data_etage_7)  
-time_data_etage = time_data_etage[valid_indices_etage_7]
-acc_data_etage_7 = acc_data_etage_7[valid_indices_etage_7]
-
-valid_indices_etage_6 = ~np.isnan(time_data_etage) & ~np.isnan(acc_data_etage_6)  
-time_data_etage = time_data_etage[valid_indices_etage_6]
-acc_data_etage_6 = acc_data_etage_6[valid_indices_etage_6]
-
-valid_indices_etage_5 = ~np.isnan(time_data_etage) & ~np.isnan(acc_data_etage_5)  
-time_data_etage = time_data_etage[valid_indices_etage_5]
-acc_data_etage_5 = acc_data_etage_5[valid_indices_etage_5]
-
-valid_indices_etage_4 = ~np.isnan(time_data_etage) & ~np.isnan(acc_data_etage_4)  
-time_data_etage = time_data_etage[valid_indices_etage_4]
-acc_data_etage_4 = acc_data_etage_4[valid_indices_etage_4]
-
-valid_indices_etage_3 = ~np.isnan(time_data_etage) & ~np.isnan(acc_data_etage_3)  
-time_data_etage = time_data_etage[valid_indices_etage_3]
-acc_data_etage_3 = acc_data_etage_3[valid_indices_etage_3]
-
-valid_indices_etage_2 = ~np.isnan(time_data_etage) & ~np.isnan(acc_data_etage_2)  
-time_data_etage = time_data_etage[valid_indices_etage_2]
-acc_data_etage_2 = acc_data_etage_2[valid_indices_etage_2]
-
-valid_indices_etage_1 = ~np.isnan(time_data_etage) & ~np.isnan(acc_data_etage_1)  
-time_data_etage = time_data_etage[valid_indices_etage_1]
-acc_data_etage_1 = acc_data_etage_1[valid_indices_etage_1]
-
+time_data_etage = time_data_etage[global_valid]
+acc_data_etages = [acc[global_valid] for acc in acc_data_etages]
 
 # Définition d'un pas de temps adapté
 
