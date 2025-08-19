@@ -7,7 +7,7 @@ from scipy.interpolate import interp1d
 
 # Réduire les marges
 st.set_page_config(layout="wide")
-
+ 
 # Titre
 st.markdown("Seismic simulation - Newmark method")
  
