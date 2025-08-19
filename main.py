@@ -142,7 +142,7 @@ else:
 
 #Spectre de réponse de l'accélération des 10 étages
 
-#Etage 10
+#Etage 10 
 df_etage = pd.read_csv('donnee_10_etages.csv', sep=';')
 time_data_etage_10 = pd.to_numeric(df.iloc[:, 0], errors='coerce').values  
 acc_data_etage_10 = pd.to_numeric(df.iloc[:, 2], errors='coerce').values
