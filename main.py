@@ -1239,7 +1239,7 @@ ax.set_title(f"Stiffness force - Non Linear model - {selected_component}")
 ax.grid()
 ax.legend()
 st.pyplot(fig)
-
+ 
 
 # Affichage du graphiques pour les étages
 
