@@ -173,9 +173,9 @@ time_data_etage_5 = pd.to_numeric(df.iloc[:, 0], errors='coerce').values
 acc_data_etage_5 = pd.to_numeric(df.iloc[:, 6], errors='coerce').values
 
 #Etage 4
-df_etage = pd.read_csv('donnee_10_etages.csv', sep=';')
-time_data_etage_4 = pd.to_numeric(df.iloc[:, 0], errors='coerce').values  
-acc_data_etage_4 = pd.to_numeric(df.iloc[:, 7], errors='coerce').values
+#df_etage = pd.read_csv('donnee_10_etages.csv', sep=';')
+#time_data_etage_4 = pd.to_numeric(df.iloc[:, 0], errors='coerce').values  
+#acc_data_etage_4 = pd.to_numeric(df.iloc[:, 7], errors='coerce').values
 
 #Etage 3
 df_etage = pd.read_csv('donnee_10_etages.csv', sep=';')
