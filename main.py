@@ -183,7 +183,7 @@ acc_data_etage_2 = pd.to_numeric(df_etage.iloc[:, 9], errors='coerce').values
 time_data_etage_1 = pd.to_numeric(df_etage.iloc[:, 0], errors='coerce').values   
 acc_data_etage_1 = pd.to_numeric(df_etage.iloc[:, 10], errors='coerce').values
 
-
+ 
 
 
 # Calcule automatique de la durée du fichier
