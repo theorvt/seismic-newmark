@@ -138,6 +138,63 @@ else:
     # Si une valeur n’est pas convertible (ex. texte, cellule vide…), elle sera remplacée par NaN (Not a Number), grâce à errors='coerce'.
     # .values : transforme la série pandas en array NumPy pur, plus rapide à manipuler.
 
+
+
+#Spectre de réponse de l'accélération des 10 étages
+
+#Etage 10
+df_etage = pd.read_csv('donnee_10_etages.csv', sep=';')
+time_data_etage_10 = pd.to_numeric(df.iloc[:, 0], errors='coerce').values  
+acc_data_etage_10 = pd.to_numeric(df.iloc[:, 2], errors='coerce').values
+
+#Etage 9
+df_etage = pd.read_csv('donnee_10_etages.csv', sep=';')
+time_data_etage_9 = pd.to_numeric(df.iloc[:, 0], errors='coerce').values  
+acc_data_etage_9 = pd.to_numeric(df.iloc[:, 5], errors='coerce').values
+
+#Etage 8
+df_etage = pd.read_csv('donnee_10_etages.csv', sep=';')
+time_data_etage_8 = pd.to_numeric(df.iloc[:, 0], errors='coerce').values  
+acc_data_etage_8 = pd.to_numeric(df.iloc[:, 8], errors='coerce').values
+
+#Etage 7
+df_etage = pd.read_csv('donnee_10_etages.csv', sep=';')
+time_data_etage_7 = pd.to_numeric(df.iloc[:, 0], errors='coerce').values  
+acc_data_etage_7 = pd.to_numeric(df.iloc[:, 11], errors='coerce').values
+
+#Etage 6
+df_etage = pd.read_csv('donnee_10_etages.csv', sep=';')
+time_data_etage_6 = pd.to_numeric(df.iloc[:, 0], errors='coerce').values  
+acc_data_etage_6 = pd.to_numeric(df.iloc[:, 14], errors='coerce').values
+
+#Etage 5
+df_etage = pd.read_csv('donnee_10_etages.csv', sep=';')
+time_data_etage_5 = pd.to_numeric(df.iloc[:, 0], errors='coerce').values  
+acc_data_etage_5 = pd.to_numeric(df.iloc[:, 17], errors='coerce').values
+
+#Etage 4
+df_etage = pd.read_csv('donnee_10_etages.csv', sep=';')
+time_data_etage_4 = pd.to_numeric(df.iloc[:, 0], errors='coerce').values  
+acc_data_etage_4 = pd.to_numeric(df.iloc[:, 20], errors='coerce').values
+
+#Etage 3
+df_etage = pd.read_csv('donnee_10_etages.csv', sep=';')
+time_data_etage_3 = pd.to_numeric(df.iloc[:, 0], errors='coerce').values  
+acc_data_etage_3 = pd.to_numeric(df.iloc[:, 23], errors='coerce').values
+
+#Etage 2
+df_etage = pd.read_csv('donnee_10_etages.csv', sep=';')
+time_data_etage_2 = pd.to_numeric(df.iloc[:, 0], errors='coerce').values  
+acc_data_etage_2 = pd.to_numeric(df.iloc[:, 26], errors='coerce').values
+
+#Etage 1
+df_etage = pd.read_csv('donnee_10_etages.csv', sep=';')
+time_data_etage_1 = pd.to_numeric(df.iloc[:, 0], errors='coerce').values  
+acc_data_etage_1 = pd.to_numeric(df.iloc[:, 29], errors='coerce').values
+
+
+
+
 # Calcule automatique de la durée du fichier
 T_max = float(np.nanmax(time_data)) if len(time_data) > 0 else 1000.0
 T_default = round(T_max, 2)
@@ -154,6 +211,181 @@ if "time_range_slider" not in st.session_state or st.session_state["previous_T"]
     # Réinitialiser la plage au nouveau T
     st.session_state["time_range_slider"] = (0.0, T)
     st.session_state["previous_T"] = T  # Mettre à jour la référence
+    
+   
+    
+    
+# Version pour les etages
+# Calcule automatique de la durée du fichier
+T_max_etage_10 = float(np.nanmax(time_data_etage_10)) if len(time_data_etage_10) > 0 else 1000.0
+T_default_etage_10 = round(T_max_etage_10, 2)
+
+# Slider de durée, ajusté dynamiquement
+T_etage_10 = st.sidebar.slider("T : Duration of the simulation (s)", min_value=0.01, max_value=float(T_max_etage_10), value=T_default_etage_10, step=0.01)
+
+# Détection de changement de T (durée totale)
+if "previous_T" not in st.session_state:
+    st.session_state["previous_T"] = T_etage_10
+
+if "time_range_slider" not in st.session_state or st.session_state["previous_T"] != T_etage_10:
+    # Réinitialiser la plage au nouveau T
+    st.session_state["time_range_slider"] = (0.0, T_etage_10)
+    st.session_state["previous_T"] = T_etage_10  # Mettre à jour la référence
+    
+    
+# Calcule automatique de la durée du fichier
+T_max_etage_9 = float(np.nanmax(time_data_etage_9)) if len(time_data_etage_9) > 0 else 1000.0
+T_default_etage_9 = round(T_max_etage_9, 2)
+
+# Slider de durée, ajusté dynamiquement
+T_etage_9 = st.sidebar.slider("T : Duration of the simulation (s)", min_value=0.01, max_value=float(T_max_etage_9), value=T_default_etage_9, step=0.01)
+
+# Détection de changement de T (durée totale)
+if "previous_T" not in st.session_state:
+    st.session_state["previous_T"] = T_etage_9
+
+if "time_range_slider" not in st.session_state or st.session_state["previous_T"] != T_etage_9:
+    # Réinitialiser la plage au nouveau T
+    st.session_state["time_range_slider"] = (0.0, T_etage_9)
+    st.session_state["previous_T"] = T_etage_9 # Mettre à jour la référence
+
+
+# Calcule automatique de la durée du fichier
+T_max_etage_8 = float(np.nanmax(time_data_etage_8)) if len(time_data_etage_8) > 0 else 1000.0
+T_default_etage_8 = round(T_max_etage_8, 2)
+
+# Slider de durée, ajusté dynamiquement
+T_etage_8 = st.sidebar.slider("T : Duration of the simulation (s)", min_value=0.01, max_value=float(T_max_etage_8), value=T_default_etage_8, step=0.01)
+
+# Détection de changement de T (durée totale)
+if "previous_T" not in st.session_state:
+    st.session_state["previous_T"] = T_etage_8
+
+if "time_range_slider" not in st.session_state or st.session_state["previous_T"] != T_etage_8:
+    # Réinitialiser la plage au nouveau T
+    st.session_state["time_range_slider"] = (0.0, T_etage_8)
+    st.session_state["previous_T"] = T_etage_8  # Mettre à jour la référence
+    
+    
+# Calcule automatique de la durée du fichier
+T_max_etage_7 = float(np.nanmax(time_data_etage_7)) if len(time_data_etage_7) > 0 else 1000.0
+T_default_etage_7 = round(T_max_etage_7, 2)
+
+# Slider de durée, ajusté dynamiquement
+T_etage_7 = st.sidebar.slider("T : Duration of the simulation (s)", min_value=0.01, max_value=float(T_max_etage_7), value=T_default_etage_7, step=0.01)
+
+# Détection de changement de T (durée totale)
+if "previous_T" not in st.session_state:
+    st.session_state["previous_T"] = T_etage_7
+
+if "time_range_slider" not in st.session_state or st.session_state["previous_T"] != T_etage_7:
+    # Réinitialiser la plage au nouveau T
+    st.session_state["time_range_slider"] = (0.0, T_etage_7)
+    st.session_state["previous_T"] = T_etage_7 # Mettre à jour la référence
+    
+    
+# Calcule automatique de la durée du fichier
+T_max_etage_6 = float(np.nanmax(time_data_etage_6)) if len(time_data_etage_6) > 0 else 1000.0
+T_default_etage_6 = round(T_max_etage_6, 2)
+
+# Slider de durée, ajusté dynamiquement
+T_etage_6 = st.sidebar.slider("T : Duration of the simulation (s)", min_value=0.01, max_value=float(T_max_etage_6), value=T_default_etage_6, step=0.01)
+
+# Détection de changement de T (durée totale)
+if "previous_T" not in st.session_state:
+    st.session_state["previous_T"] = T_etage_6
+
+if "time_range_slider" not in st.session_state or st.session_state["previous_T"] != T_etage_6:
+    # Réinitialiser la plage au nouveau T
+    st.session_state["time_range_slider"] = (0.0, T_etage_6)
+    st.session_state["previous_T"] = T_etage_6  # Mettre à jour la référence
+    
+    
+# Calcule automatique de la durée du fichier
+T_max_etage_5 = float(np.nanmax(time_data_etage_5)) if len(time_data_etage_5) > 0 else 1000.0
+T_default_etage_5 = round(T_max_etage_5, 2)
+
+# Slider de durée, ajusté dynamiquement
+T_etage_5 = st.sidebar.slider("T : Duration of the simulation (s)", min_value=0.01, max_value=float(T_max_etage_5), value=T_default_etage_5, step=0.01)
+
+# Détection de changement de T (durée totale)
+if "previous_T" not in st.session_state:
+    st.session_state["previous_T"] = T_etage_5
+
+if "time_range_slider" not in st.session_state or st.session_state["previous_T"] != T_etage_5:
+    # Réinitialiser la plage au nouveau T
+    st.session_state["time_range_slider"] = (0.0, T_etage_5)
+    st.session_state["previous_T"] = T_etage_5  # Mettre à jour la référence
+    
+    
+# Calcule automatique de la durée du fichier
+T_max_etage_4 = float(np.nanmax(time_data_etage_4)) if len(time_data_etage_4) > 0 else 1000.0
+T_default_etage_4 = round(T_max_etage_4, 2)
+
+# Slider de durée, ajusté dynamiquement
+T_etage_4 = st.sidebar.slider("T : Duration of the simulation (s)", min_value=0.01, max_value=float(T_max_etage_4), value=T_default_etage_4, step=0.01)
+
+# Détection de changement de T (durée totale)
+if "previous_T" not in st.session_state:
+    st.session_state["previous_T"] = T_etage_4
+
+if "time_range_slider" not in st.session_state or st.session_state["previous_T"] != T_etage_4:
+    # Réinitialiser la plage au nouveau T
+    st.session_state["time_range_slider"] = (0.0, T_etage_4)
+    st.session_state["previous_T"] = T_etage_4  # Mettre à jour la référence
+    
+    
+# Calcule automatique de la durée du fichier
+T_max_etage_3 = float(np.nanmax(time_data_etage_3)) if len(time_data_etage_3) > 0 else 1000.0
+T_default_etage_3 = round(T_max_etage_3, 2)
+
+# Slider de durée, ajusté dynamiquement
+T_etage_3 = st.sidebar.slider("T : Duration of the simulation (s)", min_value=0.01, max_value=float(T_max_etage_3), value=T_default_etage_3, step=0.01)
+
+# Détection de changement de T (durée totale)
+if "previous_T" not in st.session_state:
+    st.session_state["previous_T"] = T_etage_3
+
+if "time_range_slider" not in st.session_state or st.session_state["previous_T"] != T_etage_3:
+    # Réinitialiser la plage au nouveau T
+    st.session_state["time_range_slider"] = (0.0, T_etage_3)
+    st.session_state["previous_T"] = T_etage_3  # Mettre à jour la référence
+    
+    
+# Calcule automatique de la durée du fichier
+T_max_etage_2 = float(np.nanmax(time_data_etage_2)) if len(time_data_etage_2) > 0 else 1000.0
+T_default_etage_2 = round(T_max_etage_2, 2)
+
+# Slider de durée, ajusté dynamiquement
+T_etage_2 = st.sidebar.slider("T : Duration of the simulation (s)", min_value=0.01, max_value=float(T_max_etage_2), value=T_default_etage_2, step=0.01)
+
+# Détection de changement de T (durée totale)
+if "previous_T" not in st.session_state:
+    st.session_state["previous_T"] = T_etage_2
+
+if "time_range_slider" not in st.session_state or st.session_state["previous_T"] != T_etage_2:
+    # Réinitialiser la plage au nouveau T
+    st.session_state["time_range_slider"] = (0.0, T_etage_2)
+    st.session_state["previous_T"] = T_etage_2  # Mettre à jour la référence
+
+
+
+# Calcule automatique de la durée du fichier
+T_max_etage_1 = float(np.nanmax(time_data_etage_1)) if len(time_data_etage_1) > 0 else 1000.0
+T_default_etage_1 = round(T_max_etage_1, 2)
+
+# Slider de durée, ajusté dynamiquement
+T_etage_1 = st.sidebar.slider("T : Duration of the simulation (s)", min_value=0.01, max_value=float(T_max_etage_1), value=T_default_etage_1, step=0.01)
+
+# Détection de changement de T (durée totale)
+if "previous_T" not in st.session_state:
+    st.session_state["previous_T"] = T_etage_1
+
+if "time_range_slider" not in st.session_state or st.session_state["previous_T"] != T_etage_1:
+    # Réinitialiser la plage au nouveau T
+    st.session_state["time_range_slider"] = (0.0, T_etage_1)
+    st.session_state["previous_T"] = T_etage_1  # Mettre à jour la référence
+
 
     
 params_key = (M, K, zeta, T, selected_component, d0, v0, dt, F1, scale, mu, K3)
@@ -169,6 +401,51 @@ valid_indices = ~np.isnan(time_data) & ~np.isnan(acc_data)  # np.isnan(time_data
 # L’opérateur ~ est un NON logique (négation). Donc cette expression renvoie True pour les indices valides (non NaN) de time_data.
 time_data = time_data[valid_indices]
 acc_data = acc_data[valid_indices]
+
+
+
+# Pour les etages
+# Filtrer les NaN
+valid_indices_etage_10 = ~np.isnan(time_data_etage_10) & ~np.isnan(acc_data_etage_10)  
+time_data_etage_10 = time_data_etage_10[valid_indices_etage_10]
+acc_data_etage_10 = acc_data_etage_10[valid_indices_etage_10]
+
+valid_indices_etage_9 = ~np.isnan(time_data_etage_9) & ~np.isnan(acc_data_etage_9)  
+time_data_etage_9 = time_data_etage_9[valid_indices_etage_9]
+acc_data_etage_9 = acc_data_etage_10[valid_indices_etage_9]
+
+valid_indices_etage_8 = ~np.isnan(time_data_etage_8) & ~np.isnan(acc_data_etage_8)  
+time_data_etage_8 = time_data_etage_8[valid_indices_etage_8]
+acc_data_etage_8 = acc_data_etage_10[valid_indices_etage_8]
+
+valid_indices_etage_7 = ~np.isnan(time_data_etage_7) & ~np.isnan(acc_data_etage_7)  
+time_data_etage_7 = time_data_etage_7[valid_indices_etage_7]
+acc_data_etage_7 = acc_data_etage_10[valid_indices_etage_7]
+
+valid_indices_etage_6 = ~np.isnan(time_data_etage_6) & ~np.isnan(acc_data_etage_6)  
+time_data_etage_6 = time_data_etage_6[valid_indices_etage_6]
+acc_data_etage_6 = acc_data_etage_10[valid_indices_etage_6]
+
+valid_indices_etage_5 = ~np.isnan(time_data_etage_5) & ~np.isnan(acc_data_etage_5)  
+time_data_etage_5 = time_data_etage_5[valid_indices_etage_5]
+acc_data_etage_5 = acc_data_etage_10[valid_indices_etage_5]
+
+valid_indices_etage_4 = ~np.isnan(time_data_etage_4) & ~np.isnan(acc_data_etage_4)  
+time_data_etage_4 = time_data_etage_4[valid_indices_etage_4]
+acc_data_etage_4 = acc_data_etage_10[valid_indices_etage_4]
+
+valid_indices_etage_3 = ~np.isnan(time_data_etage_3) & ~np.isnan(acc_data_etage_3)  
+time_data_etage_3 = time_data_etage_3[valid_indices_etage_3]
+acc_data_etage_3 = acc_data_etage_10[valid_indices_etage_3]
+
+valid_indices_etage_2 = ~np.isnan(time_data_etage_2) & ~np.isnan(acc_data_etage_2)  
+time_data_etage_2 = time_data_etage_2[valid_indices_etage_2]
+acc_data_etage_2 = acc_data_etage_10[valid_indices_etage_2]
+
+valid_indices_etage_1 = ~np.isnan(time_data_etage_1) & ~np.isnan(acc_data_etage_1)  
+time_data_etage_1 = time_data_etage_1[valid_indices_etage_1]
+acc_data_etage_1 = acc_data_etage_1[valid_indices_etage_1]
+
 
 # Définition d'un pas de temps adapté
 
@@ -200,7 +477,7 @@ if W == 0:
 #Vérification de la valeur de dt
 dt1 = 2 / W * sqrt(1 / (1 - 2 * beta))  # Formule correcte
 if dt > dt1:
-    st.error(f"⚠️ Stability condition not met: dt = {dt:.4f} > dtₘₐₓ ≈ {dt1:.4f} s.\nTry reducing `dt` below this limit.")
+    st.error(f"Stability condition not met: dt = {dt:.4f} > dtₘₐₓ ≈ {dt1:.4f} s.\nTry reducing `dt` below this limit.")
     st.stop()
 
 
@@ -212,12 +489,165 @@ n = len(t)
 time_min = 0.0
 time_max = T
 
-# 🔧 MODIF : initialisation de session_state pour le slider et T précédent
+
+# Version pour les etages
+#Vérification de la valeur de dt
+dt1_etage_10 = 2 / W * sqrt(1 / (1 - 2 * beta))  # Formule correcte
+if dt > dt1_etage_10:
+    st.error(f"Stability condition not met: dt = {dt:.4f} > dtₘₐₓ ≈ {dt1:.4f} s.\nTry reducing `dt` below this limit.")
+    st.stop()
+
+# Gestion des variables temporels
+t_etage_10 = np.arange(0, T_etage_10 + dt,dt)  # fonction NumPy qui crée un tableau (array) des valeurs du temps espacées régulièrement et on fait + dt pour avoir la durée finale réelle
+n_etage_10 = len(t_etage_10)
+
+#  MODIF : bornes du slider
+time_min_etage_10 = 0.0
+time_max_etage_10 = T_etage_10
+
+
+#Vérification de la valeur de dt
+dt1_etage_9 = 2 / W * sqrt(1 / (1 - 2 * beta))  # Formule correcte
+if dt > dt1_etage_9:
+    st.error(f"Stability condition not met: dt = {dt:.4f} > dtₘₐₓ ≈ {dt1:.4f} s.\nTry reducing `dt` below this limit.")
+    st.stop()
+
+# Gestion des variables temporels
+t_etage_9 = np.arange(0, T_etage_9 + dt,dt)  # fonction NumPy qui crée un tableau (array) des valeurs du temps espacées régulièrement et on fait + dt pour avoir la durée finale réelle
+n_etage_9 = len(t_etage_9)
+
+#  MODIF : bornes du slider
+time_min_etage_9 = 0.0
+time_max_etage_9 = T_etage_9
+
+
+#Vérification de la valeur de dt
+dt1_etage_8 = 2 / W * sqrt(1 / (1 - 2 * beta))  # Formule correcte
+if dt > dt1_etage_8:
+    st.error(f"Stability condition not met: dt = {dt:.4f} > dtₘₐₓ ≈ {dt1:.4f} s.\nTry reducing `dt` below this limit.")
+    st.stop()
+
+# Gestion des variables temporels
+t_etage_8 = np.arange(0, T_etage_8 + dt,dt)  # fonction NumPy qui crée un tableau (array) des valeurs du temps espacées régulièrement et on fait + dt pour avoir la durée finale réelle
+n_etage_8 = len(t_etage_8)
+
+#  MODIF : bornes du slider
+time_min_etage_8 = 0.0
+time_max_etage_8 = T_etage_8
+
+
+#Vérification de la valeur de dt
+dt1_etage_7 = 2 / W * sqrt(1 / (1 - 2 * beta))  # Formule correcte
+if dt > dt1_etage_7:
+    st.error(f"Stability condition not met: dt = {dt:.4f} > dtₘₐₓ ≈ {dt1:.4f} s.\nTry reducing `dt` below this limit.")
+    st.stop()
+
+# Gestion des variables temporels
+t_etage_7 = np.arange(0, T_etage_7 + dt,dt)  # fonction NumPy qui crée un tableau (array) des valeurs du temps espacées régulièrement et on fait + dt pour avoir la durée finale réelle
+n_etage_7 = len(t_etage_7)
+
+#  MODIF : bornes du slider
+time_min_etage_7 = 0.0
+time_max_etage_7 = T_etage_7
+
+
+#Vérification de la valeur de dt
+dt1_etage_6 = 2 / W * sqrt(1 / (1 - 2 * beta))  # Formule correcte
+if dt > dt1_etage_6:
+    st.error(f"Stability condition not met: dt = {dt:.4f} > dtₘₐₓ ≈ {dt1:.4f} s.\nTry reducing `dt` below this limit.")
+    st.stop()
+
+# Gestion des variables temporels
+t_etage_6 = np.arange(0, T_etage_6 + dt,dt)  # fonction NumPy qui crée un tableau (array) des valeurs du temps espacées régulièrement et on fait + dt pour avoir la durée finale réelle
+n_etage_6 = len(t_etage_6)
+
+#  MODIF : bornes du slider
+time_min_etage_6 = 0.0
+time_max_etage_6 = T_etage_6
+
+
+#Vérification de la valeur de dt
+dt1_etage_5 = 2 / W * sqrt(1 / (1 - 2 * beta))  # Formule correcte
+if dt > dt1_etage_5:
+    st.error(f"Stability condition not met: dt = {dt:.4f} > dtₘₐₓ ≈ {dt1:.4f} s.\nTry reducing `dt` below this limit.")
+    st.stop()
+
+# Gestion des variables temporels
+t_etage_5 = np.arange(0, T_etage_5 + dt,dt)  # fonction NumPy qui crée un tableau (array) des valeurs du temps espacées régulièrement et on fait + dt pour avoir la durée finale réelle
+n_etage_5 = len(t_etage_5)
+
+#  MODIF : bornes du slider
+time_min_etage_5 = 0.0
+time_max_etage_5 = T_etage_5
+
+
+#Vérification de la valeur de dt
+dt1_etage_4 = 2 / W * sqrt(1 / (1 - 2 * beta))  # Formule correcte
+if dt > dt1_etage_4:
+    st.error(f"Stability condition not met: dt = {dt:.4f} > dtₘₐₓ ≈ {dt1:.4f} s.\nTry reducing `dt` below this limit.")
+    st.stop()
+
+# Gestion des variables temporels
+t_etage_4 = np.arange(0, T_etage_4 + dt,dt)  # fonction NumPy qui crée un tableau (array) des valeurs du temps espacées régulièrement et on fait + dt pour avoir la durée finale réelle
+n_etage_4 = len(t_etage_4)
+
+#  MODIF : bornes du slider
+time_min_etage_4 = 0.0
+time_max_etage_4 = T_etage_4
+
+
+#Vérification de la valeur de dt
+dt1_etage_3 = 2 / W * sqrt(1 / (1 - 2 * beta))  # Formule correcte
+if dt > dt1_etage_3:
+    st.error(f"⚠️ Stability condition not met: dt = {dt:.4f} > dtₘₐₓ ≈ {dt1:.4f} s.\nTry reducing `dt` below this limit.")
+    st.stop()
+
+# Gestion des variables temporels
+t_etage_3 = np.arange(0, T_etage_3 + dt,dt)  # fonction NumPy qui crée un tableau (array) des valeurs du temps espacées régulièrement et on fait + dt pour avoir la durée finale réelle
+n_etage_3 = len(t_etage_3)
+
+#  MODIF : bornes du slider
+time_min_etage_3 = 0.0
+time_max_etage_3 = T_etage_3
+
+
+#Vérification de la valeur de dt
+dt1_etage_2 = 2 / W * sqrt(1 / (1 - 2 * beta))  # Formule correcte
+if dt > dt1_etage_2:
+    st.error(f"⚠️ Stability condition not met: dt = {dt:.4f} > dtₘₐₓ ≈ {dt1:.4f} s.\nTry reducing `dt` below this limit.")
+    st.stop()
+
+# Gestion des variables temporels
+t_etage_2 = np.arange(0, T_etage_2 + dt,dt)  # fonction NumPy qui crée un tableau (array) des valeurs du temps espacées régulièrement et on fait + dt pour avoir la durée finale réelle
+n_etage_2 = len(t_etage_2)
+
+#  MODIF : bornes du slider
+time_min_etage_2 = 0.0
+time_max_etage_2 = T_etage_2
+
+
+#Vérification de la valeur de dt
+dt1_etage_1 = 2 / W * sqrt(1 / (1 - 2 * beta))  # Formule correcte
+if dt > dt1_etage_1:
+    st.error(f"⚠️ Stability condition not met: dt = {dt:.4f} > dtₘₐₓ ≈ {dt1:.4f} s.\nTry reducing `dt` below this limit.")
+    st.stop()
+
+# Gestion des variables temporels
+t_etage_1 = np.arange(0, T_etage_1 + dt,dt)  # fonction NumPy qui crée un tableau (array) des valeurs du temps espacées régulièrement et on fait + dt pour avoir la durée finale réelle
+n_etage_1 = len(t_etage_1)
+
+#  MODIF : bornes du slider
+time_min_etage_1 = 0.0
+time_max_etage_1 = T_etage_1
+
+
+
+#  MODIF : initialisation de session_state pour le slider et T précédent
 if "time_range_slider" not in st.session_state or "previous_T" not in st.session_state:
     st.session_state["time_range_slider"] = (time_min, time_max)
     st.session_state["previous_T"] = T
 
-# 🔧 MODIF : mise à jour du slider si T a changé
+#  MODIF : mise à jour du slider si T a changé
 if "time_range_slider" not in st.session_state:
     st.session_state["time_range_slider"] = (time_min, time_max)
     st.session_state["previous_T"] = T
@@ -243,6 +673,341 @@ if T <= dt:
 if n == 0:
     st.error("Error : The array of moments t is empty (Check T)")
     st.stop()
+    
+  
+    
+# Version pour les etages
+#  MODIF : initialisation de session_state pour le slider et T précédent
+if "time_range_slider" not in st.session_state or "previous_T" not in st.session_state:
+    st.session_state["time_range_slider"] = (time_min_etage_10, time_max_etage_10)
+    st.session_state["previous_T"] = T
+
+#  MODIF : mise à jour du slider si T a changé
+if "time_range_slider" not in st.session_state:
+    st.session_state["time_range_slider"] = (time_min_etage_10, time_max_etage_10)
+    st.session_state["previous_T"] = T
+
+elif st.session_state["previous_T"] != T:
+    old_min_etage_10, old_max_etage_10 = st.session_state["time_range_slider"]
+    new_min_etage_10 = min(old_min_etage_10, T)
+    new_max_etage_10 = min(old_max_etage_10, T)
+    st.session_state["time_range_slider"] = (new_min_etage_10, new_max_etage_10)
+    st.session_state["previous_T"] = T
+
+selected_range = st.sidebar.slider("Select the time range to display (s)", time_min_etage_10, time_max_etage_10, key="time_range_slider",step=1.0)
+
+# Défintion des conditions de stabilité du programme
+if len(time_data_etage_10) == 0:
+    st.error("Error : The time data are empty after the filtration")
+    st.stop()
+
+if T <= dt:
+    st.error("Error : The total duration needs to be higher that the step time dt")
+    st.stop()
+
+if n_etage_10 == 0:
+    st.error("Error : The array of moments t is empty (Check T)")
+    st.stop()
+    
+    
+#  MODIF : initialisation de session_state pour le slider et T précédent
+if "time_range_slider" not in st.session_state or "previous_T" not in st.session_state:
+    st.session_state["time_range_slider"] = (time_min_etage_9, time_max_etage_9)
+    st.session_state["previous_T"] = T
+
+#  MODIF : mise à jour du slider si T a changé
+if "time_range_slider" not in st.session_state:
+    st.session_state["time_range_slider"] = (time_min_etage_9, time_max_etage_9)
+    st.session_state["previous_T"] = T
+
+elif st.session_state["previous_T"] != T:
+    old_min_etage_9, old_max_etage_9 = st.session_state["time_range_slider"]
+    new_min_etage_9 = min(old_min_etage_9, T)
+    new_max_etage_9 = min(old_max_etage_9, T)
+    st.session_state["time_range_slider"] = (new_min_etage_9, new_max_etage_9)
+    st.session_state["previous_T"] = T
+
+selected_range = st.sidebar.slider("Select the time range to display (s)", time_min_etage_9, time_max_etage_9, key="time_range_slider",step=1.0)
+
+# Défintion des conditions de stabilité du programme
+if len(time_data_etage_9) == 0:
+    st.error("Error : The time data are empty after the filtration")
+    st.stop()
+
+if T <= dt:
+    st.error("Error : The total duration needs to be higher that the step time dt")
+    st.stop()
+
+if n_etage_10 == 0:
+    st.error("Error : The array of moments t is empty (Check T)")
+    st.stop()
+    
+
+#  MODIF : initialisation de session_state pour le slider et T précédent
+if "time_range_slider" not in st.session_state or "previous_T" not in st.session_state:
+    st.session_state["time_range_slider"] = (time_min_etage_8, time_max_etage_8)
+    st.session_state["previous_T"] = T
+
+#  MODIF : mise à jour du slider si T a changé
+if "time_range_slider" not in st.session_state:
+    st.session_state["time_range_slider"] = (time_min_etage_8, time_max_etage_8)
+    st.session_state["previous_T"] = T
+
+elif st.session_state["previous_T"] != T:
+    old_min_etage_8, old_max_etage_8 = st.session_state["time_range_slider"]
+    new_min_etage_8 = min(old_min_etage_8, T)
+    new_max_etage_8 = min(old_max_etage_8, T)
+    st.session_state["time_range_slider"] = (new_min_etage_8, new_max_etage_8)
+    st.session_state["previous_T"] = T
+
+selected_range = st.sidebar.slider("Select the time range to display (s)", time_min_etage_8, time_max_etage_8, key="time_range_slider",step=1.0)
+
+# Défintion des conditions de stabilité du programme
+if len(time_data_etage_8) == 0:
+    st.error("Error : The time data are empty after the filtration")
+    st.stop()
+
+if T <= dt:
+    st.error("Error : The total duration needs to be higher that the step time dt")
+    st.stop()
+
+if n_etage_8 == 0:
+    st.error("Error : The array of moments t is empty (Check T)")
+    st.stop()
+
+
+#  MODIF : initialisation de session_state pour le slider et T précédent
+if "time_range_slider" not in st.session_state or "previous_T" not in st.session_state:
+    st.session_state["time_range_slider"] = (time_min_etage_7, time_max_etage_7)
+    st.session_state["previous_T"] = T
+
+#  MODIF : mise à jour du slider si T a changé
+if "time_range_slider" not in st.session_state:
+    st.session_state["time_range_slider"] = (time_min_etage_7, time_max_etage_7)
+    st.session_state["previous_T"] = T
+
+elif st.session_state["previous_T"] != T:
+    old_min_etage_7, old_max_etage_7 = st.session_state["time_range_slider"]
+    new_min_etage_7 = min(old_min_etage_7, T)
+    new_max_etage_7 = min(old_max_etage_7, T)
+    st.session_state["time_range_slider"] = (new_min_etage_7, new_max_etage_7)
+    st.session_state["previous_T"] = T
+
+selected_range = st.sidebar.slider("Select the time range to display (s)", time_min_etage_7, time_max_etage_7, key="time_range_slider",step=1.0)
+
+# Défintion des conditions de stabilité du programme
+if len(time_data_etage_7) == 0:
+    st.error("Error : The time data are empty after the filtration")
+    st.stop()
+
+if T <= dt:
+    st.error("Error : The total duration needs to be higher that the step time dt")
+    st.stop()
+
+if n_etage_7 == 0:
+    st.error("Error : The array of moments t is empty (Check T)")
+    st.stop()
+
+
+#  MODIF : initialisation de session_state pour le slider et T précédent
+if "time_range_slider" not in st.session_state or "previous_T" not in st.session_state:
+    st.session_state["time_range_slider"] = (time_min_etage_6, time_max_etage_6)
+    st.session_state["previous_T"] = T
+
+#  MODIF : mise à jour du slider si T a changé
+if "time_range_slider" not in st.session_state:
+    st.session_state["time_range_slider"] = (time_min_etage_6, time_max_etage_6)
+    st.session_state["previous_T"] = T
+
+elif st.session_state["previous_T"] != T:
+    old_min_etage_6, old_max_etage_6 = st.session_state["time_range_slider"]
+    new_min_etage_6 = min(old_min_etage_6, T)
+    new_max_etage_6 = min(old_max_etage_6, T)
+    st.session_state["time_range_slider"] = (new_min_etage_6, new_max_etage_6)
+    st.session_state["previous_T"] = T
+
+selected_range = st.sidebar.slider("Select the time range to display (s)", time_min_etage_6, time_max_etage_6, key="time_range_slider",step=1.0)
+
+# Défintion des conditions de stabilité du programme
+if len(time_data_etage_6) == 0:
+    st.error("Error : The time data are empty after the filtration")
+    st.stop()
+
+if T <= dt:
+    st.error("Error : The total duration needs to be higher that the step time dt")
+    st.stop()
+
+if n_etage_6 == 0:
+    st.error("Error : The array of moments t is empty (Check T)")
+    st.stop()
+    
+    
+#  MODIF : initialisation de session_state pour le slider et T précédent
+if "time_range_slider" not in st.session_state or "previous_T" not in st.session_state:
+    st.session_state["time_range_slider"] = (time_min_etage_5, time_max_etage_5)
+    st.session_state["previous_T"] = T
+
+#  MODIF : mise à jour du slider si T a changé
+if "time_range_slider" not in st.session_state:
+    st.session_state["time_range_slider"] = (time_min_etage_5, time_max_etage_5)
+    st.session_state["previous_T"] = T
+
+elif st.session_state["previous_T"] != T:
+    old_min_etage_5, old_max_etage_5 = st.session_state["time_range_slider"]
+    new_min_etage_5 = min(old_min_etage_5, T)
+    new_max_etage_5 = min(old_max_etage_5, T)
+    st.session_state["time_range_slider"] = (new_min_etage_5, new_max_etage_5)
+    st.session_state["previous_T"] = T
+
+selected_range = st.sidebar.slider("Select the time range to display (s)", time_min_etage_5, time_max_etage_5, key="time_range_slider",step=1.0)
+
+# Défintion des conditions de stabilité du programme
+if len(time_data_etage_5) == 0:
+    st.error("Error : The time data are empty after the filtration")
+    st.stop()
+
+if T <= dt:
+    st.error("Error : The total duration needs to be higher that the step time dt")
+    st.stop()
+
+if n_etage_5 == 0:
+    st.error("Error : The array of moments t is empty (Check T)")
+    st.stop()
+
+
+#  MODIF : initialisation de session_state pour le slider et T précédent
+if "time_range_slider" not in st.session_state or "previous_T" not in st.session_state:
+    st.session_state["time_range_slider"] = (time_min_etage_4, time_max_etage_4)
+    st.session_state["previous_T"] = T
+
+#  MODIF : mise à jour du slider si T a changé
+if "time_range_slider" not in st.session_state:
+    st.session_state["time_range_slider"] = (time_min_etage_4, time_max_etage_4)
+    st.session_state["previous_T"] = T
+
+elif st.session_state["previous_T"] != T:
+    old_min_etage_4, old_max_etage_4 = st.session_state["time_range_slider"]
+    new_min_etage_4 = min(old_min_etage_4, T)
+    new_max_etage_4 = min(old_max_etage_4, T)
+    st.session_state["time_range_slider"] = (new_min_etage_4, new_max_etage_4)
+    st.session_state["previous_T"] = T
+
+selected_range = st.sidebar.slider("Select the time range to display (s)", time_min_etage_4, time_max_etage_4, key="time_range_slider",step=1.0)
+
+# Défintion des conditions de stabilité du programme
+if len(time_data_etage_4) == 0:
+    st.error("Error : The time data are empty after the filtration")
+    st.stop()
+
+if T <= dt:
+    st.error("Error : The total duration needs to be higher that the step time dt")
+    st.stop()
+
+if n_etage_4 == 0:
+    st.error("Error : The array of moments t is empty (Check T)")
+    st.stop()
+    
+    
+#  MODIF : initialisation de session_state pour le slider et T précédent
+if "time_range_slider" not in st.session_state or "previous_T" not in st.session_state:
+    st.session_state["time_range_slider"] = (time_min_etage_3, time_max_etage_3)
+    st.session_state["previous_T"] = T
+
+#  MODIF : mise à jour du slider si T a changé
+if "time_range_slider" not in st.session_state:
+    st.session_state["time_range_slider"] = (time_min_etage_3, time_max_etage_3)
+    st.session_state["previous_T"] = T
+
+elif st.session_state["previous_T"] != T:
+    old_min_etage_3, old_max_etage_3 = st.session_state["time_range_slider"]
+    new_min_etage_3 = min(old_min_etage_3, T)
+    new_max_etage_3 = min(old_max_etage_3, T)
+    st.session_state["time_range_slider"] = (new_min_etage_3, new_max_etage_3)
+    st.session_state["previous_T"] = T
+
+selected_range = st.sidebar.slider("Select the time range to display (s)", time_min_etage_3, time_max_etage_3, key="time_range_slider",step=1.0)
+
+# Défintion des conditions de stabilité du programme
+if len(time_data_etage_3) == 0:
+    st.error("Error : The time data are empty after the filtration")
+    st.stop()
+
+if T <= dt:
+    st.error("Error : The total duration needs to be higher that the step time dt")
+    st.stop()
+
+if n_etage_3 == 0:
+    st.error("Error : The array of moments t is empty (Check T)")
+    st.stop()
+    
+    
+#  MODIF : initialisation de session_state pour le slider et T précédent
+if "time_range_slider" not in st.session_state or "previous_T" not in st.session_state:
+    st.session_state["time_range_slider"] = (time_min_etage_2, time_max_etage_2)
+    st.session_state["previous_T"] = T
+
+#  MODIF : mise à jour du slider si T a changé
+if "time_range_slider" not in st.session_state:
+    st.session_state["time_range_slider"] = (time_min_etage_2, time_max_etage_2)
+    st.session_state["previous_T"] = T
+
+elif st.session_state["previous_T"] != T:
+    old_min_etage_2, old_max_etage_2 = st.session_state["time_range_slider"]
+    new_min_etage_2 = min(old_min_etage_2, T)
+    new_max_etage_2 = min(old_max_etage_2, T)
+    st.session_state["time_range_slider"] = (new_min_etage_2, new_max_etage_2)
+    st.session_state["previous_T"] = T
+
+selected_range = st.sidebar.slider("Select the time range to display (s)", time_min_etage_2, time_max_etage_2, key="time_range_slider",step=1.0)
+
+# Défintion des conditions de stabilité du programme
+if len(time_data_etage_2) == 0:
+    st.error("Error : The time data are empty after the filtration")
+    st.stop()
+
+if T <= dt:
+    st.error("Error : The total duration needs to be higher that the step time dt")
+    st.stop()
+
+if n_etage_2 == 0:
+    st.error("Error : The array of moments t is empty (Check T)")
+    st.stop()
+    
+    
+#  MODIF : initialisation de session_state pour le slider et T précédent
+if "time_range_slider" not in st.session_state or "previous_T" not in st.session_state:
+    st.session_state["time_range_slider"] = (time_min_etage_1, time_max_etage_1)
+    st.session_state["previous_T"] = T
+
+#  MODIF : mise à jour du slider si T a changé
+if "time_range_slider" not in st.session_state:
+    st.session_state["time_range_slider"] = (time_min_etage_1, time_max_etage_1)
+    st.session_state["previous_T"] = T
+
+elif st.session_state["previous_T"] != T:
+    old_min_etage_1, old_max_etage_1 = st.session_state["time_range_slider"]
+    new_min_etage_1 = min(old_min_etage_1, T)
+    new_max_etage_1 = min(old_max_etage_1, T)
+    st.session_state["time_range_slider"] = (new_min_etage_1, new_max_etage_1)
+    st.session_state["previous_T"] = T
+
+selected_range = st.sidebar.slider("Select the time range to display (s)", time_min_etage_1, time_max_etage_1, key="time_range_slider",step=1.0)
+
+# Défintion des conditions de stabilité du programme
+if len(time_data_etage_1) == 0:
+    st.error("Error : The time data are empty after the filtration")
+    st.stop()
+
+if T <= dt:
+    st.error("Error : The total duration needs to be higher that the step time dt")
+    st.stop()
+
+if n_etage_1 == 0:
+    st.error("Error : The array of moments t is empty (Check T)")
+    st.stop()
+
+
+
 
 
 # Exécution unique de la simulation si les paramètres ont changé
@@ -362,7 +1127,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
                break
            
         else:
-            print(f"⚠️ Newton-Raphson did not converge at step {i+1}")
+            print(f"Newton-Raphson did not converge at step {i+1}")
         
         # Mise à jour des états
         d_non_lineaire[i+1] = d_guess
@@ -404,7 +1169,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
                break
            
         else:
-            print(f"⚠️ Newton-Raphson did not converge at step {i+1}")
+            print(f"Newton-Raphson did not converge at step {i+1}")
         
         # Mise à jour des états
         d_non_lineaire_friction[i+1] = d_guess_friction
@@ -445,10 +1210,386 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         Sd.append(np.max(np.abs(dsp)))
         Sv.append(np.max(np.abs(vsp)))
         Sa.append(np.max(np.abs(asp)))
+        
+        
+        
+    #Version avec les etages
+    # Interpolation linéaire
+    acc_interp_etage_10 = interp1d(time_data_etage_10, acc_data_etage_10, kind='linear', fill_value='extrapolate')
+    accel_etage_10 = acc_interp_etage_10(t)
     
+    # Calcul du spectre de Fourrier
+    T0_list_etage_10 = np.linspace(0.02, 20, 250)
+    
+    #f_list = 1 / T0_list  # fréquence en Hz
+    
+    Sa_etage_10 = []
+    
+    for T0_i_etage_10 in T0_list_etage_10: 
+        ω_i_etage_10 = 2 * pi / T0_i_etage_10
+        K_i_etage_10 = M * ω_i_etage_10**2
+        C_i_etage_10 = 2 * M * ω_i_etage_10 * zeta / 100  # ζ en %
 
+        Fsp_etage_10 = -M * accel_etage_10  # acc = accélération au sol interpolée sur t
+        
+        # Initialisation
+        dsp_etage_10, vsp_etage_10, asp_etage_10 = np.zeros(n), np.zeros(n), np.zeros(n)
+        asp_etage_10[0] = (Fsp_etage_10[0] - C_i_etage_10 * vsp_etage_10[0] - K_i_etage_10 * dsp_etage_10[0]) / M
+
+        # Newmark classique (β = 1/6, γ = 1/2)
+        B = M + K_i_etage_10 * beta * dt**2 + C_i_etage_10 * gamma * dt
+    
+        for i in range(n_etage_10-1):
+            P = vsp_etage_10[i] + (1 - gamma)*dt * asp_etage_10[i]
+            H = dsp_etage_10[i] + dt * vsp_etage_10[i] + (0.5 - beta)*dt**2 * asp_etage_10[i]
+            
+            asp_etage_10[i+1] = (Fsp_etage_10[i+1] - K_i_etage_10 * H - C_i_etage_10 * P) / B
+            vsp_etage_10[i+1] = P + gamma*dt * asp_etage_10[i+1]
+            dsp_etage_10[i+1] = H + beta*dt**2 * asp_etage_10[i+1]
+
+        # Stocker les maxima
+        Sa_etage_10.append(np.max(np.abs(asp_etage_10)))
+        
+        
+        # Interpolation linéaire
+        acc_interp_etage_1 = interp1d(time_data_etage_1, acc_data_etage_1, kind='linear', fill_value='extrapolate')
+        accel_etage_1 = acc_interp_etage_1(t)
+        
+        # Calcul du spectre de Fourrier
+        T0_list_etage_1 = np.linspace(0.02, 20, 250)
+        
+        #f_list = 1 / T0_list  # fréquence en Hz
+        
+        Sa_etage_1 = []
+        
+        for T0_i_etage_1 in T0_list_etage_1: 
+            ω_i_etage_1 = 2 * pi / T0_i_etage_1
+            K_i_etage_1 = M * ω_i_etage_1**2
+            C_i_etage_1 = 2 * M * ω_i_etage_1 * zeta / 100  # ζ en %
+
+            Fsp_etage_1 = -M * accel_etage_1  # acc = accélération au sol interpolée sur t
+            
+            # Initialisation
+            dsp_etage_1, vsp_etage_1, asp_etage_1 = np.zeros(n), np.zeros(n), np.zeros(n)
+            asp_etage_1[0] = (Fsp_etage_1[0] - C_i_etage_1 * vsp_etage_1[0] - K_i_etage_1 * dsp_etage_1[0]) / M
+
+            # Newmark classique (β = 1/6, γ = 1/2)
+            B = M + K_i_etage_1 * beta * dt**2 + C_i_etage_1 * gamma * dt
+        
+            for i in range(n_etage_1-1):
+                P = vsp_etage_1[i] + (1 - gamma)*dt * asp_etage_1[i]
+                H = dsp_etage_1[i] + dt * vsp_etage_1[i] + (0.5 - beta)*dt**2 * asp_etage_1[i]
+                
+                asp_etage_1[i+1] = (Fsp_etage_1[i+1] - K_i_etage_1 * H - C_i_etage_1 * P) / B
+                vsp_etage_1[i+1] = P + gamma*dt * asp_etage_1[i+1]
+                dsp_etage_1[i+1] = H + beta*dt**2 * asp_etage_1[i+1]
+
+            # Stocker les maxima
+            Sa_etage_1.append(np.max(np.abs(asp_etage_1)))
+            
+        
+        # Interpolation linéaire
+        acc_interp_etage_2 = interp1d(time_data_etage_2, acc_data_etage_2, kind='linear', fill_value='extrapolate')
+        accel_etage_2 = acc_interp_etage_2(t)
+        
+        # Calcul du spectre de Fourrier
+        T0_list_etage_2 = np.linspace(0.02, 20, 250)
+        
+        #f_list = 1 / T0_list  # fréquence en Hz
+        
+        Sa_etage_2 = []
+        
+        for T0_i_etage_2 in T0_list_etage_2: 
+            ω_i_etage_2 = 2 * pi / T0_i_etage_2
+            K_i_etage_2 = M * ω_i_etage_2**2
+            C_i_etage_2 = 2 * M * ω_i_etage_2 * zeta / 100  # ζ en %
+
+            Fsp_etage_2 = -M * accel_etage_2  # acc = accélération au sol interpolée sur t
+            
+            # Initialisation
+            dsp_etage_2, vsp_etage_2, asp_etage_2 = np.zeros(n), np.zeros(n), np.zeros(n)
+            asp_etage_2[0] = (Fsp_etage_2[0] - C_i_etage_2 * vsp_etage_2[0] - K_i_etage_2 * dsp_etage_2[0]) / M
+
+            # Newmark classique (β = 1/6, γ = 1/2)
+            B = M + K_i_etage_2 * beta * dt**2 + C_i_etage_2 * gamma * dt
+        
+            for i in range(n_etage_2-1):
+                P = vsp_etage_2[i] + (1 - gamma)*dt * asp_etage_2[i]
+                H = dsp_etage_2[i] + dt * vsp_etage_2[i] + (0.5 - beta)*dt**2 * asp_etage_2[i]
+                
+                asp_etage_2[i+1] = (Fsp_etage_2[i+1] - K_i_etage_2 * H - C_i_etage_2 * P) / B
+                vsp_etage_2[i+1] = P + gamma*dt * asp_etage_2[i+1]
+                dsp_etage_2[i+1] = H + beta*dt**2 * asp_etage_2[i+1]
+
+            # Stocker les maxima
+            Sa_etage_2.append(np.max(np.abs(asp_etage_2)))
+        
+        
+        # Interpolation linéaire
+        acc_interp_etage_3 = interp1d(time_data_etage_3, acc_data_etage_3, kind='linear', fill_value='extrapolate')
+        accel_etage_3 = acc_interp_etage_3(t)
+        
+        # Calcul du spectre de Fourrier
+        T0_list_etage_3 = np.linspace(0.02, 20, 250)
+        
+        #f_list = 1 / T0_list  # fréquence en Hz
+        
+        Sa_etage_3 = []
+        
+        for T0_i_etage_3 in T0_list_etage_3: 
+            ω_i_etage_3 = 2 * pi / T0_i_etage_3
+            K_i_etage_3 = M * ω_i_etage_3**2
+            C_i_etage_3 = 2 * M * ω_i_etage_3 * zeta / 100  # ζ en %
+
+            Fsp_etage_3 = -M * accel_etage_3  # acc = accélération au sol interpolée sur t
+            
+            # Initialisation
+            dsp_etage_3, vsp_etage_3, asp_etage_3 = np.zeros(n), np.zeros(n), np.zeros(n)
+            asp_etage_3[0] = (Fsp_etage_3[0] - C_i_etage_3 * vsp_etage_3[0] - K_i_etage_3 * dsp_etage_3[0]) / M
+
+            # Newmark classique (β = 1/6, γ = 1/2)
+            B = M + K_i_etage_3 * beta * dt**2 + C_i_etage_3 * gamma * dt
+        
+            for i in range(n_etage_3-1):
+                P = vsp_etage_3[i] + (1 - gamma)*dt * asp_etage_3[i]
+                H = dsp_etage_3[i] + dt * vsp_etage_3[i] + (0.5 - beta)*dt**2 * asp_etage_3[i]
+                
+                asp_etage_3[i+1] = (Fsp_etage_3[i+1] - K_i_etage_3 * H - C_i_etage_3 * P) / B
+                vsp_etage_3[i+1] = P + gamma*dt * asp_etage_3[i+1]
+                dsp_etage_3[i+1] = H + beta*dt**2 * asp_etage_3[i+1]
+
+            # Stocker les maxima
+            Sa_etage_3.append(np.max(np.abs(asp_etage_3)))
+            
+            
+            
+        # Interpolation linéaire
+        acc_interp_etage_4 = interp1d(time_data_etage_4, acc_data_etage_4, kind='linear', fill_value='extrapolate')
+        accel_etage_4 = acc_interp_etage_4(t)
+        
+        # Calcul du spectre de Fourrier
+        T0_list_etage_4 = np.linspace(0.02, 20, 250)
+        
+        #f_list = 1 / T0_list  # fréquence en Hz
+        
+        Sa_etage_4 = []
+        
+        for T0_i_etage_4 in T0_list_etage_4: 
+            ω_i_etage_4 = 2 * pi / T0_i_etage_4
+            K_i_etage_4 = M * ω_i_etage_4**2
+            C_i_etage_4 = 2 * M * ω_i_etage_4 * zeta / 100  # ζ en %
+
+            Fsp_etage_4 = -M * accel_etage_4  # acc = accélération au sol interpolée sur t
+            
+            # Initialisation
+            dsp_etage_4, vsp_etage_4, asp_etage_4 = np.zeros(n), np.zeros(n), np.zeros(n)
+            asp_etage_4[0] = (Fsp_etage_4[0] - C_i_etage_4 * vsp_etage_4[0] - K_i_etage_4 * dsp_etage_4[0]) / M
+
+            # Newmark classique (β = 1/6, γ = 1/2)
+            B = M + K_i_etage_4 * beta * dt**2 + C_i_etage_4 * gamma * dt
+        
+            for i in range(n_etage_4-1):
+                P = vsp_etage_4[i] + (1 - gamma)*dt * asp_etage_4[i]
+                H = dsp_etage_4[i] + dt * vsp_etage_4[i] + (0.5 - beta)*dt**2 * asp_etage_4[i]
+                
+                asp_etage_4[i+1] = (Fsp_etage_4[i+1] - K_i_etage_4 * H - C_i_etage_4 * P) / B
+                vsp_etage_4[i+1] = P + gamma*dt * asp_etage_4[i+1]
+                dsp_etage_4[i+1] = H + beta*dt**2 * asp_etage_4[i+1]
+
+            # Stocker les maxima
+            Sa_etage_4.append(np.max(np.abs(asp_etage_4)))
+            
+            
+        # Interpolation linéaire
+        acc_interp_etage_5 = interp1d(time_data_etage_5, acc_data_etage_5, kind='linear', fill_value='extrapolate')
+        accel_etage_5 = acc_interp_etage_5(t)
+        
+        # Calcul du spectre de Fourrier
+        T0_list_etage_5 = np.linspace(0.02, 20, 250)
+        
+        #f_list = 1 / T0_list  # fréquence en Hz
+        
+        Sa_etage_5 = []
+        
+        for T0_i_etage_5 in T0_list_etage_5: 
+            ω_i_etage_5 = 2 * pi / T0_i_etage_5
+            K_i_etage_5 = M * ω_i_etage_5**2
+            C_i_etage_5 = 2 * M * ω_i_etage_5 * zeta / 100  # ζ en %
+
+            Fsp_etage_5 = -M * accel_etage_5  # acc = accélération au sol interpolée sur t
+            
+            # Initialisation
+            dsp_etage_5, vsp_etage_5, asp_etage_5 = np.zeros(n), np.zeros(n), np.zeros(n)
+            asp_etage_5[0] = (Fsp_etage_5[0] - C_i_etage_5 * vsp_etage_5[0] - K_i_etage_5 * dsp_etage_5[0]) / M
+
+            # Newmark classique (β = 1/6, γ = 1/2)
+            B = M + K_i_etage_5 * beta * dt**2 + C_i_etage_5 * gamma * dt
+        
+            for i in range(n_etage_5-1):
+                P = vsp_etage_5[i] + (1 - gamma)*dt * asp_etage_5[i]
+                H = dsp_etage_5[i] + dt * vsp_etage_5[i] + (0.5 - beta)*dt**2 * asp_etage_5[i]
+                
+                asp_etage_5[i+1] = (Fsp_etage_5[i+1] - K_i_etage_5 * H - C_i_etage_5 * P) / B
+                vsp_etage_5[i+1] = P + gamma*dt * asp_etage_5[i+1]
+                dsp_etage_5[i+1] = H + beta*dt**2 * asp_etage_5[i+1]
+
+            # Stocker les maxima
+            Sa_etage_5.append(np.max(np.abs(asp_etage_5)))
+        
+        
+        # Interpolation linéaire
+        acc_interp_etage_6 = interp1d(time_data_etage_6, acc_data_etage_6, kind='linear', fill_value='extrapolate')
+        accel_etage_6 = acc_interp_etage_6(t)
+        
+        # Calcul du spectre de Fourrier
+        T0_list_etage_6 = np.linspace(0.02, 20, 250)
+        
+        #f_list = 1 / T0_list  # fréquence en Hz
+        
+        Sa_etage_6 = []
+        
+        for T0_i_etage_6 in T0_list_etage_6: 
+            ω_i_etage_6 = 2 * pi / T0_i_etage_6
+            K_i_etage_6 = M * ω_i_etage_6**2
+            C_i_etage_6 = 2 * M * ω_i_etage_6 * zeta / 100  # ζ en %
+
+            Fsp_etage_6 = -M * accel_etage_6  # acc = accélération au sol interpolée sur t
+            
+            # Initialisation
+            dsp_etage_6, vsp_etage_6, asp_etage_6 = np.zeros(n), np.zeros(n), np.zeros(n)
+            asp_etage_6[0] = (Fsp_etage_6[0] - C_i_etage_6 * vsp_etage_6[0] - K_i_etage_6 * dsp_etage_6[0]) / M
+
+            # Newmark classique (β = 1/6, γ = 1/2)
+            B = M + K_i_etage_6 * beta * dt**2 + C_i_etage_6 * gamma * dt
+        
+            for i in range(n_etage_6-1):
+                P = vsp_etage_6[i] + (1 - gamma)*dt * asp_etage_6[i]
+                H = dsp_etage_6[i] + dt * vsp_etage_6[i] + (0.5 - beta)*dt**2 * asp_etage_6[i]
+                
+                asp_etage_6[i+1] = (Fsp_etage_6[i+1] - K_i_etage_6 * H - C_i_etage_6 * P) / B
+                vsp_etage_6[i+1] = P + gamma*dt * asp_etage_6[i+1]
+                dsp_etage_6[i+1] = H + beta*dt**2 * asp_etage_6[i+1]
+
+            # Stocker les maxima
+            Sa_etage_6.append(np.max(np.abs(asp_etage_6)))
+            
+            
+        # Interpolation linéaire
+        acc_interp_etage_7 = interp1d(time_data_etage_7, acc_data_etage_7, kind='linear', fill_value='extrapolate')
+        accel_etage_7 = acc_interp_etage_7(t)
+        
+        # Calcul du spectre de Fourrier
+        T0_list_etage_7 = np.linspace(0.02, 20, 250)
+        
+        #f_list = 1 / T0_list  # fréquence en Hz
+        
+        Sa_etage_7 = []
+        
+        for T0_i_etage_7 in T0_list_etage_7: 
+            ω_i_etage_7 = 2 * pi / T0_i_etage_7
+            K_i_etage_7 = M * ω_i_etage_7**2
+            C_i_etage_7 = 2 * M * ω_i_etage_7 * zeta / 100  # ζ en %
+
+            Fsp_etage_7 = -M * accel_etage_7  # acc = accélération au sol interpolée sur t
+            
+            # Initialisation
+            dsp_etage_7, vsp_etage_7, asp_etage_7 = np.zeros(n), np.zeros(n), np.zeros(n)
+            asp_etage_7[0] = (Fsp_etage_7[0] - C_i_etage_7 * vsp_etage_7[0] - K_i_etage_7 * dsp_etage_7[0]) / M
+
+            # Newmark classique (β = 1/6, γ = 1/2)
+            B = M + K_i_etage_7 * beta * dt**2 + C_i_etage_7 * gamma * dt
+        
+            for i in range(n_etage_7-1):
+                P = vsp_etage_7[i] + (1 - gamma)*dt * asp_etage_7[i]
+                H = dsp_etage_7[i] + dt * vsp_etage_7[i] + (0.5 - beta)*dt**2 * asp_etage_7[i]
+                
+                asp_etage_7[i+1] = (Fsp_etage_7[i+1] - K_i_etage_7 * H - C_i_etage_7 * P) / B
+                vsp_etage_7[i+1] = P + gamma*dt * asp_etage_7[i+1]
+                dsp_etage_7[i+1] = H + beta*dt**2 * asp_etage_7[i+1]
+
+            # Stocker les maxima
+            Sa_etage_7.append(np.max(np.abs(asp_etage_7)))
+            
+            
+        # Interpolation linéaire
+        acc_interp_etage_8 = interp1d(time_data_etage_8, acc_data_etage_8, kind='linear', fill_value='extrapolate')
+        accel_etage_8 = acc_interp_etage_8(t)
+        
+        # Calcul du spectre de Fourrier
+        T0_list_etage_8 = np.linspace(0.02, 20, 250)
+        
+        #f_list = 1 / T0_list  # fréquence en Hz
+        
+        Sa_etage_8 = []
+        
+        for T0_i_etage_8 in T0_list_etage_8: 
+            ω_i_etage_8 = 2 * pi / T0_i_etage_8
+            K_i_etage_8 = M * ω_i_etage_8**2
+            C_i_etage_8 = 2 * M * ω_i_etage_8 * zeta / 100  # ζ en %
+
+            Fsp_etage_8 = -M * accel_etage_8  # acc = accélération au sol interpolée sur t
+            
+            # Initialisation
+            dsp_etage_8, vsp_etage_8, asp_etage_8 = np.zeros(n), np.zeros(n), np.zeros(n)
+            asp_etage_8[0] = (Fsp_etage_8[0] - C_i_etage_8 * vsp_etage_8[0] - K_i_etage_8 * dsp_etage_8[0]) / M
+
+            # Newmark classique (β = 1/6, γ = 1/2)
+            B = M + K_i_etage_8 * beta * dt**2 + C_i_etage_8 * gamma * dt
+        
+            for i in range(n_etage_8-1):
+                P = vsp_etage_8[i] + (1 - gamma)*dt * asp_etage_8[i]
+                H = dsp_etage_8[i] + dt * vsp_etage_8[i] + (0.5 - beta)*dt**2 * asp_etage_8[i]
+                
+                asp_etage_8[i+1] = (Fsp_etage_8[i+1] - K_i_etage_8 * H - C_i_etage_8 * P) / B
+                vsp_etage_8[i+1] = P + gamma*dt * asp_etage_8[i+1]
+                dsp_etage_8[i+1] = H + beta*dt**2 * asp_etage_8[i+1]
+
+            # Stocker les maxima
+            Sa_etage_8.append(np.max(np.abs(asp_etage_8)))
+            
+            
+        # Interpolation linéaire
+        acc_interp_etage_9 = interp1d(time_data_etage_9, acc_data_etage_9, kind='linear', fill_value='extrapolate')
+        accel_etage_9 = acc_interp_etage_9(t)
+        
+        # Calcul du spectre de Fourrier
+        T0_list_etage_9 = np.linspace(0.02, 20, 250)
+        
+        #f_list = 1 / T0_list  # fréquence en Hz
+        
+        Sa_etage_9 = []
+        
+        for T0_i_etage_9 in T0_list_etage_9: 
+            ω_i_etage_9 = 2 * pi / T0_i_etage_9
+            K_i_etage_9 = M * ω_i_etage_9**2
+            C_i_etage_9 = 2 * M * ω_i_etage_9 * zeta / 100  # ζ en %
+
+            Fsp_etage_9 = -M * accel_etage_9  # acc = accélération au sol interpolée sur t
+            
+            # Initialisation
+            dsp_etage_9, vsp_etage_9, asp_etage_9 = np.zeros(n), np.zeros(n), np.zeros(n)
+            asp_etage_9[0] = (Fsp_etage_9[0] - C_i_etage_9 * vsp_etage_9[0] - K_i_etage_9 * dsp_etage_9[0]) / M
+
+            # Newmark classique (β = 1/6, γ = 1/2)
+            B = M + K_i_etage_9 * beta * dt**2 + C_i_etage_9 * gamma * dt
+        
+            for i in range(n_etage_9-1):
+                P = vsp_etage_9[i] + (1 - gamma)*dt * asp_etage_8[i]
+                H = dsp_etage_9[i] + dt * vsp_etage_9[i] + (0.5 - beta)*dt**2 * asp_etage_9[i]
+                
+                asp_etage_9[i+1] = (Fsp_etage_9[i+1] - K_i_etage_9 * H - C_i_etage_9 * P) / B
+                vsp_etage_9[i+1] = P + gamma*dt * asp_etage_9[i+1]
+                dsp_etage_9[i+1] = H + beta*dt**2 * asp_etage_9[i+1]
+
+            # Stocker les maxima
+            Sa_etage_9.append(np.max(np.abs(asp_etage_9)))
+        
+        
+        
+        
     # Sauvegarde des résultats
-    st.session_state.results = {"t": t, "F": F, "d": d, "v": v, "a": a, "Sd": Sd, "Sv": Sv, "Sa": Sa, "T0_list": T0_list, "d_friction": d_friction, "v_friction": v_friction, "a_friction": a_friction, "d_non_lineaire": d_non_lineaire, "v_non_lineaire": v_non_lineaire, "a_non_lineaire": a_non_lineaire, "d_non_lineaire_friction": d_non_lineaire_friction, "v_non_lineaire_friction": v_non_lineaire_friction, "a_non_lineaire_friction": a_non_lineaire_friction}
+    st.session_state.results = {"t": t, "F": F, "d": d, "v": v, "a": a, "Sd": Sd, "Sv": Sv, "Sa": Sa, "T0_list": T0_list, "d_friction": d_friction, "v_friction": v_friction, "a_friction": a_friction, "d_non_lineaire": d_non_lineaire, "v_non_lineaire": v_non_lineaire, "a_non_lineaire": a_non_lineaire, "d_non_lineaire_friction": d_non_lineaire_friction, "v_non_lineaire_friction": v_non_lineaire_friction, "a_non_lineaire_friction": a_non_lineaire_friction, 
+                                "Sa_etage_10": Sa_etage_10, "Sa_etage_9": Sa_etage_9, "Sa_etage_8": Sa_etage_8, "Sa_etage_7": Sa_etage_7, "Sa_etage_6": Sa_etage_6, "Sa_etage_5": Sa_etage_5, "Sa_etage_4": Sa_etage_4, "Sa_etage_3": Sa_etage_3, "Sa_etage_2": Sa_etage_2, "Sa_etage_1": Sa_etage_1,}
     st.session_state.last_params = params_key
 
 # Récupération des résultats depuis session_state
@@ -477,6 +1618,17 @@ Sd = st.session_state.results["Sd"]
 Sv = st.session_state.results["Sv"]
 Sa = st.session_state.results["Sa"]
 
+Sa_etage_10 = st.session_state.results["Sa_etage_10"]
+Sa_etage_9 = st.session_state.results["Sa_etage_9"]
+Sa_etage_8 = st.session_state.results["Sa_etage_8"]
+Sa_etage_7 = st.session_state.results["Sa_etage_7"]
+Sa_etage_6 = st.session_state.results["Sa_etage_6"]
+Sa_etage_5 = st.session_state.results["Sa_etage_5"]
+Sa_etage_4 = st.session_state.results["Sa_etage_4"]
+Sa_etage_3 = st.session_state.results["Sa_etage_3"]
+Sa_etage_2 = st.session_state.results["Sa_etage_2"]
+Sa_etage_1 = st.session_state.results["Sa_etage_1"]
+
 # Indices correspondant à la plage de temps sélectionnée
 mask = (t >= selected_range[0]) & (t <= selected_range[1])
 
@@ -502,7 +1654,7 @@ a_non_lineaire_friction = a_non_lineaire_friction[mask]
 
 # Affichage
 
-# 🔹 Affichage d'un titre si l'utilisateur n'a pas encore uploadé de fichier
+# Affichage d'un titre si l'utilisateur n'a pas encore uploadé de fichier
 if uploaded_file is None:
     selected_component = "Vertical"
     st.markdown("### Example of simulation with default data")
@@ -712,8 +1864,24 @@ ax.set_title(f"Stiffness force - Non Linear model - {selected_component}")
 ax.grid()
 ax.legend()
 st.pyplot(fig)
-    
-  
+
+
+# Affichage du graphiques pour les étages
+
+st.markdown("Te Puni building floor reaction")
+
+fig, ax = plt.subplots()
+ax.plot(T0_list_etage_10, Sa_etage_10, Sa_etage_9, Sa_etage_8, Sa_etage_7, Sa_etage_6, Sa_etage_5, Sa_etage_4, Sa_etage_3, Sa_etage_2, Sa_etage_1, color="#002B45")
+ax.set_xlabel("Period (s)")
+ax.set_ylabel("Peak Acceleration")
+ax.set_title("Acceleration response spectrum per floor")
+ax.set_xscale(scale)
+ax.grid()
+ax.legend()
+st.pyplot(fig) 
+
+
+
 output_df = pd.DataFrame(
     {"Time (s)": t, "Displacement (m)": d, "Velocity (m/s)": v, "Acceleration (m/s²)": a, "Force (N)": F})
 csv = output_df.to_csv(index=False).encode('utf-8')
