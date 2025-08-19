@@ -157,7 +157,7 @@ acc_data_etage_3 = pd.to_numeric(df_etage.iloc[:, 8], errors='coerce').values
 acc_data_etage_2 = pd.to_numeric(df_etage.iloc[:, 9], errors='coerce').values   
 acc_data_etage_1 = pd.to_numeric(df_etage.iloc[:, 10], errors='coerce').values
 
-
+   
 
 # Calcule automatique de la durée du fichier
 T_max = float(np.nanmax(time_data)) if len(time_data) > 0 else 1000.0
