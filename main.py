@@ -148,47 +148,38 @@ time_data_etage_10 = pd.to_numeric(df.iloc[:, 0], errors='coerce').values
 acc_data_etage_10 = pd.to_numeric(df.iloc[:, 1], errors='coerce').values
 
 #Etage 9
-df_etage = pd.read_csv('donnee_10_etages.csv', sep=';')
 time_data_etage_9 = pd.to_numeric(df.iloc[:, 0], errors='coerce').values  
 acc_data_etage_9 = pd.to_numeric(df.iloc[:, 2], errors='coerce').values
 
 #Etage 8
-df_etage = pd.read_csv('donnee_10_etages.csv', sep=';')
 time_data_etage_8 = pd.to_numeric(df.iloc[:, 0], errors='coerce').values  
 acc_data_etage_8 = pd.to_numeric(df.iloc[:, 3], errors='coerce').values
 
 #Etage 7
-df_etage = pd.read_csv('donnee_10_etages.csv', sep=';')
 time_data_etage_7 = pd.to_numeric(df.iloc[:, 0], errors='coerce').values  
 acc_data_etage_7 = pd.to_numeric(df.iloc[:, 4], errors='coerce').values
 
 #Etage 6
-df_etage = pd.read_csv('donnee_10_etages.csv', sep=';')
 time_data_etage_6 = pd.to_numeric(df.iloc[:, 0], errors='coerce').values  
 acc_data_etage_6 = pd.to_numeric(df.iloc[:, 5], errors='coerce').values
 
 #Etage 5
-df_etage = pd.read_csv('donnee_10_etages.csv', sep=';')
 time_data_etage_5 = pd.to_numeric(df.iloc[:, 0], errors='coerce').values  
 acc_data_etage_5 = pd.to_numeric(df.iloc[:, 6], errors='coerce').values
 
 #Etage 4
-df_etage = pd.read_csv('donnee_10_etages.csv', sep=';')
 time_data_etage_4 = pd.to_numeric(df.iloc[:, 0], errors='coerce').values  
 acc_data_etage_4 = pd.to_numeric(df.iloc[:, 7], errors='coerce').values
 
 #Etage 3
-df_etage = pd.read_csv('donnee_10_etages.csv', sep=';')
 time_data_etage_3 = pd.to_numeric(df.iloc[:, 0], errors='coerce').values  
 acc_data_etage_3 = pd.to_numeric(df.iloc[:, 8], errors='coerce').values
 
 #Etage 2
-df_etage = pd.read_csv('donnee_10_etages.csv', sep=';')
 time_data_etage_2 = pd.to_numeric(df.iloc[:, 0], errors='coerce').values  
 acc_data_etage_2 = pd.to_numeric(df.iloc[:, 9], errors='coerce').values
 
 #Etage 1
-df_etage = pd.read_csv('donnee_10_etages.csv', sep=';')
 time_data_etage_1 = pd.to_numeric(df.iloc[:, 0], errors='coerce').values   
 acc_data_etage_1 = pd.to_numeric(df.iloc[:, 10], errors='coerce').values
 
