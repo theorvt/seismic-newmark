@@ -144,44 +144,44 @@ else:
 
 #Etage 10 
 df_etage = pd.read_csv('donnee_10_etages.csv', sep=';')
-time_data_etage_10 = pd.to_numeric(df.iloc[:, 0], errors='coerce').values  
-acc_data_etage_10 = pd.to_numeric(df.iloc[:, 1], errors='coerce').values
+time_data_etage_10 = pd.to_numeric(df_etage.iloc[:, 0], errors='coerce').values  
+acc_data_etage_10 = pd.to_numeric(df_etage.iloc[:, 1], errors='coerce').values
 
 #Etage 9
-time_data_etage_9 = pd.to_numeric(df.iloc[:, 0], errors='coerce').values  
-acc_data_etage_9 = pd.to_numeric(df.iloc[:, 2], errors='coerce').values
+time_data_etage_9 = pd.to_numeric(df_etage.iloc[:, 0], errors='coerce').values  
+acc_data_etage_9 = pd.to_numeric(df_etage.iloc[:, 2], errors='coerce').values
 
 #Etage 8
-time_data_etage_8 = pd.to_numeric(df.iloc[:, 0], errors='coerce').values  
-acc_data_etage_8 = pd.to_numeric(df.iloc[:, 3], errors='coerce').values
+time_data_etage_8 = pd.to_numeric(df_etage.iloc[:, 0], errors='coerce').values  
+acc_data_etage_8 = pd.to_numeric(df_etage.iloc[:, 3], errors='coerce').values
 
 #Etage 7
-time_data_etage_7 = pd.to_numeric(df.iloc[:, 0], errors='coerce').values  
-acc_data_etage_7 = pd.to_numeric(df.iloc[:, 4], errors='coerce').values
+time_data_etage_7 = pd.to_numeric(df_etage.iloc[:, 0], errors='coerce').values  
+acc_data_etage_7 = pd.to_numeric(df_etage.iloc[:, 4], errors='coerce').values
 
 #Etage 6
-time_data_etage_6 = pd.to_numeric(df.iloc[:, 0], errors='coerce').values  
-acc_data_etage_6 = pd.to_numeric(df.iloc[:, 5], errors='coerce').values
+time_data_etage_6 = pd.to_numeric(df_etage.iloc[:, 0], errors='coerce').values  
+acc_data_etage_6 = pd.to_numeric(df_etage.iloc[:, 5], errors='coerce').values
 
 #Etage 5
-time_data_etage_5 = pd.to_numeric(df.iloc[:, 0], errors='coerce').values  
-acc_data_etage_5 = pd.to_numeric(df.iloc[:, 6], errors='coerce').values
+time_data_etage_5 = pd.to_numeric(df_etage.iloc[:, 0], errors='coerce').values  
+acc_data_etage_5 = pd.to_numeric(df_etage.iloc[:, 6], errors='coerce').values
 
 #Etage 4
-time_data_etage_4 = pd.to_numeric(df.iloc[:, 0], errors='coerce').values  
-acc_data_etage_4 = pd.to_numeric(df.iloc[:, 7], errors='coerce').values
+time_data_etage_4 = pd.to_numeric(df_etage.iloc[:, 0], errors='coerce').values  
+acc_data_etage_4 = pd.to_numeric(df_etage.iloc[:, 7], errors='coerce').values
 
 #Etage 3
-time_data_etage_3 = pd.to_numeric(df.iloc[:, 0], errors='coerce').values  
-acc_data_etage_3 = pd.to_numeric(df.iloc[:, 8], errors='coerce').values
+time_data_etage_3 = pd.to_numeric(df_etage.iloc[:, 0], errors='coerce').values  
+acc_data_etage_3 = pd.to_numeric(df_etage.iloc[:, 8], errors='coerce').values
 
 #Etage 2
-time_data_etage_2 = pd.to_numeric(df.iloc[:, 0], errors='coerce').values  
-acc_data_etage_2 = pd.to_numeric(df.iloc[:, 9], errors='coerce').values
+time_data_etage_2 = pd.to_numeric(df_etage.iloc[:, 0], errors='coerce').values  
+acc_data_etage_2 = pd.to_numeric(df_etage.iloc[:, 9], errors='coerce').values
 
 #Etage 1
-time_data_etage_1 = pd.to_numeric(df.iloc[:, 0], errors='coerce').values   
-acc_data_etage_1 = pd.to_numeric(df.iloc[:, 10], errors='coerce').values
+time_data_etage_1 = pd.to_numeric(df_etage.iloc[:, 0], errors='coerce').values   
+acc_data_etage_1 = pd.to_numeric(df_etage.iloc[:, 10], errors='coerce').values
 
 
 
