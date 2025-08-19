@@ -189,7 +189,7 @@ acc_data_etage_5 = pd.to_numeric(df.iloc[:, 6], errors='coerce').values
 
 #Etage 1
 #df_etage = pd.read_csv('donnee_10_etages.csv', sep=';')
-#time_data_etage_1 = pd.to_numeric(df.iloc[:, 0], errors='coerce').values  
+#time_data_etage_1 = pd.to_numeric(df.iloc[:, 0], errors='coerce').values   
 #acc_data_etage_1 = pd.to_numeric(df.iloc[:, 10], errors='coerce').values
 
 
