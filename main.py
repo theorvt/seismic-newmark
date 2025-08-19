@@ -222,35 +222,35 @@ acc_data_etage_10 = acc_data_etage_10[valid_indices_etage_10]
 
 valid_indices_etage_9 = ~np.isnan(time_data_etage) & ~np.isnan(acc_data_etage_9)  
 time_data_etage = time_data_etage[valid_indices_etage_9]
-acc_data_etage_9 = acc_data_etage_10[valid_indices_etage_9]
+acc_data_etage_9 = acc_data_etage_9[valid_indices_etage_9]
 
 valid_indices_etage_8 = ~np.isnan(time_data_etage) & ~np.isnan(acc_data_etage_8)  
 time_data_etage = time_data_etage[valid_indices_etage_8]
-acc_data_etage_8 = acc_data_etage_10[valid_indices_etage_8]
+acc_data_etage_8 = acc_data_etage_8[valid_indices_etage_8]
 
 valid_indices_etage_7 = ~np.isnan(time_data_etage) & ~np.isnan(acc_data_etage_7)  
 time_data_etage = time_data_etage[valid_indices_etage_7]
-acc_data_etage_7 = acc_data_etage_10[valid_indices_etage_7]
+acc_data_etage_7 = acc_data_etage_7[valid_indices_etage_7]
 
 valid_indices_etage_6 = ~np.isnan(time_data_etage) & ~np.isnan(acc_data_etage_6)  
 time_data_etage = time_data_etage[valid_indices_etage_6]
-acc_data_etage_6 = acc_data_etage_10[valid_indices_etage_6]
+acc_data_etage_6 = acc_data_etage_6[valid_indices_etage_6]
 
 valid_indices_etage_5 = ~np.isnan(time_data_etage) & ~np.isnan(acc_data_etage_5)  
 time_data_etage = time_data_etage[valid_indices_etage_5]
-acc_data_etage_5 = acc_data_etage_10[valid_indices_etage_5]
+acc_data_etage_5 = acc_data_etage_5[valid_indices_etage_5]
 
 valid_indices_etage_4 = ~np.isnan(time_data_etage) & ~np.isnan(acc_data_etage_4)  
 time_data_etage = time_data_etage[valid_indices_etage_4]
-acc_data_etage_4 = acc_data_etage_10[valid_indices_etage_4]
+acc_data_etage_4 = acc_data_etage_4[valid_indices_etage_4]
 
 valid_indices_etage_3 = ~np.isnan(time_data_etage) & ~np.isnan(acc_data_etage_3)  
 time_data_etage = time_data_etage[valid_indices_etage_3]
-acc_data_etage_3 = acc_data_etage_10[valid_indices_etage_3]
+acc_data_etage_3 = acc_data_etage_3[valid_indices_etage_3]
 
 valid_indices_etage_2 = ~np.isnan(time_data_etage) & ~np.isnan(acc_data_etage_2)  
 time_data_etage = time_data_etage[valid_indices_etage_2]
-acc_data_etage_2 = acc_data_etage_10[valid_indices_etage_2]
+acc_data_etage_2 = acc_data_etage_2[valid_indices_etage_2]
 
 valid_indices_etage_1 = ~np.isnan(time_data_etage) & ~np.isnan(acc_data_etage_1)  
 time_data_etage = time_data_etage[valid_indices_etage_1]
