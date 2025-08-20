@@ -147,7 +147,6 @@ df_etage = pd.read_csv('donnee_10_etages.csv', sep=';')
 time_data_etage = pd.to_numeric(df_etage.iloc[:, 0], errors='coerce').values 
 
 acc_data_etage = []
-
 for l in range(1, 11):
     acc_data_etage.append(pd.to_numeric(df_etage.iloc[:, l], errors='coerce').values)
 
@@ -555,7 +554,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
     acc_interp_etage = []
     accel_etage = []
     Fsp_etage = []
-    for i in range(1, 10):
+    for i in range(0, 10):
         acc_interp_etage.append(interp1d(time_data_etage, acc_data_etage[i], kind='linear', fill_value='extrapolate'))
         accel_etage.append(acc_interp_etage[i](t))
         
