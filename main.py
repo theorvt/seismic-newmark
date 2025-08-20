@@ -567,7 +567,9 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
     
     for j in range(len(accel_etage)):
         
-        Fsp_etage = np.zeros(len(accel_etage))
+        accel_etage = np.array(accel_etage)  # assure que c’est un array
+        Fsp_etage = np.zeros_like(accel_etage)  # même taille que accel_etage
+
         for j in range(len(accel_etage)):
             Fsp_etage[j] = -M * accel_etage[j]
         
