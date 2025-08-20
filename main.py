@@ -565,13 +565,9 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
     # Spectre de réponse
     Sa_etage = [[] for m in range(0, 10)]  # 10 étages
     
+    Fsp_etage = []
     for j in range(len(accel_etage)):
-        
-        accel_etage = np.array(accel_etage)  # assure que c’est un array
-        Fsp_etage = np.zeros_like(accel_etage)  # même taille que accel_etage
-
-        for j in range(len(accel_etage)):
-            Fsp_etage[j] = -M * accel_etage[j]
+        Fsp_etage.append(-M * accel_etage[j])
         
         for T0_i_etage in T0_list_etage: 
             ω_i = 2 * pi / T0_i_etage
