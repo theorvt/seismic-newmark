@@ -571,7 +571,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
             K_i = M * ω_i**2
             C_i = 2 * M * ω_i * zeta / 100  # ζ en %
 
-            Fsp_etage[T0_i_etage] = -M * accel_etage[T0_i_etage]  # acc = accélération au sol interpolée sur t
+            Fsp_etage[j] = -M * accel_etage[j]  # acc = accélération au sol interpolée sur t
             
             # Initialisation
             dsp_etage, vsp_etage, asp_etage = np.zeros(n), np.zeros(n), np.zeros(n)
