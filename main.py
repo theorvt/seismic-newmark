@@ -149,7 +149,7 @@ time_data_etage = pd.to_numeric(df_etage.iloc[:, 0], errors='coerce').values
 acc_data_etage = []
 
 for l in range(1, 11):
-    acc_data_etage[l] = pd.to_numeric(df_etage.iloc[:, l], errors='coerce').values
+    acc_data_etage.append(pd.to_numeric(df_etage.iloc[:, l], errors='coerce').values)
 
 
 # Calcule automatique de la durée du fichier
@@ -556,15 +556,15 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
     accel_etage = []
     Fsp_etage = []
     for i in range(1, 11):
-        acc_interp_etage[i] = interp1d(time_data_etage, acc_data_etage[i], kind='linear', fill_value='extrapolate')
-        accel_etage[i] = acc_interp_etage[i](t)
+        acc_interp_etage.append(interp1d(time_data_etage, acc_data_etage[i], kind='linear', fill_value='extrapolate'))
+        accel_etage.append(acc_interp_etage[i](t))
         
         
     # Calcul du spectre de Fourrier
     T0_list_etage = np.linspace(0.02, 20, 250)
     
     # Spectre de réponse
-    Sa_etage = []
+    Sa_etage = [[] for m in range(1, 11)]  # 10 étages
     
     for j in range(1, 11):
         for T0_i_etage in T0_list_etage: 
@@ -625,16 +625,18 @@ Sd = st.session_state.results["Sd"]
 Sv = st.session_state.results["Sv"]
 Sa = st.session_state.results["Sa"]
 
-Sa_etage_10 = st.session_state.results["Sa_etage_10"]
-Sa_etage_9 = st.session_state.results["Sa_etage_9"]
-Sa_etage_8 = st.session_state.results["Sa_etage_8"]
-Sa_etage_7 = st.session_state.results["Sa_etage_7"]
-Sa_etage_6 = st.session_state.results["Sa_etage_6"]
-Sa_etage_5 = st.session_state.results["Sa_etage_5"]
-Sa_etage_4 = st.session_state.results["Sa_etage_4"]
-Sa_etage_3 = st.session_state.results["Sa_etage_3"]
-Sa_etage_2 = st.session_state.results["Sa_etage_2"]
-Sa_etage_1 = st.session_state.results["Sa_etage_1"]
+Sa_etage = st.session_state.results["Sa_etage"]
+    
+Sa_etage_10 = Sa_etage[9]
+Sa_etage_9 = Sa_etage[8]
+Sa_etage_8 = Sa_etage[7]
+Sa_etage_7 = Sa_etage[6]
+Sa_etage_6 = Sa_etage[5]
+Sa_etage_5 = Sa_etage[4]
+Sa_etage_4 = Sa_etage[3]
+Sa_etage_3 = Sa_etage[2]
+Sa_etage_2 = Sa_etage[1]
+Sa_etage_1 = Sa_etage[0]
 
 # Indices correspondant à la plage de temps sélectionnée
 mask = (t >= selected_range[0]) & (t <= selected_range[1])
@@ -666,8 +668,6 @@ if uploaded_file is None:
     selected_component = "Vertical"
     st.markdown("### Example of simulation with default data")
     st.info("You are currently viewing a simulation example with predefined data. To use your own seismic data, import a CSV or Excel file at the top of the page.")
-
-
 
 # Enregistrement du séisme et spectre de réponse
 st.markdown("Earthquake input")
@@ -878,7 +878,7 @@ st.pyplot(fig)
 st.markdown("Te Puni building floor reaction")
 
 fig, ax = plt.subplots()
-ax.plot(T0_list_etage, Sa_etage, color="#002B45")
+ax.plot(T0_list_etage, Sa_etage_10, Sa_etage_9, Sa_etage_8, Sa_etage_7, Sa_etage_6, Sa_etage_5, Sa_etage_4, Sa_etage_3, Sa_etage_2, Sa_etage_1, color="#002B45")
 ax.set_xlabel("Period (s)")
 ax.set_ylabel("Peak Acceleration")
 ax.set_title("Acceleration response spectrum per floor")
