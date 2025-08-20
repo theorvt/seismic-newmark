@@ -566,13 +566,13 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
     Sa_etage = [[] for m in range(0, 10)]  # 10 étages
     
     for j in range(len(accel_etage)):
+        
+        Fsp_etage[j] = -M * accel_etage[j]
+        
         for T0_i_etage in T0_list_etage: 
             ω_i = 2 * pi / T0_i_etage
             K_i = M * ω_i**2
             C_i = 2 * M * ω_i * zeta / 100  # ζ en %
-
-            accel_val = accel_etage[j]
-            Fsp_etage[j] = -M * accel_val
             
             # Initialisation
             dsp_etage, vsp_etage, asp_etage = np.zeros(n), np.zeros(n), np.zeros(n)
