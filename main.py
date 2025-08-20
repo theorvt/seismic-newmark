@@ -145,19 +145,12 @@ else:
 #Etage 10 
 df_etage = pd.read_csv('donnee_10_etages.csv', sep=';')
 time_data_etage = pd.to_numeric(df_etage.iloc[:, 0], errors='coerce').values 
- 
-acc_data_etage_10 = pd.to_numeric(df_etage.iloc[:, 1], errors='coerce').values 
-acc_data_etage_9 = pd.to_numeric(df_etage.iloc[:, 2], errors='coerce').values 
-acc_data_etage_8 = pd.to_numeric(df_etage.iloc[:, 3], errors='coerce').values  
-acc_data_etage_7 = pd.to_numeric(df_etage.iloc[:, 4], errors='coerce').values  
-acc_data_etage_6 = pd.to_numeric(df_etage.iloc[:, 5], errors='coerce').values 
-acc_data_etage_5 = pd.to_numeric(df_etage.iloc[:, 6], errors='coerce').values
-acc_data_etage_4 = pd.to_numeric(df_etage.iloc[:, 7], errors='coerce').values 
-acc_data_etage_3 = pd.to_numeric(df_etage.iloc[:, 8], errors='coerce').values
-acc_data_etage_2 = pd.to_numeric(df_etage.iloc[:, 9], errors='coerce').values   
-acc_data_etage_1 = pd.to_numeric(df_etage.iloc[:, 10], errors='coerce').values
 
-   
+acc_data_etage = []
+
+for l in range(1, 11):
+    acc_data_etage[l] = pd.to_numeric(df_etage.iloc[:, l], errors='coerce').values
+
 
 # Calcule automatique de la durée du fichier
 T_max = float(np.nanmax(time_data)) if len(time_data) > 0 else 1000.0
@@ -177,8 +170,7 @@ if "time_range_slider" not in st.session_state or st.session_state["previous_T"]
     st.session_state["previous_T"] = T  # Mettre à jour la référence
     
    
-    
-    
+ 
 # Version pour les etages
 # Calcule automatique de la durée du fichier
 T_max_etage = float(np.nanmax(time_data_etage)) if len(time_data_etage) > 0 else 1000.0
@@ -560,381 +552,51 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         
     #Version avec les etages
     # Interpolation linéaire
-    acc_interp_etage_10 = interp1d(time_data_etage, acc_data_etage[0], kind='linear', fill_value='extrapolate')
-    accel_etage_10 = acc_interp_etage_10(t)
-    
+    acc_interp_etage = []
+    accel_etage = []
+    Fsp_etage = []
+    for i in range(1, 11):
+        acc_interp_etage[i] = interp1d(time_data_etage, acc_data_etage[i], kind='linear', fill_value='extrapolate')
+        accel_etage[i] = acc_interp_etage[i](t)
+        
+        
     # Calcul du spectre de Fourrier
-    T0_list_etage_10 = np.linspace(0.02, 20, 250)
+    T0_list_etage = np.linspace(0.02, 20, 250)
     
-    #f_list = 1 / T0_list  # fréquence en Hz
+    # Spectre de réponse
+    Sa_etage = []
     
-    Sa_etage_10 = []
-    
-    for T0_i_etage_10 in T0_list_etage_10: 
-        ω_i_etage_10 = 2 * pi / T0_i_etage_10
-        K_i_etage_10 = M * ω_i_etage_10**2
-        C_i_etage_10 = 2 * M * ω_i_etage_10 * zeta / 100  # ζ en %
+    for j in range(1, 11):
+        for T0_i_etage in T0_list_etage: 
+            ω_i = 2 * pi / T0_i_etage
+            K_i = M * ω_i**2
+            C_i = 2 * M * ω_i * zeta / 100  # ζ en %
 
-        Fsp_etage_10 = -M * accel_etage_10  # acc = accélération au sol interpolée sur t
-        
-        # Initialisation
-        dsp_etage_10, vsp_etage_10, asp_etage_10 = np.zeros(n), np.zeros(n), np.zeros(n)
-        asp_etage_10[0] = (Fsp_etage_10[0] - C_i_etage_10 * vsp_etage_10[0] - K_i_etage_10 * dsp_etage_10[0]) / M
-
-        # Newmark classique (β = 1/6, γ = 1/2)
-        B = M + K_i_etage_10 * beta * dt**2 + C_i_etage_10 * gamma * dt
-    
-        for i in range(n_etage-1):
-            P = vsp_etage_10[i] + (1 - gamma)*dt * asp_etage_10[i]
-            H = dsp_etage_10[i] + dt * vsp_etage_10[i] + (0.5 - beta)*dt**2 * asp_etage_10[i]
-            
-            asp_etage_10[i+1] = (Fsp_etage_10[i+1] - K_i_etage_10 * H - C_i_etage_10 * P) / B
-            vsp_etage_10[i+1] = P + gamma*dt * asp_etage_10[i+1]
-            dsp_etage_10[i+1] = H + beta*dt**2 * asp_etage_10[i+1]
-
-        # Stocker les maxima
-        Sa_etage_10.append(np.max(np.abs(asp_etage_10)))
-        
-        
-        # Interpolation linéaire
-        acc_interp_etage_1 = interp1d(time_data_etage, acc_data_etage[9], kind='linear', fill_value='extrapolate')
-        accel_etage_1 = acc_interp_etage_1(t)
-        
-        # Calcul du spectre de Fourrier
-        T0_list_etage_1 = np.linspace(0.02, 20, 250)
-        
-        #f_list = 1 / T0_list  # fréquence en Hz
-        
-        Sa_etage_1 = []
-        
-        for T0_i_etage_1 in T0_list_etage_1: 
-            ω_i_etage_1 = 2 * pi / T0_i_etage_1
-            K_i_etage_1 = M * ω_i_etage_1**2
-            C_i_etage_1 = 2 * M * ω_i_etage_1 * zeta / 100  # ζ en %
-
-            Fsp_etage_1 = -M * accel_etage_1  # acc = accélération au sol interpolée sur t
+            Fsp_etage[T0_i_etage] = -M * accel_etage[T0_i_etage]  # acc = accélération au sol interpolée sur t
             
             # Initialisation
-            dsp_etage_1, vsp_etage_1, asp_etage_1 = np.zeros(n), np.zeros(n), np.zeros(n)
-            asp_etage_1[0] = (Fsp_etage_1[0] - C_i_etage_1 * vsp_etage_1[0] - K_i_etage_1 * dsp_etage_1[0]) / M
+            dsp_etage, vsp_etage, asp_etage = np.zeros(n), np.zeros(n), np.zeros(n)
+            asp_etage[0] = (Fsp_etage[0] - C_i * vsp_etage[0] - K_i * dsp_etage[0]) / M
 
             # Newmark classique (β = 1/6, γ = 1/2)
-            B = M + K_i_etage_1 * beta * dt**2 + C_i_etage_1 * gamma * dt
+            B = M + K_i * beta * dt**2 + C_i * gamma * dt
         
             for i in range(n_etage-1):
-                P = vsp_etage_1[i] + (1 - gamma)*dt * asp_etage_1[i]
-                H = dsp_etage_1[i] + dt * vsp_etage_1[i] + (0.5 - beta)*dt**2 * asp_etage_1[i]
+                P = vsp_etage[i] + (1 - gamma)*dt * asp_etage[i]
+                H = dsp_etage[i] + dt * vsp_etage[i] + (0.5 - beta)*dt**2 * asp_etage[i]
                 
-                asp_etage_1[i+1] = (Fsp_etage_1[i+1] - K_i_etage_1 * H - C_i_etage_1 * P) / B
-                vsp_etage_1[i+1] = P + gamma*dt * asp_etage_1[i+1]
-                dsp_etage_1[i+1] = H + beta*dt**2 * asp_etage_1[i+1]
+                asp_etage[i+1] = (Fsp_etage[i+1] - K_i * H - C_i * P) / B
+                vsp_etage[i+1] = P + gamma*dt * asp_etage[i+1]
+                dsp_etage[i+1] = H + beta*dt**2 * asp_etage[i+1]
 
             # Stocker les maxima
-            Sa_etage_1.append(np.max(np.abs(asp_etage_1)))
-            
-        
-        # Interpolation linéaire
-        acc_interp_etage_2 = interp1d(time_data_etage, acc_data_etage[8], kind='linear', fill_value='extrapolate')
-        accel_etage_2 = acc_interp_etage_2(t)
-        
-        # Calcul du spectre de Fourrier
-        T0_list_etage_2 = np.linspace(0.02, 20, 250)
-        
-        #f_list = 1 / T0_list  # fréquence en Hz
-        
-        Sa_etage_2 = []
-        
-        for T0_i_etage_2 in T0_list_etage_2: 
-            ω_i_etage_2 = 2 * pi / T0_i_etage_2
-            K_i_etage_2 = M * ω_i_etage_2**2
-            C_i_etage_2 = 2 * M * ω_i_etage_2 * zeta / 100  # ζ en %
-
-            Fsp_etage_2 = -M * accel_etage_2  # acc = accélération au sol interpolée sur t
-            
-            # Initialisation
-            dsp_etage_2, vsp_etage_2, asp_etage_2 = np.zeros(n), np.zeros(n), np.zeros(n)
-            asp_etage_2[0] = (Fsp_etage_2[0] - C_i_etage_2 * vsp_etage_2[0] - K_i_etage_2 * dsp_etage_2[0]) / M
-
-            # Newmark classique (β = 1/6, γ = 1/2)
-            B = M + K_i_etage_2 * beta * dt**2 + C_i_etage_2 * gamma * dt
-        
-            for i in range(n_etage-1):
-                P = vsp_etage_2[i] + (1 - gamma)*dt * asp_etage_2[i]
-                H = dsp_etage_2[i] + dt * vsp_etage_2[i] + (0.5 - beta)*dt**2 * asp_etage_2[i]
-                
-                asp_etage_2[i+1] = (Fsp_etage_2[i+1] - K_i_etage_2 * H - C_i_etage_2 * P) / B
-                vsp_etage_2[i+1] = P + gamma*dt * asp_etage_2[i+1]
-                dsp_etage_2[i+1] = H + beta*dt**2 * asp_etage_2[i+1]
-
-            # Stocker les maxima
-            Sa_etage_2.append(np.max(np.abs(asp_etage_2)))
-        
-        
-        # Interpolation linéaire
-        acc_interp_etage_3 = interp1d(time_data_etage, acc_data_etage[7], kind='linear', fill_value='extrapolate')
-        accel_etage_3 = acc_interp_etage_3(t)
-        
-        # Calcul du spectre de Fourrier
-        T0_list_etage_3 = np.linspace(0.02, 20, 250)
-        
-        #f_list = 1 / T0_list  # fréquence en Hz
-        
-        Sa_etage_3 = []
-        
-        for T0_i_etage_3 in T0_list_etage_3: 
-            ω_i_etage_3 = 2 * pi / T0_i_etage_3
-            K_i_etage_3 = M * ω_i_etage_3**2
-            C_i_etage_3 = 2 * M * ω_i_etage_3 * zeta / 100  # ζ en %
-
-            Fsp_etage_3 = -M * accel_etage_3  # acc = accélération au sol interpolée sur t
-            
-            # Initialisation
-            dsp_etage_3, vsp_etage_3, asp_etage_3 = np.zeros(n), np.zeros(n), np.zeros(n)
-            asp_etage_3[0] = (Fsp_etage_3[0] - C_i_etage_3 * vsp_etage_3[0] - K_i_etage_3 * dsp_etage_3[0]) / M
-
-            # Newmark classique (β = 1/6, γ = 1/2)
-            B = M + K_i_etage_3 * beta * dt**2 + C_i_etage_3 * gamma * dt
-        
-            for i in range(n_etage-1):
-                P = vsp_etage_3[i] + (1 - gamma)*dt * asp_etage_3[i]
-                H = dsp_etage_3[i] + dt * vsp_etage_3[i] + (0.5 - beta)*dt**2 * asp_etage_3[i]
-                
-                asp_etage_3[i+1] = (Fsp_etage_3[i+1] - K_i_etage_3 * H - C_i_etage_3 * P) / B
-                vsp_etage_3[i+1] = P + gamma*dt * asp_etage_3[i+1]
-                dsp_etage_3[i+1] = H + beta*dt**2 * asp_etage_3[i+1]
-
-            # Stocker les maxima
-            Sa_etage_3.append(np.max(np.abs(asp_etage_3)))
-            
-            
-            
-        # Interpolation linéaire
-        acc_interp_etage_4 = interp1d(time_data_etage, acc_data_etage[6], kind='linear', fill_value='extrapolate')
-        accel_etage_4 = acc_interp_etage_4(t)
-        
-        # Calcul du spectre de Fourrier
-        T0_list_etage_4 = np.linspace(0.02, 20, 250)
-        
-        #f_list = 1 / T0_list  # fréquence en Hz
-        
-        Sa_etage_4 = []
-        
-        for T0_i_etage_4 in T0_list_etage_4: 
-            ω_i_etage_4 = 2 * pi / T0_i_etage_4
-            K_i_etage_4 = M * ω_i_etage_4**2
-            C_i_etage_4 = 2 * M * ω_i_etage_4 * zeta / 100  # ζ en %
-
-            Fsp_etage_4 = -M * accel_etage_4  # acc = accélération au sol interpolée sur t
-            
-            # Initialisation
-            dsp_etage_4, vsp_etage_4, asp_etage_4 = np.zeros(n), np.zeros(n), np.zeros(n)
-            asp_etage_4[0] = (Fsp_etage_4[0] - C_i_etage_4 * vsp_etage_4[0] - K_i_etage_4 * dsp_etage_4[0]) / M
-
-            # Newmark classique (β = 1/6, γ = 1/2)
-            B = M + K_i_etage_4 * beta * dt**2 + C_i_etage_4 * gamma * dt
-        
-            for i in range(n_etage-1):
-                P = vsp_etage_4[i] + (1 - gamma)*dt * asp_etage_4[i]
-                H = dsp_etage_4[i] + dt * vsp_etage_4[i] + (0.5 - beta)*dt**2 * asp_etage_4[i]
-                
-                asp_etage_4[i+1] = (Fsp_etage_4[i+1] - K_i_etage_4 * H - C_i_etage_4 * P) / B
-                vsp_etage_4[i+1] = P + gamma*dt * asp_etage_4[i+1]
-                dsp_etage_4[i+1] = H + beta*dt**2 * asp_etage_4[i+1]
-
-            # Stocker les maxima
-            Sa_etage_4.append(np.max(np.abs(asp_etage_4)))
-            
-            
-        # Interpolation linéaire
-        acc_interp_etage_5 = interp1d(time_data_etage, acc_data_etage[5], kind='linear', fill_value='extrapolate')
-        accel_etage_5 = acc_interp_etage_5(t)
-        
-        # Calcul du spectre de Fourrier
-        T0_list_etage_5 = np.linspace(0.02, 20, 250)
-        
-        #f_list = 1 / T0_list  # fréquence en Hz
-        
-        Sa_etage_5 = []
-        
-        for T0_i_etage_5 in T0_list_etage_5: 
-            ω_i_etage_5 = 2 * pi / T0_i_etage_5
-            K_i_etage_5 = M * ω_i_etage_5**2
-            C_i_etage_5 = 2 * M * ω_i_etage_5 * zeta / 100  # ζ en %
-
-            Fsp_etage_5 = -M * accel_etage_5  # acc = accélération au sol interpolée sur t
-            
-            # Initialisation
-            dsp_etage_5, vsp_etage_5, asp_etage_5 = np.zeros(n), np.zeros(n), np.zeros(n)
-            asp_etage_5[0] = (Fsp_etage_5[0] - C_i_etage_5 * vsp_etage_5[0] - K_i_etage_5 * dsp_etage_5[0]) / M
-
-            # Newmark classique (β = 1/6, γ = 1/2)
-            B = M + K_i_etage_5 * beta * dt**2 + C_i_etage_5 * gamma * dt
-        
-            for i in range(n_etage-1):
-                P = vsp_etage_5[i] + (1 - gamma)*dt * asp_etage_5[i]
-                H = dsp_etage_5[i] + dt * vsp_etage_5[i] + (0.5 - beta)*dt**2 * asp_etage_5[i]
-                
-                asp_etage_5[i+1] = (Fsp_etage_5[i+1] - K_i_etage_5 * H - C_i_etage_5 * P) / B
-                vsp_etage_5[i+1] = P + gamma*dt * asp_etage_5[i+1]
-                dsp_etage_5[i+1] = H + beta*dt**2 * asp_etage_5[i+1]
-
-            # Stocker les maxima
-            Sa_etage_5.append(np.max(np.abs(asp_etage_5)))
-        
-        
-        # Interpolation linéaire
-        acc_interp_etage_6 = interp1d(time_data_etage, acc_data_etage[4], kind='linear', fill_value='extrapolate')
-        accel_etage_6 = acc_interp_etage_6(t)
-        
-        # Calcul du spectre de Fourrier
-        T0_list_etage_6 = np.linspace(0.02, 20, 250)
-        
-        #f_list = 1 / T0_list  # fréquence en Hz
-        
-        Sa_etage_6 = []
-        
-        for T0_i_etage_6 in T0_list_etage_6: 
-            ω_i_etage_6 = 2 * pi / T0_i_etage_6
-            K_i_etage_6 = M * ω_i_etage_6**2
-            C_i_etage_6 = 2 * M * ω_i_etage_6 * zeta / 100  # ζ en %
-
-            Fsp_etage_6 = -M * accel_etage_6  # acc = accélération au sol interpolée sur t
-            
-            # Initialisation
-            dsp_etage_6, vsp_etage_6, asp_etage_6 = np.zeros(n), np.zeros(n), np.zeros(n)
-            asp_etage_6[0] = (Fsp_etage_6[0] - C_i_etage_6 * vsp_etage_6[0] - K_i_etage_6 * dsp_etage_6[0]) / M
-
-            # Newmark classique (β = 1/6, γ = 1/2)
-            B = M + K_i_etage_6 * beta * dt**2 + C_i_etage_6 * gamma * dt
-        
-            for i in range(n_etage-1):
-                P = vsp_etage_6[i] + (1 - gamma)*dt * asp_etage_6[i]
-                H = dsp_etage_6[i] + dt * vsp_etage_6[i] + (0.5 - beta)*dt**2 * asp_etage_6[i]
-                
-                asp_etage_6[i+1] = (Fsp_etage_6[i+1] - K_i_etage_6 * H - C_i_etage_6 * P) / B
-                vsp_etage_6[i+1] = P + gamma*dt * asp_etage_6[i+1]
-                dsp_etage_6[i+1] = H + beta*dt**2 * asp_etage_6[i+1]
-
-            # Stocker les maxima
-            Sa_etage_6.append(np.max(np.abs(asp_etage_6)))
-            
-            
-        # Interpolation linéaire
-        acc_interp_etage_7 = interp1d(time_data_etage, acc_data_etage[3], kind='linear', fill_value='extrapolate')
-        accel_etage_7 = acc_interp_etage_7(t)
-        
-        # Calcul du spectre de Fourrier
-        T0_list_etage_7 = np.linspace(0.02, 20, 250)
-        
-        #f_list = 1 / T0_list  # fréquence en Hz
-        
-        Sa_etage_7 = []
-        
-        for T0_i_etage_7 in T0_list_etage_7: 
-            ω_i_etage_7 = 2 * pi / T0_i_etage_7
-            K_i_etage_7 = M * ω_i_etage_7**2
-            C_i_etage_7 = 2 * M * ω_i_etage_7 * zeta / 100  # ζ en %
-
-            Fsp_etage_7 = -M * accel_etage_7  # acc = accélération au sol interpolée sur t
-            
-            # Initialisation
-            dsp_etage_7, vsp_etage_7, asp_etage_7 = np.zeros(n), np.zeros(n), np.zeros(n)
-            asp_etage_7[0] = (Fsp_etage_7[0] - C_i_etage_7 * vsp_etage_7[0] - K_i_etage_7 * dsp_etage_7[0]) / M
-
-            # Newmark classique (β = 1/6, γ = 1/2)
-            B = M + K_i_etage_7 * beta * dt**2 + C_i_etage_7 * gamma * dt
-        
-            for i in range(n_etage-1):
-                P = vsp_etage_7[i] + (1 - gamma)*dt * asp_etage_7[i]
-                H = dsp_etage_7[i] + dt * vsp_etage_7[i] + (0.5 - beta)*dt**2 * asp_etage_7[i]
-                
-                asp_etage_7[i+1] = (Fsp_etage_7[i+1] - K_i_etage_7 * H - C_i_etage_7 * P) / B
-                vsp_etage_7[i+1] = P + gamma*dt * asp_etage_7[i+1]
-                dsp_etage_7[i+1] = H + beta*dt**2 * asp_etage_7[i+1]
-
-            # Stocker les maxima
-            Sa_etage_7.append(np.max(np.abs(asp_etage_7)))
-            
-            
-        # Interpolation linéaire
-        acc_interp_etage_8 = interp1d(time_data_etage, acc_data_etage[2], kind='linear', fill_value='extrapolate')
-        accel_etage_8 = acc_interp_etage_8(t)
-        
-        # Calcul du spectre de Fourrier
-        T0_list_etage_8 = np.linspace(0.02, 20, 250)
-        
-        #f_list = 1 / T0_list  # fréquence en Hz
-        
-        Sa_etage_8 = []
-        
-        for T0_i_etage_8 in T0_list_etage_8: 
-            ω_i_etage_8 = 2 * pi / T0_i_etage_8
-            K_i_etage_8 = M * ω_i_etage_8**2
-            C_i_etage_8 = 2 * M * ω_i_etage_8 * zeta / 100  # ζ en %
-
-            Fsp_etage_8 = -M * accel_etage_8  # acc = accélération au sol interpolée sur t
-            
-            # Initialisation
-            dsp_etage_8, vsp_etage_8, asp_etage_8 = np.zeros(n), np.zeros(n), np.zeros(n)
-            asp_etage_8[0] = (Fsp_etage_8[0] - C_i_etage_8 * vsp_etage_8[0] - K_i_etage_8 * dsp_etage_8[0]) / M
-
-            # Newmark classique (β = 1/6, γ = 1/2)
-            B = M + K_i_etage_8 * beta * dt**2 + C_i_etage_8 * gamma * dt
-        
-            for i in range(n_etage-1):
-                P = vsp_etage_8[i] + (1 - gamma)*dt * asp_etage_8[i]
-                H = dsp_etage_8[i] + dt * vsp_etage_8[i] + (0.5 - beta)*dt**2 * asp_etage_8[i]
-                
-                asp_etage_8[i+1] = (Fsp_etage_8[i+1] - K_i_etage_8 * H - C_i_etage_8 * P) / B
-                vsp_etage_8[i+1] = P + gamma*dt * asp_etage_8[i+1]
-                dsp_etage_8[i+1] = H + beta*dt**2 * asp_etage_8[i+1]
-
-            # Stocker les maxima
-            Sa_etage_8.append(np.max(np.abs(asp_etage_8)))
-            
-            
-        # Interpolation linéaire
-        acc_interp_etage_9 = interp1d(time_data_etage, acc_data_etage[1], kind='linear', fill_value='extrapolate')
-        accel_etage_9 = acc_interp_etage_9(t)
-        
-        # Calcul du spectre de Fourrier
-        T0_list_etage_9 = np.linspace(0.02, 20, 250)
-        
-        #f_list = 1 / T0_list  # fréquence en Hz
-        
-        Sa_etage_9 = []
-        
-        for T0_i_etage_9 in T0_list_etage_9: 
-            ω_i_etage_9 = 2 * pi / T0_i_etage_9
-            K_i_etage_9 = M * ω_i_etage_9**2
-            C_i_etage_9 = 2 * M * ω_i_etage_9 * zeta / 100  # ζ en %
-
-            Fsp_etage_9 = -M * accel_etage_9  # acc = accélération au sol interpolée sur t
-            
-            # Initialisation
-            dsp_etage_9, vsp_etage_9, asp_etage_9 = np.zeros(n), np.zeros(n), np.zeros(n)
-            asp_etage_9[0] = (Fsp_etage_9[0] - C_i_etage_9 * vsp_etage_9[0] - K_i_etage_9 * dsp_etage_9[0]) / M
-
-            # Newmark classique (β = 1/6, γ = 1/2)
-            B = M + K_i_etage_9 * beta * dt**2 + C_i_etage_9 * gamma * dt
-        
-            for i in range(n_etage-1):
-                P = vsp_etage_9[i] + (1 - gamma)*dt * asp_etage_8[i]
-                H = dsp_etage_9[i] + dt * vsp_etage_9[i] + (0.5 - beta)*dt**2 * asp_etage_9[i]
-                
-                asp_etage_9[i+1] = (Fsp_etage_9[i+1] - K_i_etage_9 * H - C_i_etage_9 * P) / B
-                vsp_etage_9[i+1] = P + gamma*dt * asp_etage_9[i+1]
-                dsp_etage_9[i+1] = H + beta*dt**2 * asp_etage_9[i+1]
-
-            # Stocker les maxima
-            Sa_etage_9.append(np.max(np.abs(asp_etage_9)))
-        
+            Sa_etage[j].append(np.max(np.abs(asp_etage)))
         
         
         
     # Sauvegarde des résultats
     st.session_state.results = {"t": t, "F": F, "d": d, "v": v, "a": a, "Sd": Sd, "Sv": Sv, "Sa": Sa, "T0_list": T0_list, "d_friction": d_friction, "v_friction": v_friction, "a_friction": a_friction, "d_non_lineaire": d_non_lineaire, "v_non_lineaire": v_non_lineaire, "a_non_lineaire": a_non_lineaire, "d_non_lineaire_friction": d_non_lineaire_friction, "v_non_lineaire_friction": v_non_lineaire_friction, "a_non_lineaire_friction": a_non_lineaire_friction, 
-                                "Sa_etage_10": Sa_etage_10, "Sa_etage_9": Sa_etage_9, "Sa_etage_8": Sa_etage_8, "Sa_etage_7": Sa_etage_7, "Sa_etage_6": Sa_etage_6, "Sa_etage_5": Sa_etage_5, "Sa_etage_4": Sa_etage_4, "Sa_etage_3": Sa_etage_3, "Sa_etage_2": Sa_etage_2, "Sa_etage_1": Sa_etage_1,}
+                                "Sa_etage": Sa_etage}
     st.session_state.last_params = params_key
 
 # Récupération des résultats depuis session_state
@@ -1216,7 +878,7 @@ st.pyplot(fig)
 st.markdown("Te Puni building floor reaction")
 
 fig, ax = plt.subplots()
-ax.plot(T0_list_etage_10, Sa_etage_10, Sa_etage_9, Sa_etage_8, Sa_etage_7, Sa_etage_6, Sa_etage_5, Sa_etage_4, Sa_etage_3, Sa_etage_2, Sa_etage_1, color="#002B45")
+ax.plot(T0_list_etage, Sa_etage, color="#002B45")
 ax.set_xlabel("Period (s)")
 ax.set_ylabel("Peak Acceleration")
 ax.set_title("Acceleration response spectrum per floor")
