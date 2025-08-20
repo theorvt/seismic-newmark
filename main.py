@@ -567,7 +567,9 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
     
     for j in range(len(accel_etage)):
         
-        Fsp_etage[j] = -M * accel_etage[j]
+        Fsp_etage = np.zeros(len(accel_etage))
+        for j in range(len(accel_etage)):
+            Fsp_etage[j] = -M * accel_etage[j]
         
         for T0_i_etage in T0_list_etage: 
             ω_i = 2 * pi / T0_i_etage
