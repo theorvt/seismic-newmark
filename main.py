@@ -563,15 +563,15 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
     T0_list_etage = np.linspace(0.02, 20, 250)
     
     # Spectre de réponse
-    Sa_etage = [[] for m in range(1, 11)]  # 10 étages
+    Sa_etage = [[] for m in range(0, 10)]  # 10 étages
     
-    for j in range(1, 11):
+    for j in range(len(accel_etage)):
         for T0_i_etage in T0_list_etage: 
             ω_i = 2 * pi / T0_i_etage
             K_i = M * ω_i**2
             C_i = 2 * M * ω_i * zeta / 100  # ζ en %
 
-            accel_val = accel_etage[j](T0_i_etage)  # T0_i_etage en secondes
+            accel_val = accel_etage[j]
             Fsp_etage[j] = -M * accel_val
             
             # Initialisation
