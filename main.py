@@ -576,7 +576,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
             
             # Initialisation
             dsp_etage, vsp_etage, asp_etage = np.zeros(n), np.zeros(n), np.zeros(n)
-            asp_etage[0] = (Fsp_etage[0][j] - C_i * vsp_etage[0] - K_i * dsp_etage[0]) / M
+            asp_etage[0] = (Fsp_etage[j][0] - C_i * vsp_etage[0] - K_i * dsp_etage[0]) / M
 
             # Newmark classique (β = 1/6, γ = 1/2)
             B = M + K_i * beta * dt**2 + C_i * gamma * dt
@@ -585,7 +585,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
                 P = vsp_etage[i] + (1 - gamma)*dt * asp_etage[i]
                 H = dsp_etage[i] + dt * vsp_etage[i] + (0.5 - beta)*dt**2 * asp_etage[i]
                 
-                asp_etage[i+1] = (Fsp_etage[i+1][j] - K_i * H - C_i * P) / B
+                asp_etage[i+1] = (Fsp_etage[j][i+1] - K_i * H - C_i * P) / B
                 vsp_etage[i+1] = P + gamma*dt * asp_etage[i+1]
                 dsp_etage[i+1] = H + beta*dt**2 * asp_etage[i+1]
 
