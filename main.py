@@ -893,7 +893,7 @@ with col2:
     #ax.legend()
     #st.pyplot(fig)
     fig, ax = plt.subplots()
-    ax.plot(T0_list, Sa_etage_10, color="#002B45")
+    ax.plot(T0_list, Sa_etage_5, color="#002B45")
     ax.set_xlabel("Period (s)")
     ax.set_ylabel("Peak Acceleration")
     ax.set_title(f"Acceleration response spectrum - {selected_component}")
