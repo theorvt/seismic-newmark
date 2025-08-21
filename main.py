@@ -880,14 +880,23 @@ with col1:
 
 # Affichage du graphiques pour les étages
 with col2:
-    st.markdown("Te Puni building floor reaction")
+    #st.markdown("Te Puni building floor reaction")
 
+    #fig, ax = plt.subplots()
+    #for j in range(10):  
+        #ax.plot(T0_list, Sa_etage[j], label=f"Floor {j+1}")
+    #ax.set_xlabel("Period (s)")
+    #ax.set_ylabel("Peak Acceleration")
+    #ax.set_title("Acceleration response spectrum per floor")
+    #ax.set_xscale(scale)
+    #ax.grid()
+    #ax.legend()
+    #st.pyplot(fig)
     fig, ax = plt.subplots()
-    for j in range(10):  
-        ax.plot(T0_list, Sa_etage[j], label=f"Floor {j+1}")
+    ax.plot(T0_list, Sa_etage_10, color="#002B45")
     ax.set_xlabel("Period (s)")
     ax.set_ylabel("Peak Acceleration")
-    ax.set_title("Acceleration response spectrum per floor")
+    ax.set_title(f"Acceleration response spectrum - {selected_component}")
     ax.set_xscale(scale)
     ax.grid()
     ax.legend()
