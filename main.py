@@ -588,7 +588,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
                 P = vsp_etage[i] + (1 - gamma)*dt * asp_etage[i]
                 H = dsp_etage[i] + dt * vsp_etage[i] + (0.5 - beta)*dt**2 * asp_etage[i]
                 
-                asp_etage[i+1] = (Fsp_etage[j][i+1] - K_i * H - C_i * P) / B
+                asp_etage[i+1] = (Fsp_etage[i+1] - K_i * H - C_i * P) / B
                 vsp_etage[i+1] = P + gamma*dt * asp_etage[i+1]
                 dsp_etage[i+1] = H + beta*dt**2 * asp_etage[i+1]
 
