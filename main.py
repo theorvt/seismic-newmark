@@ -551,9 +551,9 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         
     #Version avec les etages
     # Interpolation linéaire
-    acc_interp_etage = []
-    accel_etage = []
-    Fsp_etage = []
+    acc_interp_etage = [[] for m in range(0, 10)]
+    accel_etage = [[] for m in range(0, 10)]
+    
     for i in range(0, 10):
         acc_interp_etage.append(interp1d(time_data_etage, acc_data_etage[i], kind='linear', fill_value='extrapolate'))
         accel_etage.append(acc_interp_etage[i](t))
@@ -566,13 +566,16 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
     Sa_etage = [[] for m in range(0, 10)]  # 10 étages
     
     Fsp_etage = [[] for m in range(0, 10)]
+    
     for j in range(len(accel_etage)):
-        Fsp_etage.append(-M * accel_etage[j])
         
         for T0_i_etage in T0_list_etage: 
+            
             ω_i = 2 * pi / T0_i_etage
             K_i = M * ω_i**2
             C_i = 2 * M * ω_i * zeta / 100  # ζ en %
+            
+            Fsp_etage.append(-M * accel_etage[j])
             
             # Initialisation
             dsp_etage, vsp_etage, asp_etage = np.zeros(n), np.zeros(n), np.zeros(n)
