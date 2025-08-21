@@ -551,12 +551,12 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         
     #Version avec les etages
     # Interpolation linéaire
-    acc_interp_etage = [[] for m in range(0, 10)]
-    accel_etage = [[] for m in range(0, 10)]
+    acc_interp_etage = []
+    accel_etage = []
     
-    for i in range(0, 10):
+    for i in range(10):
         acc_interp_etage.append(interp1d(time_data_etage, acc_data_etage[i], kind='linear', fill_value='extrapolate'))
-        accel_etage.append(acc_interp_etage[i](t))
+        accel_etage.append(acc_interp_etage(t))
         
         
     # Calcul du spectre de Fourrier
@@ -575,7 +575,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
             K_i = M * ω_i**2
             C_i = 2 * M * ω_i * zeta / 100  # ζ en %
             
-            Fsp_etage.append(-M * accel_etage[j])
+            Fsp_etage = -M * accel_etage[j]
             
             # Initialisation
             dsp_etage, vsp_etage, asp_etage = np.zeros(n), np.zeros(n), np.zeros(n)
@@ -584,7 +584,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
             # Newmark classique (β = 1/6, γ = 1/2)
             B = M + K_i * beta * dt**2 + C_i * gamma * dt
         
-            for i in range(n_etage-1):
+            for i in range(len(t)-1):
                 P = vsp_etage[i] + (1 - gamma)*dt * asp_etage[i]
                 H = dsp_etage[i] + dt * vsp_etage[i] + (0.5 - beta)*dt**2 * asp_etage[i]
                 
