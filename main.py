@@ -553,12 +553,12 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
     # Interpolation linéaire
     acc_interp_etage = []
     accel_etage = []
-    
+
     for i in range(10):
-        acc_interp_etage.append(interp1d(time_data_etage, acc_data_etage[i], kind='linear', fill_value='extrapolate'))
-        accel_etage.append(acc_interp_etage(t))
-        
-        
+        f_interp = interp1d(time_data_etage, acc_data_etage[i], kind='linear', fill_value='extrapolate')
+        acc_interp_etage.append(f_interp)   # stocke la fonction
+        accel_etage.append(f_interp(t))     # applique la fonction tout de suite
+           
     # Calcul du spectre de Fourrier
     T0_list_etage = np.linspace(0.02, 20, 250)
     
