@@ -881,14 +881,15 @@ st.pyplot(fig)
 st.markdown("Te Puni building floor reaction")
 
 fig, ax = plt.subplots()
-ax.plot(T0_list, Sa_etage_10, Sa_etage_9, Sa_etage_8, Sa_etage_7, color="#002B45")
+for j in range(10):  
+    ax.plot(T0_list, Sa_etage[j], label=f"Floor {j+1}")
 ax.set_xlabel("Period (s)")
 ax.set_ylabel("Peak Acceleration")
 ax.set_title("Acceleration response spectrum per floor")
 ax.set_xscale(scale)
 ax.grid()
 ax.legend()
-st.pyplot(fig) 
+st.pyplot(fig)
 
 
 output_df = pd.DataFrame(
