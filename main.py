@@ -579,7 +579,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
             
             # Initialisation
             dsp_etage, vsp_etage, asp_etage = np.zeros(n), np.zeros(n), np.zeros(n)
-            asp_etage[0] = (Fsp_etage[0][0] - C_i * vsp_etage[0] - K_i * dsp_etage[0]) / M
+            asp_etage[0] = (Fsp_etage[0] - C_i * vsp_etage[0] - K_i * dsp_etage[0]) / M
 
             # Newmark classique (β = 1/6, γ = 1/2)
             B = M + K_i * beta * dt**2 + C_i * gamma * dt
