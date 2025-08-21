@@ -565,7 +565,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
     # Spectre de réponse
     Sa_etage = [[] for m in range(0, 10)]  # 10 étages
     
-    Fsp_etage = []
+    Fsp_etage = [[] for m in range(0, 10)]
     for j in range(len(accel_etage)):
         Fsp_etage.append(-M * accel_etage[j])
         
