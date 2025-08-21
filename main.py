@@ -854,42 +854,44 @@ with col3:
     ax.legend()
     st.pyplot(fig)
     
-    
-def raideur_non_lineaire(d_non_lineaire):
-    F_raideur_non_lineaire = np.zeros(n)
-    for i in range(n-1):
-        F_raideur_non_lineaire[i] = K * d_non_lineaire[i] + K3 * d_non_lineaire[i] ** 3
-    return F_raideur_non_lineaire
-
-F_raideur_non_lineaire = raideur_non_lineaire(d_non_lineaire)
+col1, col2 = st.columns(2)  
 
 # Représentation graphique de la raideur non_linéaire
-st.markdown("Non linear stiffness")   
+with col1:    
+    def raideur_non_lineaire(d_non_lineaire):
+        F_raideur_non_lineaire = np.zeros(n)
+        for i in range(n-1):
+            F_raideur_non_lineaire[i] = K * d_non_lineaire[i] + K3 * d_non_lineaire[i] ** 3
+        return F_raideur_non_lineaire
 
-fig, ax = plt.subplots()
-ax.plot(d_non_lineaire, F_raideur_non_lineaire, color="#002B45")
-ax.set_xlabel("Displacement (m)")
-ax.set_ylabel("Stiffness force")
-ax.set_title(f"Stiffness force - Non Linear model - {selected_component}")
-ax.grid()
-ax.legend()
-st.pyplot(fig)
+    F_raideur_non_lineaire = raideur_non_lineaire(d_non_lineaire)
+
+    st.markdown("Non linear stiffness")   
+
+    fig, ax = plt.subplots()
+    ax.plot(d_non_lineaire, F_raideur_non_lineaire, color="#002B45")
+    ax.set_xlabel("Displacement (m)")
+    ax.set_ylabel("Stiffness force")
+    ax.set_title(f"Stiffness force - Non Linear model - {selected_component}")
+    ax.grid()
+    ax.legend()
+    st.pyplot(fig)
  
 
 # Affichage du graphiques pour les étages
+with col2:
+    st.markdown("Te Puni building floor reaction")
 
-st.markdown("Te Puni building floor reaction")
-
-fig, ax = plt.subplots()
-for j in range(10):  
-    ax.plot(T0_list, Sa_etage[j], label=f"Floor {j+1}")
-ax.set_xlabel("Period (s)")
-ax.set_ylabel("Peak Acceleration")
-ax.set_title("Acceleration response spectrum per floor")
-ax.set_xscale(scale)
-ax.grid()
-ax.legend()
-st.pyplot(fig)
+    fig, ax = plt.subplots()
+    for j in range(10):  
+        ax.plot(T0_list, Sa_etage[j], label=f"Floor {j+1}")
+    ax.set_xlabel("Period (s)")
+    ax.set_ylabel("Peak Acceleration")
+    ax.set_title("Acceleration response spectrum per floor")
+    ax.set_xscale(scale)
+    ax.grid()
+    ax.legend()
+    st.pyplot(fig)
 
 
 output_df = pd.DataFrame(
