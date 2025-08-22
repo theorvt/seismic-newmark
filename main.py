@@ -894,7 +894,7 @@ with col2:
     st.pyplot(fig)
   
 
-Max_peak_acceleration = [max(Sa_etage_1), max(Sa_etage_2), max(Sa_etage_3), max(Sa_etage_4), max(Sa_etage_5), max(Sa_etage_6), max(Sa_etage_7), max(Sa_etage_8), max(Sa_etage_9), max(Sa_etage_10)]
+Sa_max_par_etage = [max(Sa) for Sa in Sa_etage]
 Hauteur = [4.0, 7.0, 10.0, 13.0, 16.0, 19.0, 22.0, 25.0, 28.0, 31.0]
     
   
@@ -903,7 +903,7 @@ with col3:
     st.markdown("### Maximum acceleration for each floor")
 
     fig, ax = plt.subplots()
-    ax.plot(Max_peak_acceleration, Hauteur, marker='o', color="#1C2D3F", label="Peak Accel")
+    ax.plot(Sa_max_par_etage, Hauteur, marker='o', color="#1C2D3F", label="Peak Accel")
     ax.set_xlabel("Peak Acceleration (m/s²)")
     ax.set_ylabel("Height (m)")
     ax.set_title("Te Puni building - maximum acceleration per floor") 
