@@ -895,20 +895,21 @@ with col2:
     st.pyplot(fig)
   
 
-Sa_max_par_etage = [np.max(np.abs(Sa_etage[j])) for j in range(9)]
-Hauteur = [4.0, 7.0, 10.0, 13.0, 16.0, 19.0, 22.0, 25.0, 28.0, 31.0]
-  
+# Hauteur de chaque étage
+Hauteur_Te_Puni = [4.0, 7.0, 10.0, 13.0, 16.0, 19.0, 22.0, 25.0, 28.0, 31.0]
 
+# Calcul du max du spectre par étage
+max_peak_acceleration = [max(Sa) for Sa in Sa_etage]  # Sa_etage[0]=étage 1, etc.
 
-# Affichage de l'accélération maximale en fonction de la hauteur du bâtiment
+# Affichage
 with col3:
-    st.markdown("Maximum acceleration for each floor")
+    st.markdown("### Maximum response spectrum per floor")
 
     fig, ax = plt.subplots()
-    ax.plot(Sa_max_par_etage, Hauteur, marker='o', color="#1C2D3F")
-    ax.set_xlabel("Peak Acceleration (m/s²)")
+    ax.plot(max_peak_acceleration, Hauteur_Te_Puni, marker="o", color="#1C2D3F", label="Max Sa")
+    ax.set_xlabel("Max Spectral Acceleration (m/s²)")
     ax.set_ylabel("Height (m)")
-    ax.set_title("Te Puni building - maximum acceleration per floor") 
+    ax.set_title("Te Puni building - Max spectral acceleration per floor")
     ax.grid(True)
     ax.legend()
     st.pyplot(fig)
