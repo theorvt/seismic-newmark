@@ -894,8 +894,8 @@ with col2:
     st.pyplot(fig)
   
 
-Max_peak_acceleration = [max(Sa_etage_10), max(Sa_etage_9), max(Sa_etage_8), max(Sa_etage_7), max(Sa_etage_6), max(Sa_etage_5), max(Sa_etage_4), max(Sa_etage_3), max(Sa_etage_2), max(Sa_etage_1)]
-Hauteur_Te_Puni = [31, 28, 25, 22, 19, 16, 13, 10, 7, 4]
+Max_peak_acceleration = [max(Sa_etage_1), max(Sa_etage_2), max(Sa_etage_3), max(Sa_etage_4), max(Sa_etage_5), max(Sa_etage_6), max(Sa_etage_7), max(Sa_etage_8), max(Sa_etage_9), max(Sa_etage_10)]
+Hauteur_Te_Puni = [4, 7, 10, 13, 16, 19, 22, 25, 28, 31]
     
   
 # Affichage de l'accélération maximale en fonction de la hauteur du bâtiment
