@@ -900,14 +900,14 @@ Hauteur = [4.0, 7.0, 10.0, 13.0, 16.0, 19.0, 22.0, 25.0, 28.0, 31.0]
   
 # Affichage de l'accélération maximale en fonction de la hauteur du bâtiment
 with col3:
-    st.markdown("Maximum acceleration for each floor")
+    st.markdown("### Maximum acceleration for each floor")
 
     fig, ax = plt.subplots()
-    ax.plot(Max_peak_acceleration, Hauteur, color="#1C2D3F")
-    ax.set_xlabel("Height (m)")
-    ax.set_ylabel("Peak Acceleration")
-    ax.set_title("Te Puni building maximum acceleration for each floor") 
-    ax.grid()
+    ax.plot(Max_peak_acceleration, Hauteur, marker='o', color="#1C2D3F", label="Peak Accel")
+    ax.set_xlabel("Peak Acceleration (m/s²)")
+    ax.set_ylabel("Height (m)")
+    ax.set_title("Te Puni building - maximum acceleration per floor") 
+    ax.grid(True)
     ax.legend()
     st.pyplot(fig)
     
