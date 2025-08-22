@@ -641,6 +641,9 @@ Sa_etage_3 = Sa_etage[2]
 Sa_etage_2 = Sa_etage[1]
 Sa_etage_1 = Sa_etage[0]
 
+Max_peak_acceleration = [max(Sa_etage_10), max(Sa_etage_9), max(Sa_etage_8), max(Sa_etage_7), max(Sa_etage_6), max(Sa_etage_5), max(Sa_etage_4), max(Sa_etage_3), max(Sa_etage_2), max(Sa_etage_1)]
+Hauteur_Te_Puni = [31, 28, 25, 22, 19, 16, 13, 10, 7, 4]
+
 # Indices correspondant à la plage de temps sélectionnée
 mask = (t >= selected_range[0]) & (t <= selected_range[1])
 
@@ -854,7 +857,7 @@ with col3:
     ax.legend()
     st.pyplot(fig)
     
-col1, col2 = st.columns(2)  
+col1, col2, col3 = st.columns(3)  
 
 # Représentation graphique de la raideur non_linéaire
 with col1:    
@@ -893,9 +896,20 @@ with col2:
     ax.legend()
     st.pyplot(fig)
     
+# Affichage de l'accélération maximale en fonction de la hauteur du bâtiment
+with col3:
+    st.markdown("Te Puni building maximum acceleration for each floor")
+
+    fig, ax = plt.subplots()
+    ax.plot(Hauteur_Te_Puni, Max_peak_acceleration, color="#1C2D3F")
+    ax.set_xlabel("Height (m)")
+    ax.set_ylabel("Peak Acceleration")
+    ax.set_title("Te Puni building maximum acceleration for each floor") 
+    ax.grid()
+    ax.legend()
+    st.pyplot(fig)
     
-
-
+    
 output_df = pd.DataFrame(
     {"Time (s)": t, "Displacement (m)": d, "Velocity (m/s)": v, "Acceleration (m/s²)": a, "Force (N)": F})
 csv = output_df.to_csv(index=False).encode('utf-8')
