@@ -596,7 +596,6 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
             Sa_etage[j].append(np.max(np.abs(asp_etage)))
         
         
-        
     # Sauvegarde des résultats
     st.session_state.results = {"t": t, "F": F, "d": d, "v": v, "a": a, "Sd": Sd, "Sv": Sv, "Sa": Sa, "T0_list": T0_list, "d_friction": d_friction, "v_friction": v_friction, "a_friction": a_friction, "d_non_lineaire": d_non_lineaire, "v_non_lineaire": v_non_lineaire, "a_non_lineaire": a_non_lineaire, "d_non_lineaire_friction": d_non_lineaire_friction, "v_non_lineaire_friction": v_non_lineaire_friction, "a_non_lineaire_friction": a_non_lineaire_friction, 
                                 "Sa_etage": Sa_etage}
@@ -900,10 +899,6 @@ Hauteur_Te_Puni = [4.0, 7.0, 10.0, 13.0, 16.0, 19.0, 22.0, 25.0, 28.0, 31.0]
 
 # Calcul du max du spectre par étage
 max_peak_acceleration = [max(Sa) for Sa in Sa_etage]  # Sa_etage[0]=étage 1, etc.
-
-st.write("Longueur Hauteur =", len(Hauteur_Te_Puni))
-st.write("Longueur Sa_etage =", len(Sa_etage))
-st.write("Exemple Sa_etage[0][:10] =", Sa_etage[0][:10])
 
 # Affichage
 with col3:
