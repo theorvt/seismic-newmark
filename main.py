@@ -895,7 +895,7 @@ with col2:
   
 
 Max_peak_acceleration = [max(Sa_etage_1), max(Sa_etage_2), max(Sa_etage_3), max(Sa_etage_4), max(Sa_etage_5), max(Sa_etage_6), max(Sa_etage_7), max(Sa_etage_8), max(Sa_etage_9), max(Sa_etage_10)]
-Hauteur_Te_Puni = [4, 7, 10, 13, 16, 19, 22, 25, 28, 31]
+Hauteur_Te_Puni = [4.0, 7.0, 10.0, 13.0, 16.0, 19.0, 22.0, 25.0, 28.0, 31.0]
     
   
 # Affichage de l'accélération maximale en fonction de la hauteur du bâtiment
