@@ -903,10 +903,10 @@ max_peak_acceleration = [max(Sa) for Sa in Sa_etage]  # Sa_etage[0]=étage 1, et
 
 # Affichage
 with col3:
-    st.markdown("### Maximum response spectrum per floor")
+    st.markdown("Maximum response spectrum per floor")
 
     fig, ax = plt.subplots()
-    ax.plot(max_peak_acceleration, Hauteur_Te_Puni, marker="o", color="#1C2D3F", label="Max Sa")
+    ax.plot(max_peak_acceleration, Hauteur_Te_Puni, marker="o", color="#1C2D3F")
     ax.set_xlabel("Max Spectral Acceleration (m/s²)")
     ax.set_ylabel("Height (m)")
     ax.set_title("Te Puni building - Max spectral acceleration per floor")
