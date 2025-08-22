@@ -641,9 +641,6 @@ Sa_etage_3 = Sa_etage[2]
 Sa_etage_2 = Sa_etage[1]
 Sa_etage_1 = Sa_etage[0]
 
-Max_peak_acceleration = [max(Sa_etage_10), max(Sa_etage_9), max(Sa_etage_8), max(Sa_etage_7), max(Sa_etage_6), max(Sa_etage_5), max(Sa_etage_4), max(Sa_etage_3), max(Sa_etage_2), max(Sa_etage_1)]
-Hauteur_Te_Puni = [31, 28, 25, 22, 19, 16, 13, 10, 7, 4]
-
 # Indices correspondant à la plage de temps sélectionnée
 mask = (t >= selected_range[0]) & (t <= selected_range[1])
 
@@ -895,7 +892,12 @@ with col2:
     ax.grid()
     ax.legend()
     st.pyplot(fig)
+  
+
+Max_peak_acceleration = [max(Sa_etage_10), max(Sa_etage_9), max(Sa_etage_8), max(Sa_etage_7), max(Sa_etage_6), max(Sa_etage_5), max(Sa_etage_4), max(Sa_etage_3), max(Sa_etage_2), max(Sa_etage_1)]
+Hauteur_Te_Puni = [31, 28, 25, 22, 19, 16, 13, 10, 7, 4]
     
+  
 # Affichage de l'accélération maximale en fonction de la hauteur du bâtiment
 with col3:
     st.markdown("Maximum acceleration for each floor")
