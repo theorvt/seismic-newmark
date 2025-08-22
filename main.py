@@ -641,38 +641,6 @@ Sa_etage_3 = Sa_etage[2]
 Sa_etage_2 = Sa_etage[1]
 Sa_etage_1 = Sa_etage[0]
 
-Sa_etage_10 = st.session_state.results["Sa_etage_10"]
-Sa_etage_9 = st.session_state.results["Sa_etage_9"]
-Sa_etage_8 = st.session_state.results["Sa_etage_8"]
-Sa_etage_7 = st.session_state.results["Sa_etage_7"]
-Sa_etage_6 = st.session_state.results["Sa_etage_6"]
-Sa_etage_5 = st.session_state.results["Sa_etage_5"]
-Sa_etage_4 = st.session_state.results["Sa_etage_4"]
-Sa_etage_3 = st.session_state.results["Sa_etage_3"]
-Sa_etage_2 = st.session_state.results["Sa_etage_2"]
-Sa_etage_1 = st.session_state.results["Sa_etage_1"]
-
-Max_etage_10 = max(Sa_etage_10)
-Max_etage_9 = max(Sa_etage_9)
-Max_etage_8 = max(Sa_etage_8)
-Max_etage_7 = max(Sa_etage_7)
-Max_etage_6 = max(Sa_etage_6)
-Max_etage_5 = max(Sa_etage_5)
-Max_etage_4 = max(Sa_etage_4)
-Max_etage_3 = max(Sa_etage_3)
-Max_etage_2 = max(Sa_etage_2)
-Max_etage_1 = max(Sa_etage_1)
-
-Max_etage_10 = st.session_state.results["Max_etage_10"]
-Max_etage_9 = st.session_state.results["Max_etage_9"]
-Max_etage_8 = st.session_state.results["Max_etage_8"]
-Max_etage_7 = st.session_state.results["Max_etage_7"]
-Max_etage_6 = st.session_state.results["Max_etage_6"]
-Max_etage_5 = st.session_state.results["Max_etage_5"]
-Max_etage_4 = st.session_state.results["Max_etage_4"]
-Max_etage_3 = st.session_state.results["Max_etage_3"]
-Max_etage_2 = st.session_state.results["Max_etage_2"]
-Max_etage_1 = st.session_state.results["Max_etage_1"]
 
 # Indices correspondant à la plage de temps sélectionnée
 mask = (t >= selected_range[0]) & (t <= selected_range[1])
@@ -927,7 +895,7 @@ with col2:
     st.pyplot(fig)
   
 
-Sa_max_par_etage = [Max_etage_1, Max_etage_2, Max_etage_3, Max_etage_4, Max_etage_5, Max_etage_6, Max_etage_7, Max_etage_8, Max_etage_9, Max_etage_10]
+Sa_max_par_etage = [np.max(np.abs(accel_etage[j])) for j in range(10)]
 Hauteur = [4.0, 7.0, 10.0, 13.0, 16.0, 19.0, 22.0, 25.0, 28.0, 31.0]
   
 
