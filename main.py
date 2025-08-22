@@ -895,7 +895,7 @@ with col2:
     st.pyplot(fig)
   
 
-Sa_max_par_etage = [np.max(np.abs(Sa_etage[j])) for j in range(10)]
+Sa_max_par_etage = [np.max(np.abs(Sa_etage[j])) for j in range(9)]
 Hauteur = [4.0, 7.0, 10.0, 13.0, 16.0, 19.0, 22.0, 25.0, 28.0, 31.0]
   
 
