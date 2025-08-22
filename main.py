@@ -898,7 +898,7 @@ with col2:
     
 # Affichage de l'accélération maximale en fonction de la hauteur du bâtiment
 with col3:
-    st.markdown("Te Puni building maximum acceleration for each floor")
+    st.markdown("Maximum acceleration for each floor")
 
     fig, ax = plt.subplots()
     ax.plot(Hauteur_Te_Puni, Max_peak_acceleration, color="#1C2D3F")
