@@ -514,7 +514,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         
         
     # Calcul du spectre de Fourrier
-    T0_list = np.linspace(0.02, 8, 250)
+    T0_list = np.linspace(0.02, 5, 250)
     
     #f_list = 1 / T0_list  # fréquence en Hz
     
@@ -560,7 +560,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         accel_etage.append(f_interp(t))     # applique la fonction tout de suite
            
     # Calcul du spectre de Fourrier
-    T0_list_etage = np.linspace(0.02, 2, 250)
+    T0_list_etage = np.linspace(0.02, 4, 250)
     
     # Spectre de réponse
     Sa_etage = [[] for m in range(0, 10)]  # 10 étages
