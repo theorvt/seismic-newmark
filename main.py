@@ -901,6 +901,10 @@ Hauteur_Te_Puni = [4.0, 7.0, 10.0, 13.0, 16.0, 19.0, 22.0, 25.0, 28.0, 31.0]
 # Calcul du max du spectre par étage
 max_peak_acceleration = [max(Sa) for Sa in Sa_etage]  # Sa_etage[0]=étage 1, etc.
 
+st.write("Longueur Hauteur =", len(Hauteur_Te_Puni))
+st.write("Longueur Sa_etage =", len(Sa_etage))
+st.write("Exemple Sa_etage[0][:10] =", Sa_etage[0][:10])
+
 # Affichage
 with col3:
     st.markdown("Maximum response spectrum per floor")
