@@ -329,7 +329,7 @@ elif st.session_state["previous_T_etage"] != T_etage:
     st.session_state["time_range_slider_etage"] = (new_min_etage, new_max_etage)
     st.session_state["previous_T_etage"] = T_etage
 
-selected_range_etage = st.sidebar.slider("Select the time range to display (s)", time_min_etage, time_max_etage, key="time_range_slider_etage",step=1.0)
+selected_range_etage = st.sidebar.slider("Te Puni - Select the time range to display (s)", time_min_etage, time_max_etage, key="time_range_slider_etage",step=1.0)
 
 # Défintion des conditions de stabilité du programme
 if len(time_data_etage) == 0:
@@ -560,7 +560,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         accel_etage.append(f_interp(t))     # applique la fonction tout de suite
            
     # Calcul du spectre de Fourrier
-    T0_list_etage = np.linspace(0.02, 10, 250)
+    T0_list_etage = np.linspace(0.02, 3, 250)
     
     # Spectre de réponse
     Sa_etage = [[] for m in range(0, 10)]  # 10 étages
