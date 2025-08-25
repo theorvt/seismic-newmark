@@ -23,7 +23,7 @@ M = st.sidebar.slider("M : Mass (kg)", 1.0, 500.0, 80.0, step=1.0)
 K = st.sidebar.slider("K : Stiffness (N/m)", 0.0, 50000.0, 10000.0, step=100.0)
 zeta = st.sidebar.slider("zeta : Damping rate (%)", 0.0, 200.0, 5.0, step=1.0)
 
-dt = st.sidebar.number_input("dt : Time step (s)", min_value=0.001, max_value=1.0, value=0.05, step=0.001, format="%.4f")
+dt = st.sidebar.number_input("dt : Time step (s)", min_value=0.001, max_value=1.0, value=0.01, step=0.001, format="%.4f")
 F1 = st.sidebar.number_input("F1 : Amplitude coefficient (N)", min_value=0.0, max_value=10000.0, value=1.0, step=1.0, format="%.4f")
 
 d0 = st.sidebar.slider("d : Initial movement (m)", 0.0, 0.5, 0.0, step=0.01)
@@ -514,7 +514,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         
         
     # Calcul du spectre de Fourrier
-    T0_list = np.linspace(0.02, 10, 250)
+    T0_list = np.linspace(0.02, 20, 250)
     
     #f_list = 1 / T0_list  # fréquence en Hz
     
