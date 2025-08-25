@@ -507,9 +507,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         d_non_lineaire_friction[i+1] = d_guess_friction
         a_non_lineaire_friction[i+1] = (d_non_lineaire_friction[i+1] - H_non_lineaire_friction) / (beta * dt**2)
         v_non_lineaire_friction[i+1] = P_non_lineaire_friction + gamma * dt * a_non_lineaire_friction[i+1]
-        
-    
-    
+
         
         # Calcul du spectre de Fourrier
         T0_list = np.linspace(0.02, 20, 250)
@@ -544,8 +542,6 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
             Sd.append(np.max(np.abs(dsp)))
             Sv.append(np.max(np.abs(vsp)))
             Sa.append(np.max(np.abs(asp)))
-        
-      
     
         #Version avec les etages
         # Interpolation linéaire
@@ -594,7 +590,8 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
                 Sa_etage[j].append(np.max(np.abs(asp_etage)))
         
     # Sauvegarde des résultats
-    st.session_state.results = {"t": t, "F": F, "d": d, "v": v, "a": a, "Sd": Sd, "Sv": Sv, "Sa": Sa, "T0_list": T0_list, "d_friction": d_friction, "v_friction": v_friction, "a_friction": a_friction, "d_non_lineaire": d_non_lineaire, "v_non_lineaire": v_non_lineaire, "a_non_lineaire": a_non_lineaire, "d_non_lineaire_friction": d_non_lineaire_friction, "v_non_lineaire_friction": v_non_lineaire_friction, "a_non_lineaire_friction": a_non_lineaire_friction, "T0_list_etage": T0_list_etage, "Sa_etage": Sa_etage}
+    st.session_state.results = {"t": t, "F": F, "d": d, "v": v, "a": a, "Sd": Sd, "Sv": Sv, "Sa": Sa, "T0_list": T0_list, "d_friction": d_friction, "v_friction": v_friction, "a_friction": a_friction, "d_non_lineaire": d_non_lineaire, "v_non_lineaire": v_non_lineaire, "a_non_lineaire": a_non_lineaire, "d_non_lineaire_friction": d_non_lineaire_friction, "v_non_lineaire_friction": v_non_lineaire_friction, "a_non_lineaire_friction": a_non_lineaire_friction,
+                                "T0_list_etage": T0_list_etage, "Sa_etage": Sa_etage}
     st.session_state.last_params = params_key
 
 # Récupération des résultats depuis session_state
