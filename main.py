@@ -32,10 +32,11 @@ v0 = st.sidebar.slider("v : Initial velocity (m/s)", 0.0, 1.0, 0.0, step=0.01)
 scale = st.sidebar.radio("Period axis scale for response spectra", ("linear", "log"))
 
 mu = st.sidebar.slider("μ : Friction coefficient", 0.0, 2.0, 0.01, step=0.01)
-#K3 = st.sidebar.slider("K3 : Non-linear stiffness", 0.0, 1000000000.0, 100000.0, step=100.0)
 log_K3 = st.sidebar.slider("log₁₀(K3)", 3, 9, 5, step=1)
 K3 = 10 ** log_K3
 st.sidebar.markdown(f"K3 : Non-linear stiffness = **{K3:.1e} N/m³**")
+
+Option = st.sidebar.selectbox("Which graph do you want to display :",["SDOF Structural response - Linear Model", "SDOF Structural response - Non Linear Model", "SDOF Structural response - Linear Model with Friction", "SDOF Structural response - Non Linear Model with Friction", "Non linear stiffness", "Stifness", "Te Puni building"])
 
 v_eps = 0.01  # petite valeur pour régularisation
 N_force = M * 9.81  # force normale supposée
@@ -128,7 +129,6 @@ if uploaded_file is not None:
         st.error(f"Error : {e}")
         st.stop()
 
-
 else:
     df = pd.read_csv('donnee_seisme_site_web.csv', sep=';')
     # Définition des colonnes des temps et des accélérations et conversion de la première colonne en float (temps)
@@ -137,8 +137,6 @@ else:
     selected_component = "Vertical"
     # Si une valeur n’est pas convertible (ex. texte, cellule vide…), elle sera remplacée par NaN (Not a Number), grâce à errors='coerce'.
     # .values : transforme la série pandas en array NumPy pur, plus rapide à manipuler.
-
-
 
 #Spectre de réponse de l'accélération des 10 étages
 
@@ -168,8 +166,7 @@ if "time_range_slider" not in st.session_state or st.session_state["previous_T"]
     st.session_state["time_range_slider"] = (0.0, T)
     st.session_state["previous_T"] = T  # Mettre à jour la référence
     
-   
- 
+
 # Version pour les etages
 # Calcule automatique de la durée du fichier
 T_max_etage = float(np.nanmax(time_data_etage)) if len(time_data_etage) > 0 else 1000.0
@@ -187,9 +184,8 @@ if "time_range_slider_etage" not in st.session_state or st.session_state["previo
     st.session_state["time_range_slider_etage"] = (0.0, T_etage)
     st.session_state["previous_T_etage"] = T_etage  # Mettre à jour la référence
     
-    
 
-params_key = (M, K, zeta, T, selected_component, d0, v0, dt, F1, scale, mu, K3)
+params_key = (M, K, zeta, T, selected_component, d0, v0, dt, F1, scale, mu, K3, Option)
 
 
 # Définition du coefficent d'amortissement
@@ -674,9 +670,6 @@ if uploaded_file is None:
 
 # Enregistrement du séisme et spectre de réponse
 st.markdown("Earthquake input")
-
-
-option = st.sidebar.selectbox("Which graph do you want to display :",["SDOF Structural response - Linear Model", "SDOF Structural response - Non Linear Model", "SDOF Structural response - Linear Model with Friction", "SDOF Structural response - Non Linear Model with Friction", "Non linear stiffness", "Stifness", "Te Puni building"])
 
 
 col1, col2, col3 = st.columns(3)
