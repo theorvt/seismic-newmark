@@ -550,9 +550,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
                 Sv.append(np.max(np.abs(vsp)))
                 Sa.append(np.max(np.abs(asp)))
             
-            results["T0_list"] = T0_list
-            results["Sd"], results["Sv"], results["Sa"] = Sd, Sv, Sa
-        
+            results["T0_list"], results["Sd"], results["Sv"], results["Sa"] = T0_list, Sd, Sv, Sa
         
         # 2) Calcul spectres par étage
         if Option == "Te Puni building":  # ⚡ seulement si demandé
@@ -603,8 +601,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
                     # Stocker les maxima
                     Sa_etage[j].append(np.max(np.abs(asp_etage)))
         
-                results["T0_list_etage"] = T0_list_etage
-                results["Sa_etage"] = Sa_etage
+                results["T0_list_etage"], results["Sa_etage"] = T0_list_etage, Sa_etage
                 
             # Sauvegarde finale
             st.session_state.results = results
