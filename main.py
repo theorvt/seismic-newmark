@@ -598,7 +598,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         
     # Sauvegarde des résultats
     st.session_state.results = {"t": t, "F": F, "d": d, "v": v, "a": a, "Sd": Sd, "Sv": Sv, "Sa": Sa, "T0_list": T0_list, "d_friction": d_friction, "v_friction": v_friction, "a_friction": a_friction, "d_non_lineaire": d_non_lineaire, "v_non_lineaire": v_non_lineaire, "a_non_lineaire": a_non_lineaire, "d_non_lineaire_friction": d_non_lineaire_friction, "v_non_lineaire_friction": v_non_lineaire_friction, "a_non_lineaire_friction": a_non_lineaire_friction, 
-                                "Sa_etage": Sa_etage}
+                                "Sa_etage": Sa_etage, "T0_list_etage": T0_list_etage}
     st.session_state.last_params = params_key
 
 # Récupération des résultats depuis session_state
@@ -884,7 +884,7 @@ with col2:
 
     fig, ax = plt.subplots()
     for j in range(10):  
-        ax.plot(T0_list, Sa_etage[j], label=f"Floor {j+1}")
+        ax.plot(T0_list_etage, Sa_etage[j], label=f"Floor {j+1}")
     ax.set_xlabel("Period (s)")
     ax.set_ylabel("Peak Acceleration")
     ax.set_title("Acceleration response spectrum per floor")
