@@ -707,7 +707,7 @@ with col3:
     st.pyplot(fig)    
     
       
-if option in ["SDOF Structural response - Linear Model"]:  
+if Option in ["SDOF Structural response - Linear Model"]:  
     
     # Mode linéaire
     st.markdown("SDOF Structural response - Linear Model")   
@@ -745,7 +745,7 @@ if option in ["SDOF Structural response - Linear Model"]:
         st.pyplot(fig)
   
   
-if option in ["SDOF Structural response - Non Linear Model"]:  
+if Option in ["SDOF Structural response - Non Linear Model"]:  
 
     # Mode non-linéaire
     st.markdown("SDOF Structural response - Non Linear Model")   
@@ -783,7 +783,7 @@ if option in ["SDOF Structural response - Non Linear Model"]:
         st.pyplot(fig)
     
  
-if option in ["SDOF Structural response - Linear Model with Friction"]:    
+if Option in ["SDOF Structural response - Linear Model with Friction"]:    
    
     # Mode linéaire avec friction
     st.markdown("SDOF Structural response - Linear Model with Friction")   
@@ -818,7 +818,7 @@ if option in ["SDOF Structural response - Linear Model with Friction"]:
         st.pyplot(fig)
     
     
-if option in ["SDOF Structural response - Non Linear Model with Friction"]:  
+if Option in ["SDOF Structural response - Non Linear Model with Friction"]:  
         
     # Mode non-linéaire avec friction
     st.markdown("SDOF Structural response - Non Linear Model with Friction")   
@@ -858,7 +858,7 @@ if option in ["SDOF Structural response - Non Linear Model with Friction"]:
  
 col1, col2, col3 = st.columns(3) 
 
-if option in ["Stiffness"]:  
+if Option in ["Stiffness"]:  
 
     # Représentation graphique de la raideur non_linéaire
     with col1:    
@@ -882,7 +882,7 @@ if option in ["Stiffness"]:
         st.pyplot(fig)
  
     
-if option in ["Te Puni building"]: 
+if Option in ["Te Puni building"]: 
     
     # Affichage du graphiques pour les étages
     with col2:
