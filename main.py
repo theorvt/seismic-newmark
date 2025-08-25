@@ -601,6 +601,11 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
                     # Stocker les maxima
                     Sa_etage[j].append(np.max(np.abs(asp_etage)))
         
+                if "Sa_etage" not in st.session_state:
+                   st.session_state["Sa_etage"] = []
+                if "T0_list_etage" not in st.session_state:
+                   st.session_state["T0_list_etage"] = []
+                   
                 results["T0_list_etage"], results["Sa_etage"] = T0_list_etage, Sa_etage
                 
             # Sauvegarde finale
