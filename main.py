@@ -514,7 +514,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         results = {}
 
         # 1) Calcul spectre global
-        if Option != "Te Puni building":  # ⚡ ne calcule que si ce n’est pas le cas étage
+        if Option != "Te Puni building":  # ne calcule que si ce n’est pas le cas étage
         
             # Calcul du spectre de Fourrier
             T0_list = np.linspace(0.02, 20, 250)
@@ -553,7 +553,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
             results["T0_list"], results["Sd"], results["Sv"], results["Sa"] = T0_list, Sd, Sv, Sa
         
         # 2) Calcul spectres par étage
-        if Option == "Te Puni building":  # ⚡ seulement si demandé
+        if Option == "Te Puni building":  # seulement si demandé
         
             #Version avec les etages
             # Interpolation linéaire
@@ -609,7 +609,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         
     # Sauvegarde des résultats
     st.session_state.results = {"t": t, "F": F, "d": d, "v": v, "a": a, "Sd": Sd, "Sv": Sv, "Sa": Sa, "T0_list": T0_list, "d_friction": d_friction, "v_friction": v_friction, "a_friction": a_friction, "d_non_lineaire": d_non_lineaire, "v_non_lineaire": v_non_lineaire, "a_non_lineaire": a_non_lineaire, "d_non_lineaire_friction": d_non_lineaire_friction, "v_non_lineaire_friction": v_non_lineaire_friction, "a_non_lineaire_friction": a_non_lineaire_friction, 
-                                "Sa_etage": Sa_etage, "T0_list_etage": T0_list_etage}
+                                "T0_list_etage": T0_list_etage, "Sa_etage": Sa_etage}
     st.session_state.last_params = params_key
 
 # Récupération des résultats depuis session_state
