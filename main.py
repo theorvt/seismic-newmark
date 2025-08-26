@@ -550,7 +550,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         acc_interp_etage = []
         accel_etage = []
     
-        for i in range(12):
+        for i in range(len(acc_data_etage)):
             f_interp = interp1d(time_data_etage, acc_data_etage[i], kind='linear', fill_value='extrapolate')
             acc_interp_etage.append(f_interp)   # stocke la fonction
             accel_etage.append(f_interp(t))     # applique la fonction tout de suite
