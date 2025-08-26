@@ -546,8 +546,8 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         acc_interp_etage = []
         accel_etage = []
     
-        print(len(acc_data_etage))
-        print(acc_data_etage.shape if isinstance(acc_data_etage, np.ndarray) else "not ndarray")
+        st.write(len(acc_data_etage))
+        st.write(acc_data_etage.shape if isinstance(acc_data_etage, np.ndarray) else "not ndarray")
     
         for i in range(12):
             f_interp = interp1d(time_data_etage, acc_data_etage[i], kind='linear', fill_value='extrapolate')
