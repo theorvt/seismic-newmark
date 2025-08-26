@@ -507,87 +507,85 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         v_non_lineaire_friction[i+1] = P_non_lineaire_friction + gamma * dt * a_non_lineaire_friction[i+1]
 
         
-        # Calcul du spectre de Fourrier
-        T0_list = np.linspace(0.02, 20, 50)
+    # Calcul du spectre de Fourrier
+    T0_list = np.linspace(0.02, 20, 50)
+    
+    #f_list = 1 / T0_list  # fréquence en Hz
+    
+    Sd, Sv, Sa = [], [], []
+    
+    for T0_i in T0_list: 
+        ω_i = 2 * pi / T0_i
+        K_i = M * ω_i**2
+        C_i = 2 * M * ω_i * zeta / 100  # ζ en %
+
+        Fsp = -M * accel  # acc = accélération au sol interpolée sur t
         
-        #f_list = 1 / T0_list  # fréquence en Hz
+        # Initialisation
+        dsp, vsp, asp = np.zeros(n), np.zeros(n), np.zeros(n)
+        asp[0] = (Fsp[0] - C_i * vsp[0] - K_i * dsp[0]) / M
+
+        # Newmark classique (β = 1/6, γ = 1/2)
+        B = M + K_i * beta * dt**2 + C_i * gamma * dt
+    
+        for i in range(n-1):
+            P = vsp[i] + (1 - gamma)*dt * asp[i]
+            H = dsp[i] + dt * vsp[i] + (0.5 - beta)*dt**2 * asp[i]
+            
+            asp[i+1] = (Fsp[i+1] - K_i * H - C_i * P) / B
+            vsp[i+1] = P + gamma*dt * asp[i+1]
+            dsp[i+1] = H + beta*dt**2 * asp[i+1]
+
+        # Stocker les maxima
+        Sd.append(np.max(np.abs(dsp)))
+        Sv.append(np.max(np.abs(vsp)))
+        Sa.append(np.max(np.abs(asp)))
+
+
+    #Version avec les etages 
+    acc_interp_etage = []
+    accel_etage = []
+
+    for i in range(len(acc_data_etage)):
+        f_interp = interp1d(time_data_etage, acc_data_etage[i], kind='linear', fill_value='extrapolate')
+        acc_interp_etage.append(f_interp)   # stocke la fonction
+        accel_etage.append(f_interp(t))     # applique la fonction tout de suite
+           
+    # Calcul du spectre de Fourrier
+    T0_list_etage = np.linspace(0.02, 3, 50)
+    
+    # Spectre de réponse
+    Sa_etage = [[] for m in range(0, 12)]  # 10 étages
+    
+    for j in range(len(accel_etage)):
         
-        Sd, Sv, Sa = [], [], []
+        acc_j = accel_etage[j]  # accélération interpolée de l’étage j
         
-        for T0_i in T0_list: 
-            ω_i = 2 * pi / T0_i
+        for T0_i_etage in T0_list_etage: 
+            
+            ω_i = 2 * pi / T0_i_etage
             K_i = M * ω_i**2
             C_i = 2 * M * ω_i * zeta / 100  # ζ en %
-    
-            Fsp = -M * accel  # acc = accélération au sol interpolée sur t
+            
+            Fsp_etage = -M * acc_j
             
             # Initialisation
-            dsp, vsp, asp = np.zeros(n), np.zeros(n), np.zeros(n)
-            asp[0] = (Fsp[0] - C_i * vsp[0] - K_i * dsp[0]) / M
-    
+            dsp_etage, vsp_etage, asp_etage = np.zeros(n), np.zeros(n), np.zeros(n)
+            asp_etage[0] = (Fsp_etage[0] - C_i * vsp_etage[0] - K_i * dsp_etage[0]) / M
+
             # Newmark classique (β = 1/6, γ = 1/2)
             B = M + K_i * beta * dt**2 + C_i * gamma * dt
         
-            for i in range(n-1):
-                P = vsp[i] + (1 - gamma)*dt * asp[i]
-                H = dsp[i] + dt * vsp[i] + (0.5 - beta)*dt**2 * asp[i]
+            for i in range(len(t)-1):
+                P = vsp_etage[i] + (1 - gamma)*dt * asp_etage[i]
+                H = dsp_etage[i] + dt * vsp_etage[i] + (0.5 - beta)*dt**2 * asp_etage[i]
                 
-                asp[i+1] = (Fsp[i+1] - K_i * H - C_i * P) / B
-                vsp[i+1] = P + gamma*dt * asp[i+1]
-                dsp[i+1] = H + beta*dt**2 * asp[i+1]
-    
-            # Stocker les maxima
-            Sd.append(np.max(np.abs(dsp)))
-            Sv.append(np.max(np.abs(vsp)))
-            Sa.append(np.max(np.abs(asp)))
-    
-        #Version avec les etages
-        # Interpolation linéaire
-        
-        acc_interp_etage = []
-        accel_etage = []
-    
-        for i in range(len(acc_data_etage)):
-            f_interp = interp1d(time_data_etage, acc_data_etage[i], kind='linear', fill_value='extrapolate')
-            acc_interp_etage.append(f_interp)   # stocke la fonction
-            accel_etage.append(f_interp(t))     # applique la fonction tout de suite
-               
+                asp_etage[i+1] = (Fsp_etage[i+1] - K_i * H - C_i * P) / B
+                vsp_etage[i+1] = P + gamma*dt * asp_etage[i+1]
+                dsp_etage[i+1] = H + beta*dt**2 * asp_etage[i+1]
 
-        # Calcul du spectre de Fourrier
-        T0_list_etage = np.linspace(0.02, 3, 50)
-        
-        # Spectre de réponse
-        Sa_etage = [[] for m in range(0, 12)]  # 10 étages
-        
-        for j in range(len(accel_etage)):
-            
-            acc_j = accel_etage[j]  # accélération interpolée de l’étage j
-            
-            for T0_i_etage in T0_list_etage: 
-                
-                ω_i = 2 * pi / T0_i_etage
-                K_i = M * ω_i**2
-                C_i = 2 * M * ω_i * zeta / 100  # ζ en %
-                
-                Fsp_etage = -M * acc_j
-                
-                # Initialisation
-                dsp_etage, vsp_etage, asp_etage = np.zeros(n), np.zeros(n), np.zeros(n)
-                asp_etage[0] = (Fsp_etage[0] - C_i * vsp_etage[0] - K_i * dsp_etage[0]) / M
-    
-                # Newmark classique (β = 1/6, γ = 1/2)
-                B = M + K_i * beta * dt**2 + C_i * gamma * dt
-            
-                for i in range(len(t)-1):
-                    P = vsp_etage[i] + (1 - gamma)*dt * asp_etage[i]
-                    H = dsp_etage[i] + dt * vsp_etage[i] + (0.5 - beta)*dt**2 * asp_etage[i]
-                    
-                    asp_etage[i+1] = (Fsp_etage[i+1] - K_i * H - C_i * P) / B
-                    vsp_etage[i+1] = P + gamma*dt * asp_etage[i+1]
-                    dsp_etage[i+1] = H + beta*dt**2 * asp_etage[i+1]
-    
-                # Stocker les maxima
-                Sa_etage[j].append(np.max(np.abs(asp_etage)))
+            # Stocker les maxima
+            Sa_etage[j].append(np.max(np.abs(asp_etage)))
         
     # Sauvegarde des résultats
     st.session_state.results = {"t": t, "F": F, "d": d, "v": v, "a": a, "Sd": Sd, "Sv": Sv, "Sa": Sa, "T0_list": T0_list, "d_friction": d_friction, "v_friction": v_friction, "a_friction": a_friction, "d_non_lineaire": d_non_lineaire, "v_non_lineaire": v_non_lineaire, "a_non_lineaire": a_non_lineaire, "d_non_lineaire_friction": d_non_lineaire_friction, "v_non_lineaire_friction": v_non_lineaire_friction, "a_non_lineaire_friction": a_non_lineaire_friction,
