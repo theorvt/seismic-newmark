@@ -143,7 +143,7 @@ df_etage = pd.read_csv('donnee_10_etages.csv', sep=';')
 time_data_etage = pd.to_numeric(df_etage.iloc[:, 0], errors='coerce').values 
 
 acc_data_etage = []
-for l in range(1, 13):
+for l in range(1, 12):
     acc_data_etage.append(pd.to_numeric(df_etage.iloc[:, l], errors='coerce').values)
 
 
@@ -881,8 +881,7 @@ max_peak_acceleration = [max(Sa) for Sa in Sa_etage]  # Sa_etage[0]=étage 1, et
 
 # Affichage
 with col3:
-    st.markdown("Maximum response spectrum per floor")
-
+    st.markdown("Maximum response spectrum per floor"
     fig, ax = plt.subplots()
     ax.plot(max_peak_acceleration, Hauteur_Te_Puni, marker="o", color="#1C2D3F")
     ax.set_xlabel("Max Spectral Acceleration (m/s²)")
