@@ -201,7 +201,7 @@ acc_data = acc_data[valid_indices]
 # Pour les etages
 # Filtrer les NaN
 acc_data_etage = []
-for i in range(1, 13):  # Étages 1 à 10
+for i in range(1, 12):  # Étages 1 à 10
     acc_data_etage.append(pd.to_numeric(df_etage.iloc[:, 13 - i], errors="coerce").values)
 
 # Masque global
