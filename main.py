@@ -546,16 +546,17 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         acc_interp_etage = []
         accel_etage = []
     
-        for i in range(10):
+        for i in range(12):
             f_interp = interp1d(time_data_etage, acc_data_etage[i], kind='linear', fill_value='extrapolate')
             acc_interp_etage.append(f_interp)   # stocke la fonction
             accel_etage.append(f_interp(t))     # applique la fonction tout de suite
                
+            
         # Calcul du spectre de Fourrier
         T0_list_etage = np.linspace(0.02, 3, 250)
         
         # Spectre de réponse
-        Sa_etage = [[] for m in range(0, 10)]  # 10 étages
+        Sa_etage = [[] for m in range(0, 12)]  # 10 étages
         
         for j in range(len(accel_etage)):
             
@@ -620,16 +621,18 @@ Sa = st.session_state.results["Sa"]
 
 Sa_etage = st.session_state.results["Sa_etage"]
     
-Sa_etage_10 = Sa_etage[9]
-Sa_etage_9 = Sa_etage[8]
-Sa_etage_8 = Sa_etage[7]
-Sa_etage_7 = Sa_etage[6]
-Sa_etage_6 = Sa_etage[5]
-Sa_etage_5 = Sa_etage[4]
-Sa_etage_4 = Sa_etage[3]
-Sa_etage_3 = Sa_etage[2]
-Sa_etage_2 = Sa_etage[1]
-Sa_etage_1 = Sa_etage[0]
+Sa_etage_10 = Sa_etage[11]
+Sa_etage_9 = Sa_etage[10]
+Sa_etage_8 = Sa_etage[9]
+Sa_etage_7 = Sa_etage[8]
+Sa_etage_6 = Sa_etage[7]
+Sa_etage_5 = Sa_etage[6]
+Sa_etage_4 = Sa_etage[5]
+Sa_etage_3 = Sa_etage[4]
+Sa_etage_2 = Sa_etage[3]
+Sa_etage_1 = Sa_etage[2]
+Sa_base = Sa_etage[1]
+Sa_story_1 = Sa_etage[0]
 
 
 # Indices correspondant à la plage de temps sélectionnée
@@ -701,8 +704,6 @@ with col3:
     ax.legend()
     st.pyplot(fig)    
     
-      
-
     
 # Mode linéaire
 st.markdown("SDOF Structural response - Linear Model")   
@@ -738,7 +739,6 @@ with col3:
     ax.grid()
     ax.legend()
     st.pyplot(fig)
-  
 
 
 # Mode non-linéaire
@@ -776,7 +776,6 @@ with col3:
     ax.legend()
     st.pyplot(fig)
 
-
    
 # Mode linéaire avec friction
 st.markdown("SDOF Structural response - Linear Model with Friction")   
@@ -811,7 +810,6 @@ with col3:
     st.pyplot(fig)
 
 
-    
 # Mode non-linéaire avec friction
 st.markdown("SDOF Structural response - Non Linear Model with Friction")   
 
@@ -851,7 +849,6 @@ with col3:
 col1, col2, col3 = st.columns(3) 
 
  
-
 # Représentation graphique de la raideur non_linéaire
 with col1:    
     def raideur_non_lineaire(d_non_lineaire):
@@ -874,14 +871,12 @@ with col1:
     st.pyplot(fig)
  
     
-
-    
 # Affichage du graphiques pour les étages
 with col2:
     st.markdown("Te Puni building floor reaction")
 
     fig, ax = plt.subplots()
-    for j in range(10):  
+    for j in range(12):  
         ax.plot(T0_list_etage, Sa_etage[j], label=f"Floor {j+1}")
     ax.set_xlabel("Period (s)")
     ax.set_ylabel("Peak Acceleration")
@@ -893,7 +888,7 @@ with col2:
   
 
 # Hauteur de chaque étage
-Hauteur_Te_Puni = [4.0, 7.0, 10.0, 13.0, 16.0, 19.0, 22.0, 25.0, 28.0, 31.0]
+Hauteur_Te_Puni = [0.0, 1.0, 4.0, 7.0, 10.0, 13.0, 16.0, 19.0, 22.0, 25.0, 28.0, 31.0]
 
 # Calcul du max du spectre par étage
 max_peak_acceleration = [max(Sa) for Sa in Sa_etage]  # Sa_etage[0]=étage 1, etc.
