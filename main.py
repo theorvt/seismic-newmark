@@ -554,8 +554,10 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
     # Calcul du spectre de Fourrier
     T0_list_etage = np.linspace(0.02, 3, 50)
     
+    nb_etages = len(accel_etage)  # ou len(acc_data_etage)
+    
     # Spectre de réponse
-    Sa_etage = [[] for m in range(0, 12)]  # 10 étages
+    Sa_etage = [[] for m in range(nb_etages)]  # 10 étages
     
     for j in range(len(accel_etage)):
         
