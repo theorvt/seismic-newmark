@@ -546,14 +546,15 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         acc_interp_etage = []
         accel_etage = []
     
+        print(len(acc_data_etage))
+        print(acc_data_etage.shape if isinstance(acc_data_etage, np.ndarray) else "not ndarray")
+    
         for i in range(12):
             f_interp = interp1d(time_data_etage, acc_data_etage[i], kind='linear', fill_value='extrapolate')
             acc_interp_etage.append(f_interp)   # stocke la fonction
             accel_etage.append(f_interp(t))     # applique la fonction tout de suite
                
-        print(len(acc_data_etage))
-        print(acc_data_etage.shape if isinstance(acc_data_etage, np.ndarray) else "not ndarray")
-            
+
         # Calcul du spectre de Fourrier
         T0_list_etage = np.linspace(0.02, 3, 50)
         
