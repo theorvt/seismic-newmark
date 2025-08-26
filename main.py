@@ -143,7 +143,7 @@ df_etage = pd.read_csv('donnee_10_etages.csv', sep=';')
 time_data_etage = pd.to_numeric(df_etage.iloc[:, 0], errors='coerce').values 
 
 acc_data_etage = []
-for l in range(1, 11):
+for l in range(1, 13):
     acc_data_etage.append(pd.to_numeric(df_etage.iloc[:, l], errors='coerce').values)
 
 
@@ -679,7 +679,6 @@ with col1:
     ax.set_ylabel("Force(N)")
     ax.set_title(f"Ground acceleration - {selected_component}")
     ax.grid()
-    ax.legend()
     st.pyplot(fig)
     
 with col2:
@@ -690,7 +689,6 @@ with col2:
     ax.set_title(f"Acceleration response spectrum - {selected_component}")
     ax.set_xscale(scale)
     ax.grid()
-    ax.legend()
     st.pyplot(fig)
     
 with col3:
@@ -701,7 +699,6 @@ with col3:
     ax.set_title(f"Displacement response spectrum  - {selected_component}")
     ax.set_xscale(scale)
     ax.grid()
-    ax.legend()
     st.pyplot(fig)    
     
     
@@ -717,7 +714,6 @@ with col1:
     ax.set_ylabel("Displacement")
     ax.set_title(f"Displacement time history - Linear model - {selected_component}")
     ax.grid()
-    ax.legend()
     st.pyplot(fig)
 
 with col2:
@@ -727,7 +723,6 @@ with col2:
     ax.set_ylabel("Velocity")
     ax.set_title(f"Velocity time history - Linear model - {selected_component}")
     ax.grid()
-    ax.legend()
     st.pyplot(fig)
 
 with col3:
@@ -737,7 +732,6 @@ with col3:
     ax.set_ylabel("Acceleration")
     ax.set_title(f"Acceleration time history - Linear model - {selected_component}") 
     ax.grid()
-    ax.legend()
     st.pyplot(fig)
 
 
@@ -753,7 +747,6 @@ with col1:
     ax.set_ylabel("Displacement")
     ax.set_title(f"Displacement time history - Non Linear model - {selected_component}")
     ax.grid()
-    ax.legend()
     st.pyplot(fig)
 
 with col2:
@@ -763,7 +756,6 @@ with col2:
     ax.set_ylabel("Velocity")
     ax.set_title(f"Velocity time history - Non Linear model - {selected_component}")
     ax.grid()
-    ax.legend()
     st.pyplot(fig)
 
 with col3:
@@ -773,7 +765,6 @@ with col3:
     ax.set_ylabel("Acceleration")
     ax.set_title(f"Acceleration time history - Non Linear model - {selected_component}") 
     ax.grid()
-    ax.legend()
     st.pyplot(fig)
 
    
@@ -822,7 +813,6 @@ with col1:
     ax.set_ylabel("Displacement")
     ax.set_title(f"Displacement time history - Non Linear model - Friction - {selected_component}")
     ax.grid()
-    ax.legend()
     st.pyplot(fig)
 
 with col2:
@@ -832,7 +822,6 @@ with col2:
     ax.set_ylabel("Velocity")
     ax.set_title(f"Velocity time history - Non Linear model - Friction - {selected_component}")
     ax.grid()
-    ax.legend()
     st.pyplot(fig)
 
 with col3:
@@ -842,7 +831,6 @@ with col3:
     ax.set_ylabel("Acceleration")
     ax.set_title(f"Acceleration time history - Non Linear model - Friction - {selected_component}") 
     ax.grid()
-    ax.legend()
     st.pyplot(fig)
    
  
@@ -867,7 +855,6 @@ with col1:
     ax.set_ylabel("Stiffness force")
     ax.set_title(f"Stiffness force - Non Linear model - {selected_component}")
     ax.grid()
-    ax.legend()
     st.pyplot(fig)
  
     
@@ -883,7 +870,6 @@ with col2:
     ax.set_title("Acceleration response spectrum per floor")
     ax.set_xscale(scale)
     ax.grid()
-    ax.legend()
     st.pyplot(fig)
   
 
@@ -903,7 +889,6 @@ with col3:
     ax.set_ylabel("Height (m)")
     ax.set_title("Te Puni building - Max spectral acceleration per floor")
     ax.grid(True)
-    ax.legend()
     st.pyplot(fig)
     
     
