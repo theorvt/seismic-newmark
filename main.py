@@ -142,9 +142,11 @@ else:
 df_etage = pd.read_csv('donnee_10_etages.csv', sep=';')
 time_data_etage = pd.to_numeric(df_etage.iloc[:, 0], errors='coerce').values 
 
-acc_data_etage = []
-for l in range(1, 12):
-    acc_data_etage.append(pd.to_numeric(df_etage.iloc[:, l], errors='coerce').values)
+acc_data_etage = df.iloc[:, 1:].values.T
+
+#acc_data_etage = []
+#for l in range(1, 12):
+    #acc_data_etage.append(pd.to_numeric(df_etage.iloc[:, l], errors='coerce').values)
 
 
 # Calcule automatique de la durée du fichier
