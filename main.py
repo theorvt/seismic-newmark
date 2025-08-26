@@ -543,11 +543,12 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
     
         #Version avec les etages
         # Interpolation linéaire
-        acc_interp_etage = []
-        accel_etage = []
-    
+        
         st.write(len(acc_data_etage))
         st.write(acc_data_etage.shape if isinstance(acc_data_etage, np.ndarray) else "not ndarray")
+        
+        acc_interp_etage = []
+        accel_etage = []
     
         for i in range(12):
             f_interp = interp1d(time_data_etage, acc_data_etage[i], kind='linear', fill_value='extrapolate')
