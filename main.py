@@ -138,13 +138,15 @@ else:
 
 #Spectre de réponse de l'accélération des 10 étages
 
-#Etage 10 
+#Etage 12 
 df_etage = pd.read_csv('donnee_10_etages.csv', sep=';')
 time_data_etage = pd.to_numeric(df_etage.iloc[:, 0], errors='coerce').values 
 
 acc_data_etage = []
 for l in range(1, 13):
     acc_data_etage.append(pd.to_numeric(df_etage.iloc[:, l], errors='coerce').values)
+    
+nb_etage = len(acc_data_etage)
 
 
 # Calcule automatique de la durée du fichier
@@ -554,10 +556,8 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
     # Calcul du spectre de Fourrier
     T0_list_etage = np.linspace(0.02, 3, 50)
     
-    nb_etages = len(accel_etage)  # ou len(acc_data_etage)
-    
     # Spectre de réponse
-    Sa_etage = [[] for m in range(nb_etages)]  # 10 étages
+    Sa_etage = [[] for m in range(nb_etage)]  # 12 étages
     
     for j in range(len(accel_etage)):
         
