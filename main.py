@@ -881,9 +881,9 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
                 # Stocker les maxima
                 Sa_etage[j].append(np.max(np.abs(asp_etage)))
                 
+        for j in range(nb_etage):
             if len(Sa_etage[j]) != len(T0_list_etage):
-                Sa_etage[j] = np.interp(np.linspace(0, 1, len(T0_list_etage)), np.linspace(0, 1, len(Sa_etage[j])), Sa_etage[j])
-                
+              Sa_etage[j] = np.interp(np.linspace(0, 1, len(T0_list_etage)), np.linspace(0, 1, len(Sa_etage[j])), Sa_etage[j])
         
         # Sauvegarde des résultats
         st.session_state.results = {"t": t, "F": F, "T0_list_etage": T0_list_etage, "Sa_etage": Sa_etage}
@@ -918,12 +918,6 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         F = F[mask]
         
         col1, col2 = st.columns(2) 
-        
-        for j in range(nb_etage):
-            if len(Sa_etage[j]) != len(T0_list_etage):
-              st.write(f"⚠️ Étape {j+1} : {len(Sa_etage[j])} valeurs au lieu de {len(T0_list_etage)}")
-            else:
-                ax.plot(T0_list_etage, Sa_etage[j], label=f"Floor {j+1}")
         
         # Affichage du graphiques pour les étages
         with col1:
