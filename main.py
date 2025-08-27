@@ -48,7 +48,7 @@ N_force = M * 9.81  # force normale supposée
 
 
 # Upload du fichier CSV ou Excel 
-uploaded_file = st.file_uploader("Upload a CSV or Excel file", type=["csv", "xls", "xlsx"]) 
+uploaded_file = st.file_uploader("Upload a CSV or Excel file of an earthquake", type=["csv", "xls", "xlsx"]) 
 
 if uploaded_file is not None:
     try:
@@ -145,10 +145,15 @@ else:
 
 #Spectre de réponse de l'accélération des 10 étages
 
-#Etage 12 
-df_etage = pd.read_csv('donnee_10_etages.csv', sep=';')
-time_data_etage = pd.to_numeric(df_etage.iloc[:, 0], errors='coerce').values 
 
+# Upload du fichier CSV ou Excel 
+uploaded_file_2 = st.file_uploader("Upload a CSV or Excel file of floor data", type=["csv", "xls", "xlsx"])
+
+df_etage = pd.read_csv(uploaded_file, engine="python", sep=';')
+time_data_etage = pd.to_numeric(df_etage.iloc[:, 0], errors='coerce').values
+ 
+#df_etage = pd.read_csv('donnee_10_etages.csv', sep=';')
+ 
 acc_data_etage = []
 for l in range(1, 13):
     acc_data_etage.append(pd.to_numeric(df_etage.iloc[:, l], errors='coerce').values)
