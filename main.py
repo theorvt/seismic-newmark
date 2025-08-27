@@ -143,7 +143,7 @@ df_etage = pd.read_csv('donnee_10_etages.csv', sep=';')
 time_data_etage = pd.to_numeric(df_etage.iloc[:, 0], errors='coerce').values 
 
 acc_data_etage = []
-for l in range(1, 12):
+for l in range(1, 13):
     acc_data_etage.append(pd.to_numeric(df_etage.iloc[:, l], errors='coerce').values)
 
 
@@ -615,6 +615,7 @@ v_non_lineaire_friction = st.session_state.results["v_non_lineaire_friction"]
 a_non_lineaire_friction = st.session_state.results["a_non_lineaire_friction"]
 
 T0_list = st.session_state.results["T0_list"]
+T0_list_etage = st.session_state.results["T0_list_etage"]
 
 Sd = st.session_state.results["Sd"]
 Sv = st.session_state.results["Sv"]
