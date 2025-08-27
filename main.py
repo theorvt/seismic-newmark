@@ -630,8 +630,22 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
                 Sa_etage[j] = np.interp(np.linspace(0, 1, len(T0_list_etage)),np.linspace(0, 1, len(Sa_etage[j])),Sa_etage[j])
         
         return Sa_etage
+    
+    
+    if graphique_choisi == "Earthquake input":
+        
+        st.markdown("Earthquake input")
+        
+        fig, ax = plt.subplots()
+        ax.plot(t, F, color="#0072CE")
+        ax.set_xlabel("Time(s)")
+        ax.set_ylabel("Force(N)")
+        ax.set_title(f"Ground acceleration - {selected_component}")
+        ax.grid()
+        st.pyplot(fig)
+        
 
-    if graphique_choisi == "SDOF Structural response - Linear Model":
+    elif graphique_choisi == "SDOF Structural response - Linear Model":
         
         a, v ,d = newmark_lineaire()
         
