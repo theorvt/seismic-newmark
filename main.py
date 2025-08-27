@@ -420,6 +420,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
 
 
     # Modèle linéaire
+    @st.cache_data
     def newmark_lineaire():
         for i in range(n - 1):
             # Prédictions Newmark
@@ -434,7 +435,8 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         return a, v, d
             
             
-    # Modèle linéaire avec friction        
+    # Modèle linéaire avec friction 
+    @st.cache_data       
     def newmark_lineaire_friction():
         for i in range(n - 1): 
             # Friction régulière (approximation continue)
@@ -455,6 +457,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
        
             
     # Modèle non-linéaire
+    @st.cache_data
     def newmark_non_lineaire():
         for i in range(n - 1):
             # Prédiction
@@ -491,6 +494,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         
      
     # Modèle non-linéaire - avec friction
+    @st.cache_data
     def newmark_non_lineaire_friction():
         for i in range(n - 1):
             # Prédiction
@@ -535,6 +539,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         return a_non_lineaire_friction, v_non_lineaire_friction, d_non_lineaire_friction
     
     
+    @st.cache_data
     def newmark_spectrum():
         T0_list = np.linspace(0.02, 3, 50)
         Sd, Sv, Sa = [], [], []
@@ -569,6 +574,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         return Sa, Sv, Sd
     
     
+    @st.cache_data
     def newmark_spectrum_etage():
         #Version avec les etages 
         acc_interp_etage = []
