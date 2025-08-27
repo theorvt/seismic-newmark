@@ -1018,7 +1018,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
             accel_etage.append(f_interp(t))     # applique la fonction tout de suite
             
         max_peak_acceleration = [max(Ac) for Ac in accel_etage]
-        Amplitude_factor = abs(max_peak_acceleration / max(acc_data))
+        Amplitude_factor = np.abs(max_peak_acceleration / max(acc_data))
 
         # Affichage
         with col2:
