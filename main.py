@@ -927,7 +927,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
                 f_interp_etage = interp1d(np.linspace(0,1,b), Sa_etage[j], kind='linear')
                 Sa_interp = f_interp_etage(np.linspace(0,1, c))
                 
-                ax.plot(T0_list_etage, Sa_interp[j], label=f"Floor {j+1}")
+                ax.plot(T0_list_etage, Sa_interp, label=f"Floor {j+1}")
             ax.set_xlabel("Period (s)")
             ax.set_ylabel("Peak Acceleration")
             ax.set_title("Acceleration response spectrum per floor")
@@ -940,7 +940,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         Hauteur_Te_Puni = [0.0, 1.0, 4.0, 7.0, 10.0, 13.0, 16.0, 19.0, 22.0, 25.0, 28.0, 31.0]
 
         # Calcul du max du spectre par étage
-        max_peak_acceleration = [max(Sa) for Sa in Sa_interp]  # Sa_etage[0]=étage 1, etc.
+        max_peak_acceleration = [max(Sa) for Sa in Sa_etage]  # Sa_etage[0]=étage 1, etc.
 
         # Affichage
         with col2:
