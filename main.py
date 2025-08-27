@@ -38,7 +38,7 @@ st.sidebar.markdown(f"K3 : Non-linear stiffness = **{K3:.1e} N/m³**")
 
 # Liste des graphiques disponibles
 options = ["Earthquake input", "Acceleration and Displacement spectrum", "SDOF Structural response - Linear Model","SDOF Structural response - Non Linear Model","SDOF Structural response - Linear Model with Friction",
-           "SDOF Structural response - Non Linear Model with Friction","Stiffness","Te Puni building floor reaction"]
+           "SDOF Structural response - Non Linear Model with Friction","Te Puni building floor reaction", "Stiffness"]
 
 # Sélection par l'utilisateur
 graphique_choisi = st.selectbox("Which graph do you want to display ?", options)
