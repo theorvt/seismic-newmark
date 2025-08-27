@@ -1009,7 +1009,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
 
         # Calcul du max du spectre par étage
         max_peak_acceleration = [max(Sa) for Sa in Sa_etage]
-        Sa = newmark_spectrum()
+        Sa, Sv, Sd = newmark_spectrum()
         Amplitude_factor = abs(max_peak_acceleration / max(Sa))
 
         # Affichage
