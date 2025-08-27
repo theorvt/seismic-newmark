@@ -920,14 +920,8 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
             st.markdown("Te Puni building floor reaction")
 
             fig, ax = plt.subplots()
-            for j in range(12):
-                b = len(Sa_etage[j])
-                c = len(T0_list_etage)
-                
-                f_interp_etage = interp1d(np.linspace(0,1,b), Sa_etage[j], kind='linear')
-                Sa_interp = f_interp_etage(np.linspace(0,1, c))
-                
-                ax.plot(T0_list_etage, Sa_interp, label=f"Floor {j+1}")
+            for j in range(nb_etage):
+                ax.plot(T0_list_etage, Sa_etage[j], label=f"Floor {j+1}")
             ax.set_xlabel("Period (s)")
             ax.set_ylabel("Peak Acceleration")
             ax.set_title("Acceleration response spectrum per floor")
