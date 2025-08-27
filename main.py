@@ -431,6 +431,8 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
             v[i+1] = P + gamma * dt * a[i+1]
             d[i+1] = H + beta * dt**2 * a[i+1]
             
+        return a, v, d
+            
             
     # Modèle linéaire avec friction        
     def newmark_lineaire_friction():
@@ -448,6 +450,8 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
             a_friction[i + 1] = (F_friction[i + 1] - K * H_friction - C * P_friction) / B 
             v_friction[i + 1] = P_friction + gamma * dt * a_friction[i + 1] 
             d_friction[i + 1] = H_friction + beta * dt ** 2 * a_friction[i + 1]
+            
+        return a_friction, v_friction, d_friction
        
             
     # Modèle non-linéaire
@@ -482,6 +486,8 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
             d_non_lineaire[i+1] = d_guess
             a_non_lineaire[i+1] = (d_non_lineaire[i+1] - H_non_lineaire) / (beta * dt**2)
             v_non_lineaire[i+1] = P_non_lineaire + gamma * dt * a_non_lineaire[i+1]
+        
+        return a_non_lineaire, v_non_lineaire, d_non_lineaire
         
      
     # Modèle non-linéaire - avec friction
@@ -525,6 +531,8 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
             d_non_lineaire_friction[i+1] = d_guess_friction
             a_non_lineaire_friction[i+1] = (d_non_lineaire_friction[i+1] - H_non_lineaire_friction) / (beta * dt**2)
             v_non_lineaire_friction[i+1] = P_non_lineaire_friction + gamma * dt * a_non_lineaire_friction[i+1]
+            
+        return a_non_lineaire_friction, v_non_lineaire_friction, d_non_lineaire_friction
 
     if graphique_choisi == "SDOF Structural response - Linear Model":
         
