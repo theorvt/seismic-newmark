@@ -901,19 +901,6 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
 
         Sa_etage = st.session_state.results["Sa_etage"]
 
-        Sa_etage_10 = Sa_etage[11]
-        Sa_etage_9 = Sa_etage[10]
-        Sa_etage_8 = Sa_etage[9]
-        Sa_etage_7 = Sa_etage[8]
-        Sa_etage_6 = Sa_etage[7]
-        Sa_etage_5 = Sa_etage[6]
-        Sa_etage_4 = Sa_etage[5]
-        Sa_etage_3 = Sa_etage[4]
-        Sa_etage_2 = Sa_etage[3]
-        Sa_etage_1 = Sa_etage[2]
-        Sa_base = Sa_etage[1]
-        Sa_story_1 = Sa_etage[0]
-    
         # Indices correspondant à la plage de temps sélectionnée
         mask = (t >= selected_range[0]) & (t <= selected_range[1])
         
