@@ -964,7 +964,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
 
     elif graphique_choisi == "Te Puni building floor reaction":
         # Calcul du spectre de Fourrier des étages
-        T0_list_etage = np.linspace(0.02, 0.15, 50)
+        T0_list_etage = np.linspace(0.02, 3, 50)
         
         Sa_etage = newmark_spectrum_etage()
         
