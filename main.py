@@ -48,7 +48,21 @@ N_force = M * 9.81  # force normale supposée
 
 
 # Upload du fichier CSV ou Excel 
-uploaded_file = st.file_uploader("Upload a CSV or Excel file of an earthquake", type=["csv", "xls", "xlsx"]) 
+uploaded_file = st.file_uploader("Upload a CSV or Excel file of an earthquake", type=["csv", "xls", "xlsx"])
+
+# Upload du fichier CSV ou Excel 
+uploaded_file_2 = st.file_uploader("Upload a CSV or Excel file of floor data", type=["csv", "xls", "xlsx"])
+
+df_etage = pd.read_csv(uploaded_file, engine="python", sep=';')
+time_data_etage = pd.to_numeric(df_etage.iloc[:, 0], errors='coerce').values
+ 
+#df_etage = pd.read_csv('donnee_10_etages.csv', sep=';')
+ 
+acc_data_etage = []
+for l in range(1, 13):
+    acc_data_etage.append(pd.to_numeric(df_etage.iloc[:, l], errors='coerce').values)
+    
+nb_etage = len(acc_data_etage) 
 
 if uploaded_file is not None:
     try:
@@ -142,23 +156,6 @@ else:
     selected_component = "Vertical"
     # Si une valeur n’est pas convertible (ex. texte, cellule vide…), elle sera remplacée par NaN (Not a Number), grâce à errors='coerce'.
     # .values : transforme la série pandas en array NumPy pur, plus rapide à manipuler.
-
-#Spectre de réponse de l'accélération des 10 étages
-
-
-# Upload du fichier CSV ou Excel 
-uploaded_file_2 = st.file_uploader("Upload a CSV or Excel file of floor data", type=["csv", "xls", "xlsx"])
-
-df_etage = pd.read_csv(uploaded_file, engine="python", sep=';')
-time_data_etage = pd.to_numeric(df_etage.iloc[:, 0], errors='coerce').values
- 
-#df_etage = pd.read_csv('donnee_10_etages.csv', sep=';')
- 
-acc_data_etage = []
-for l in range(1, 13):
-    acc_data_etage.append(pd.to_numeric(df_etage.iloc[:, l], errors='coerce').values)
-    
-nb_etage = len(acc_data_etage)
 
 
 # Calcule automatique de la durée du fichier
