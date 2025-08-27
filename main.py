@@ -427,6 +427,24 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         st.session_state.results = {"t": t, "F": F, "d": d, "v": v, "a": a}
         st.session_state.last_params = params_key
         
+        # Récupération des résultats depuis session_state
+        t = st.session_state.results["t"]
+        F = st.session_state.results["F"]
+
+        d = st.session_state.results["d"]
+        v = st.session_state.results["v"]
+        a = st.session_state.results["a"]
+        
+        # Indices correspondant à la plage de temps sélectionnée
+        mask = (t >= selected_range[0]) & (t <= selected_range[1])
+
+        # Filtrage des données
+        t = t[mask]
+        F = F[mask]
+        d = d[mask] 
+        v = v[mask]
+        a = a[mask] 
+        
         
     elif graphique_choisi == "SDOF Structural response - Linear Model with Friction":    
         # Modèle linéaire avec friction
@@ -447,6 +465,25 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         # Sauvegarde des résultats
         st.session_state.results = {"t": t, "F": F, "d_friction": d_friction, "v_friction": v_friction, "a_friction": a_friction}
         st.session_state.last_params = params_key
+        
+        # Récupération des résultats depuis session_state
+        t = st.session_state.results["t"]
+        F = st.session_state.results["F"]
+
+        d_friction = st.session_state.results["d_friction"]
+        v_friction = st.session_state.results["v_friction"]
+        a_friction = st.session_state.results["a_friction"]
+        
+        # Indices correspondant à la plage de temps sélectionnée
+        mask = (t >= selected_range[0]) & (t <= selected_range[1])
+
+        # Filtrage des données
+        t = t[mask]
+        F = F[mask]
+         
+        d_friction = d_friction[mask]
+        v_friction = v_friction[mask]
+        a_friction = a_friction[mask]
         
         
     elif graphique_choisi == "SDOF Structural response - Non Linear Model":
@@ -485,6 +522,25 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         # Sauvegarde des résultats
         st.session_state.results = {"t": t, "F": F, "d_non_lineaire": d_non_lineaire, "v_non_lineaire": v_non_lineaire, "a_non_lineaire": a_non_lineaire}
         st.session_state.last_params = params_key
+        
+        # Récupération des résultats depuis session_state
+        t = st.session_state.results["t"]
+        F = st.session_state.results["F"]
+
+        d_non_lineaire = st.session_state.results["d_non_lineaire"]
+        v_non_lineaire = st.session_state.results["v_non_lineaire"]
+        a_non_lineaire = st.session_state.results["a_non_lineaire"]
+        
+        # Indices correspondant à la plage de temps sélectionnée
+        mask = (t >= selected_range[0]) & (t <= selected_range[1])
+
+        # Filtrage des données
+        t = t[mask]
+        F = F[mask]
+
+        d_non_lineaire = d_non_lineaire[mask]
+        v_non_lineaire = v_non_lineaire[mask]
+        a_non_lineaire = a_non_lineaire[mask]
         
         
     elif graphique_choisi == "SDOF Structural response - Non Linear Model with Friction":    
@@ -533,6 +589,25 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         st.session_state.results = {"t": t, "F": F, "d_non_lineaire_friction": d_non_lineaire_friction, "v_non_lineaire_friction": v_non_lineaire_friction, "a_non_lineaire_friction": a_non_lineaire_friction}
         st.session_state.last_params = params_key
         
+        # Récupération des résultats depuis session_state
+        t = st.session_state.results["t"]
+        F = st.session_state.results["F"]
+
+        d_non_lineaire_friction = st.session_state.results["d_non_lineaire_friction"]
+        v_non_lineaire_friction = st.session_state.results["v_non_lineaire_friction"]
+        a_non_lineaire_friction = st.session_state.results["a_non_lineaire_friction"]
+        
+        # Indices correspondant à la plage de temps sélectionnée
+        mask = (t >= selected_range[0]) & (t <= selected_range[1])
+
+        # Filtrage des données
+        t = t[mask]
+        F = F[mask]
+
+        d_non_lineaire_friction = d_non_lineaire_friction[mask]
+        v_non_lineaire_friction = v_non_lineaire_friction[mask]
+        a_non_lineaire_friction = a_non_lineaire_friction[mask]
+        
     elif graphique_choisi == "Earthquake input":   
         # Calcul du spectre de Fourrier
         T0_list = np.linspace(0.02, 20, 50)
@@ -571,6 +646,23 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         # Sauvegarde des résultats
         st.session_state.results = {"t": t, "F": F, "Sd": Sd, "Sv": Sv, "Sa": Sa, "T0_list": T0_list}
         st.session_state.last_params = params_key
+        
+        # Récupération des résultats depuis session_state
+        t = st.session_state.results["t"]
+        F = st.session_state.results["F"]
+
+        T0_list = st.session_state.results["T0_list"]
+
+        Sd = st.session_state.results["Sd"]
+        Sv = st.session_state.results["Sv"]
+        Sa = st.session_state.results["Sa"]
+        
+        # Indices correspondant à la plage de temps sélectionnée
+        mask = (t >= selected_range[0]) & (t <= selected_range[1])
+
+        # Filtrage des données
+        t = t[mask]
+        F = F[mask]
 
     elif graphique_choisi == "Te Puni building floor reaction":
         #Version avec les etages 
@@ -621,72 +713,35 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         # Sauvegarde des résultats
         st.session_state.results = {"t": t, "F": F, "T0_list_etage": T0_list_etage, "Sa_etage": Sa_etage}
         st.session_state.last_params = params_key
+        
+        # Récupération des résultats depuis session_state
+        t = st.session_state.results["t"]
+        F = st.session_state.results["F"]
 
-# Récupération des résultats depuis session_state
-t = st.session_state.results["t"]
-F = st.session_state.results["F"]
+        T0_list_etage = st.session_state.results["T0_list_etage"]
 
-d = st.session_state.results["d"]
-v = st.session_state.results["v"]
-a = st.session_state.results["a"]
+        Sa_etage = st.session_state.results["Sa_etage"]
 
-d_friction = st.session_state.results["d_friction"]
-v_friction = st.session_state.results["v_friction"]
-a_friction = st.session_state.results["a_friction"]
-
-d_non_lineaire = st.session_state.results["d_non_lineaire"]
-v_non_lineaire = st.session_state.results["v_non_lineaire"]
-a_non_lineaire = st.session_state.results["a_non_lineaire"]
-
-d_non_lineaire_friction = st.session_state.results["d_non_lineaire_friction"]
-v_non_lineaire_friction = st.session_state.results["v_non_lineaire_friction"]
-a_non_lineaire_friction = st.session_state.results["a_non_lineaire_friction"]
-
-T0_list = st.session_state.results["T0_list"]
-T0_list_etage = st.session_state.results["T0_list_etage"]
-
-Sd = st.session_state.results["Sd"]
-Sv = st.session_state.results["Sv"]
-Sa = st.session_state.results["Sa"]
-
-Sa_etage = st.session_state.results["Sa_etage"]
+        Sa_etage_10 = Sa_etage[11]
+        Sa_etage_9 = Sa_etage[10]
+        Sa_etage_8 = Sa_etage[9]
+        Sa_etage_7 = Sa_etage[8]
+        Sa_etage_6 = Sa_etage[7]
+        Sa_etage_5 = Sa_etage[6]
+        Sa_etage_4 = Sa_etage[5]
+        Sa_etage_3 = Sa_etage[4]
+        Sa_etage_2 = Sa_etage[3]
+        Sa_etage_1 = Sa_etage[2]
+        Sa_base = Sa_etage[1]
+        Sa_story_1 = Sa_etage[0]
     
-Sa_etage_10 = Sa_etage[11]
-Sa_etage_9 = Sa_etage[10]
-Sa_etage_8 = Sa_etage[9]
-Sa_etage_7 = Sa_etage[8]
-Sa_etage_6 = Sa_etage[7]
-Sa_etage_5 = Sa_etage[6]
-Sa_etage_4 = Sa_etage[5]
-Sa_etage_3 = Sa_etage[4]
-Sa_etage_2 = Sa_etage[3]
-Sa_etage_1 = Sa_etage[2]
-Sa_base = Sa_etage[1]
-Sa_story_1 = Sa_etage[0]
+        # Indices correspondant à la plage de temps sélectionnée
+        mask = (t >= selected_range[0]) & (t <= selected_range[1])
+        
+        # Filtrage des données
+        t = t[mask]
+        F = F[mask]
 
-
-# Indices correspondant à la plage de temps sélectionnée
-mask = (t >= selected_range[0]) & (t <= selected_range[1])
-
-# Filtrage des données
-t = t[mask]
-F = F[mask]
-d = d[mask] 
-v = v[mask]
-a = a[mask] 
-
-d_friction = d_friction[mask]
-v_friction = v_friction[mask]
-a_friction = a_friction[mask]
-
-d_non_lineaire = d_non_lineaire[mask]
-v_non_lineaire = v_non_lineaire[mask]
-a_non_lineaire = a_non_lineaire[mask]
-
-d_non_lineaire_friction = d_non_lineaire_friction[mask]
-v_non_lineaire_friction = v_non_lineaire_friction[mask]
-a_non_lineaire_friction = a_non_lineaire_friction[mask]
- 
 
 # Affichage
 
