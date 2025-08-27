@@ -974,6 +974,6 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         st.pyplot(fig)
 
 
-output_df = pd.DataFrame({"Time (s)": t, "Displacement (m)": d, "Velocity (m/s)": v, "Acceleration (m/s²)": a, "Force (N)": F})
-csv = output_df.to_csv(index=False).encode('utf-8')
-st.download_button("Download results as CSV", data=csv, file_name='newmark_results.csv', mime='text/csv')
+#output_df = pd.DataFrame({"Time (s)": t, "Displacement (m)": d, "Velocity (m/s)": v, "Acceleration (m/s²)": a, "Force (N)": F})
+#csv = output_df.to_csv(index=False).encode('utf-8')
+#st.download_button("Download results as CSV", data=csv, file_name='newmark_results.csv', mime='text/csv')
