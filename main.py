@@ -851,9 +851,9 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         # Spectre de réponse
         Sa_etage = [[] for m in range(nb_etage)]  # 12 étages
         
-        for j in range(len(accel_etage)):
+        for j, acc_j in range(len(accel_etage)):
             
-            acc_j = accel_etage[j]  # accélération interpolée de l’étage j
+            #acc_j = accel_etage[j]  # accélération interpolée de l’étage j
             
             for T0_i_etage in T0_list_etage: 
                 
@@ -880,6 +880,10 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
     
                 # Stocker les maxima
                 Sa_etage[j].append(np.max(np.abs(asp_etage)))
+                
+            if len(Sa_etage[j]) != len(T0_list_etage):
+                Sa_etage[j] = np.interp(np.linspace(0, 1, len(T0_list_etage)), np.linspace(0, 1, len(Sa_etage[j])), Sa_etage[j])
+                
         
         # Sauvegarde des résultats
         st.session_state.results = {"t": t, "F": F, "T0_list_etage": T0_list_etage, "Sa_etage": Sa_etage}
