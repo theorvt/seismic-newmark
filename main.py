@@ -882,8 +882,12 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
                 Sa_etage[j].append(np.max(np.abs(asp_etage)))
                 
         for j in range(nb_etage):
-            if len(Sa_etage[j]) != len(T0_list_etage):
-              Sa_etage[j] = np.interp(np.linspace(0, 1, len(T0_list_etage)), np.linspace(0, 1, len(Sa_etage[j])), Sa_etage[j])
+            if len(Sa_etage[j]) == 0:
+              # rien calculé → on remplit par des zéros
+              Sa_etage[j] = np.zeros(len(T0_list_etage))
+            elif len(Sa_etage[j]) != len(T0_list_etage):
+            # interpolation si besoin
+                Sa_etage[j] = np.interp(np.linspace(0, 1, len(T0_list_etage)),np.linspace(0, 1, len(Sa_etage[j])),Sa_etage[j])
         
         # Sauvegarde des résultats
         st.session_state.results = {"t": t, "F": F, "T0_list_etage": T0_list_etage, "Sa_etage": Sa_etage}
