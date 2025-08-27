@@ -1017,10 +1017,10 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
 
         # Affichage
         with col2:
-            st.markdown("Maximum response spectrum per floor")
+            st.markdown("Maximum acceleration amplitude factor per floor")
             fig, ax = plt.subplots()
             ax.plot(Amplitude_factor, Hauteur_Te_Puni, marker="o", color="#1C2D3F")
-            ax.set_xlabel("Max Spectral Acceleration (m/s²)")
+            ax.set_xlabel("Acceleration amplitude factor (m/s²)")
             ax.set_ylabel("Height (m)")
             ax.set_title("Te Puni building - Max spectral acceleration per floor")
             ax.grid(True)
