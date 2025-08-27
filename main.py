@@ -423,7 +423,10 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
             a[i+1] = (F[i+1] - K * H - C * P) / B
             v[i+1] = P + gamma * dt * a[i+1]
             d[i+1] = H + beta * dt**2 * a[i+1]
-     
+        # Sauvegarde des résultats
+        st.session_state.results = {"t": t, "F": F, "d": d, "v": v, "a": a}
+        st.session_state.last_params = params_key
+        
         
     elif graphique_choisi == "SDOF Structural response - Linear Model with Friction":    
         # Modèle linéaire avec friction
@@ -441,7 +444,10 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
             a_friction[i + 1] = (F_friction[i + 1] - K * H_friction - C * P_friction) / B 
             v_friction[i + 1] = P_friction + gamma * dt * a_friction[i + 1] 
             d_friction[i + 1] = H_friction + beta * dt ** 2 * a_friction[i + 1] 
-       
+        # Sauvegarde des résultats
+        st.session_state.results = {"t": t, "F": F, "d_friction": d_friction, "v_friction": v_friction, "a_friction": a_friction}
+        st.session_state.last_params = params_key
+        
         
     elif graphique_choisi == "SDOF Structural response - Non Linear Model":
         # Modèle non-linéaire
@@ -476,6 +482,10 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
             a_non_lineaire[i+1] = (d_non_lineaire[i+1] - H_non_lineaire) / (beta * dt**2)
             v_non_lineaire[i+1] = P_non_lineaire + gamma * dt * a_non_lineaire[i+1]
      
+        # Sauvegarde des résultats
+        st.session_state.results = {"t": t, "F": F, "d_non_lineaire": d_non_lineaire, "v_non_lineaire": v_non_lineaire, "a_non_lineaire": a_non_lineaire}
+        st.session_state.last_params = params_key
+        
         
     elif graphique_choisi == "SDOF Structural response - Non Linear Model with Friction":    
         # Modèle non-linéaire - avec friction
@@ -518,7 +528,11 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
             d_non_lineaire_friction[i+1] = d_guess_friction
             a_non_lineaire_friction[i+1] = (d_non_lineaire_friction[i+1] - H_non_lineaire_friction) / (beta * dt**2)
             v_non_lineaire_friction[i+1] = P_non_lineaire_friction + gamma * dt * a_non_lineaire_friction[i+1]
-
+            
+        # Sauvegarde des résultats
+        st.session_state.results = {"t": t, "F": F, "d_non_lineaire_friction": d_non_lineaire_friction, "v_non_lineaire_friction": v_non_lineaire_friction, "a_non_lineaire_friction": a_non_lineaire_friction}
+        st.session_state.last_params = params_key
+        
     elif graphique_choisi == "Earthquake input":   
         # Calcul du spectre de Fourrier
         T0_list = np.linspace(0.02, 20, 50)
@@ -553,7 +567,10 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
             Sd.append(np.max(np.abs(dsp)))
             Sv.append(np.max(np.abs(vsp)))
             Sa.append(np.max(np.abs(asp)))
-
+            
+        # Sauvegarde des résultats
+        st.session_state.results = {"t": t, "F": F, "Sd": Sd, "Sv": Sv, "Sa": Sa, "T0_list": T0_list}
+        st.session_state.last_params = params_key
 
     elif graphique_choisi == "Te Puni building floor reaction":
         #Version avec les etages 
@@ -601,10 +618,9 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
                 # Stocker les maxima
                 Sa_etage[j].append(np.max(np.abs(asp_etage)))
         
-    # Sauvegarde des résultats
-    st.session_state.results = {"t": t, "F": F, "d": d, "v": v, "a": a, "Sd": Sd, "Sv": Sv, "Sa": Sa, "T0_list": T0_list, "d_friction": d_friction, "v_friction": v_friction, "a_friction": a_friction, "d_non_lineaire": d_non_lineaire, "v_non_lineaire": v_non_lineaire, "a_non_lineaire": a_non_lineaire, "d_non_lineaire_friction": d_non_lineaire_friction, "v_non_lineaire_friction": v_non_lineaire_friction, "a_non_lineaire_friction": a_non_lineaire_friction,
-                                "T0_list_etage": T0_list_etage, "Sa_etage": Sa_etage}
-    st.session_state.last_params = params_key
+        # Sauvegarde des résultats
+        st.session_state.results = {"t": t, "F": F, "T0_list_etage": T0_list_etage, "Sa_etage": Sa_etage}
+        st.session_state.last_params = params_key
 
 # Récupération des résultats depuis session_state
 t = st.session_state.results["t"]
