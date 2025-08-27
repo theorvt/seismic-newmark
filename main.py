@@ -918,7 +918,13 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         F = F[mask]
         
         col1, col2 = st.columns(2) 
-           
+        
+        for j in range(nb_etage):
+            if len(Sa_etage[j]) != len(T0_list_etage):
+              st.write(f"⚠️ Étape {j+1} : {len(Sa_etage[j])} valeurs au lieu de {len(T0_list_etage)}")
+            else:
+                ax.plot(T0_list_etage, Sa_etage[j], label=f"Floor {j+1}")
+        
         # Affichage du graphiques pour les étages
         with col1:
             st.markdown("Te Puni building floor reaction")
