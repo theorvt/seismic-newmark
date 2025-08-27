@@ -37,7 +37,7 @@ K3 = 10 ** log_K3
 st.sidebar.markdown(f"K3 : Non-linear stiffness = **{K3:.1e} N/m³**")
 
 # Liste des graphiques disponibles
-options = ["Earthquake input","SDOF Structural response - Linear Model","SDOF Structural response - Non Linear Model","SDOF Structural response - Linear Model with Friction",
+options = ["Earthquake input", "Acceleration and Displacement spectrum", "SDOF Structural response - Linear Model","SDOF Structural response - Non Linear Model","SDOF Structural response - Linear Model with Friction",
            "SDOF Structural response - Non Linear Model with Friction","Stiffness","Te Puni building floor reaction"]
 
 # Sélection par l'utilisateur
@@ -864,7 +864,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
             ax.grid()
             st.pyplot(fig)
         
-    elif graphique_choisi == "Earthquake input":   
+    elif graphique_choisi == "Acceleration and Displacement spectrum":   
         # Calcul du spectre de Fourrier
         T0_list = np.linspace(0.02, 20, 50)
         
@@ -892,21 +892,12 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         F = F[mask]
         
         # Enregistrement du séisme et spectre de réponse
-        st.markdown("Earthquake input")
+        st.markdown("Acceleration and Displacement spectrum")
         
         
-        col1, col2, col3 = st.columns(3)
-        
-        with col1:
-            fig, ax = plt.subplots()
-            ax.plot(t, F, color="#0072CE")
-            ax.set_xlabel("Time(s)")
-            ax.set_ylabel("Force(N)")
-            ax.set_title(f"Ground acceleration - {selected_component}")
-            ax.grid()
-            st.pyplot(fig)
+        col1, col2 = st.columns(2)
             
-        with col2:
+        with col1:
             fig, ax = plt.subplots()
             ax.plot(T0_list, Sa, color="#002B45")
             ax.set_xlabel("Period (s)")
@@ -916,7 +907,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
             ax.grid()
             st.pyplot(fig)
             
-        with col3:
+        with col2:
             fig, ax = plt.subplots()
             ax.plot(T0_list, Sd, color="#002B45")
             ax.set_xlabel("Period (s)")
@@ -925,6 +916,20 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
             ax.set_xscale(scale)
             ax.grid()
             st.pyplot(fig) 
+
+
+    elif graphique_choisi == "Earthquake input":
+        
+        st.markdown("Earthquake input")
+        
+        fig, ax = plt.subplots()
+        ax.plot(t, F, color="#0072CE")
+        ax.set_xlabel("Time(s)")
+        ax.set_ylabel("Force(N)")
+        ax.set_title(f"Ground acceleration - {selected_component}")
+        ax.grid()
+        st.pyplot(fig)
+
 
     elif graphique_choisi == "Te Puni building floor reaction":
         # Calcul du spectre de Fourrier des étages
@@ -985,9 +990,10 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
             ax.grid(True)
             st.pyplot(fig)
         
-    # Représentation graphique de la raideur non_linéaire
+   
     elif graphique_choisi == "Stiffness":    
         def raideur_non_lineaire(d_non_lineaire):
+            a_non_lineaire, v_non_lineaire, d_non_lineaire = newmark_non_lineaire()
             F_raideur_non_lineaire = np.zeros(n)
             for i in range(n-1):
                 F_raideur_non_lineaire[i] = K * d_non_lineaire[i] + K3 * d_non_lineaire[i] ** 3
