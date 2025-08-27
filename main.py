@@ -412,6 +412,13 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         st.stop()
 
 
+    # Affichage d'un titre si l'utilisateur n'a pas encore uploadé de fichier
+    if uploaded_file is None:
+        selected_component = "Vertical"
+        st.markdown("### Example of simulation with default data")
+        st.info("You are currently viewing a simulation example with predefined data. To use your own seismic data, import a CSV or Excel file at the top of the page.")
+
+
     if graphique_choisi == "SDOF Structural response - Linear Model":
         # Modèle linéaire
         for i in range(n - 1):
@@ -967,15 +974,6 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         st.pyplot(fig)
 
 
-# Affichage
-
-# Affichage d'un titre si l'utilisateur n'a pas encore uploadé de fichier
-if uploaded_file is None:
-    selected_component = "Vertical"
-    st.markdown("### Example of simulation with default data")
-    st.info("You are currently viewing a simulation example with predefined data. To use your own seismic data, import a CSV or Excel file at the top of the page.")
- 
-  
 output_df = pd.DataFrame(
     {"Time (s)": t, "Displacement (m)": d, "Velocity (m/s)": v, "Acceleration (m/s²)": a, "Force (N)": F})
 csv = output_df.to_csv(index=False).encode('utf-8')
