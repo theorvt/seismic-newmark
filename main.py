@@ -445,6 +445,39 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         v = v[mask]
         a = a[mask] 
         
+        # Mode linéaire
+        st.markdown("SDOF Structural response - Linear Model")   
+        
+        col1, col2, col3 = st.columns(3)
+        
+        with col1:
+            fig, ax = plt.subplots()
+            ax.plot(t, d, color="#002B45")
+            ax.set_xlabel("Time(s)")
+            ax.set_ylabel("Displacement")
+            ax.set_title(f"Displacement time history - Linear model - {selected_component}")
+            ax.grid()
+            st.pyplot(fig)
+        
+        with col2:
+            fig, ax = plt.subplots()
+            ax.plot(t, v, color="#009CA6")
+            ax.set_xlabel("Time (s)")
+            ax.set_ylabel("Velocity")
+            ax.set_title(f"Velocity time history - Linear model - {selected_component}")
+            ax.grid()
+            st.pyplot(fig)
+        
+        with col3:
+            fig, ax = plt.subplots()
+            ax.plot(t, a, color="#1C2D3F")
+            ax.set_xlabel("Time (s)")
+            ax.set_ylabel("Acceleration")
+            ax.set_title(f"Acceleration time history - Linear model - {selected_component}") 
+            ax.grid()
+            st.pyplot(fig)
+
+        
         
     elif graphique_choisi == "SDOF Structural response - Linear Model with Friction":    
         # Modèle linéaire avec friction
@@ -484,6 +517,38 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         d_friction = d_friction[mask]
         v_friction = v_friction[mask]
         a_friction = a_friction[mask]
+        
+        # Mode linéaire avec friction
+        st.markdown("SDOF Structural response - Linear Model with Friction")   
+
+        col1, col2, col3 = st.columns(3)  
+           
+        with col1:
+            fig, ax = plt.subplots()
+            ax.plot(t, d_friction, color="red")
+            ax.set_xlabel("Time (s)")
+            ax.set_ylabel("Displacement")
+            ax.set_title(f"Displacement time history - Linear model with friction - {selected_component}")
+            ax.grid()
+            st.pyplot(fig)
+
+        with col2:
+            fig, ax = plt.subplots()
+            ax.plot(t, v_friction, color="red")
+            ax.set_xlabel("Time (s)")
+            ax.set_ylabel("Velocity")
+            ax.set_title(f"Velocity time history - Linear model with friction - {selected_component}")
+            ax.grid()
+            st.pyplot(fig)
+
+        with col3:
+            fig, ax = plt.subplots()
+            ax.plot(t, a_friction, color="red")
+            ax.set_xlabel("Time (s)")
+            ax.set_ylabel("Acceleration")
+            ax.set_title(f"Acceleration time history - Linear model with friction - {selected_component}")
+            ax.grid()
+            st.pyplot(fig)
         
         
     elif graphique_choisi == "SDOF Structural response - Non Linear Model":
@@ -541,6 +606,38 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         d_non_lineaire = d_non_lineaire[mask]
         v_non_lineaire = v_non_lineaire[mask]
         a_non_lineaire = a_non_lineaire[mask]
+        
+        # Mode non-linéaire
+        st.markdown("SDOF Structural response - Non Linear Model")   
+
+        col1, col2, col3 = st.columns(3)
+
+        with col1:
+            fig, ax = plt.subplots()
+            ax.plot(t, d_non_lineaire, color="#002B45")
+            ax.set_xlabel("Time(s)")
+            ax.set_ylabel("Displacement")
+            ax.set_title(f"Displacement time history - Non Linear model - {selected_component}")
+            ax.grid()
+            st.pyplot(fig)
+
+        with col2:
+            fig, ax = plt.subplots()
+            ax.plot(t, v_non_lineaire, color="#009CA6")
+            ax.set_xlabel("Time (s)")
+            ax.set_ylabel("Velocity")
+            ax.set_title(f"Velocity time history - Non Linear model - {selected_component}")
+            ax.grid()
+            st.pyplot(fig)
+
+        with col3:
+            fig, ax = plt.subplots()
+            ax.plot(t, a_non_lineaire, color="#1C2D3F")
+            ax.set_xlabel("Time (s)")
+            ax.set_ylabel("Acceleration")
+            ax.set_title(f"Acceleration time history - Non Linear model - {selected_component}") 
+            ax.grid()
+            st.pyplot(fig)
         
         
     elif graphique_choisi == "SDOF Structural response - Non Linear Model with Friction":    
@@ -608,6 +705,38 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         v_non_lineaire_friction = v_non_lineaire_friction[mask]
         a_non_lineaire_friction = a_non_lineaire_friction[mask]
         
+        # Mode non-linéaire avec friction
+        st.markdown("SDOF Structural response - Non Linear Model with Friction")   
+        
+        col1, col2, col3 = st.columns(3)
+        
+        with col1:
+            fig, ax = plt.subplots()
+            ax.plot(t, d_non_lineaire_friction, color="#002B45")
+            ax.set_xlabel("Time(s)")
+            ax.set_ylabel("Displacement")
+            ax.set_title(f"Displacement time history - Non Linear model - Friction - {selected_component}")
+            ax.grid()
+            st.pyplot(fig)
+        
+        with col2:
+            fig, ax = plt.subplots()
+            ax.plot(t, v_non_lineaire_friction, color="#009CA6")
+            ax.set_xlabel("Time (s)")
+            ax.set_ylabel("Velocity")
+            ax.set_title(f"Velocity time history - Non Linear model - Friction - {selected_component}")
+            ax.grid()
+            st.pyplot(fig)
+        
+        with col3:
+            fig, ax = plt.subplots()
+            ax.plot(t, a_non_lineaire_friction, color="#1C2D3F")
+            ax.set_xlabel("Time (s)")
+            ax.set_ylabel("Acceleration")
+            ax.set_title(f"Acceleration time history - Non Linear model - Friction - {selected_component}") 
+            ax.grid()
+            st.pyplot(fig)
+        
     elif graphique_choisi == "Earthquake input":   
         # Calcul du spectre de Fourrier
         T0_list = np.linspace(0.02, 20, 50)
@@ -663,6 +792,41 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         # Filtrage des données
         t = t[mask]
         F = F[mask]
+        
+        # Enregistrement du séisme et spectre de réponse
+        st.markdown("Earthquake input")
+        
+        
+        col1, col2, col3 = st.columns(3)
+        
+        with col1:
+            fig, ax = plt.subplots()
+            ax.plot(t, F, color="#0072CE")
+            ax.set_xlabel("Time(s)")
+            ax.set_ylabel("Force(N)")
+            ax.set_title(f"Ground acceleration - {selected_component}")
+            ax.grid()
+            st.pyplot(fig)
+            
+        with col2:
+            fig, ax = plt.subplots()
+            ax.plot(T0_list, Sa, color="#002B45")
+            ax.set_xlabel("Period (s)")
+            ax.set_ylabel("Peak Acceleration")
+            ax.set_title(f"Acceleration response spectrum - {selected_component}")
+            ax.set_xscale(scale)
+            ax.grid()
+            st.pyplot(fig)
+            
+        with col3:
+            fig, ax = plt.subplots()
+            ax.plot(T0_list, Sd, color="#002B45")
+            ax.set_xlabel("Period (s)")
+            ax.set_ylabel("Peak Displacement")
+            ax.set_title(f"Displacement response spectrum  - {selected_component}")
+            ax.set_xscale(scale)
+            ax.grid()
+            st.pyplot(fig) 
 
     elif graphique_choisi == "Te Puni building floor reaction":
         #Version avec les etages 
@@ -741,6 +905,66 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         # Filtrage des données
         t = t[mask]
         F = F[mask]
+        
+        col1, col2 = st.columns(2) 
+           
+        # Affichage du graphiques pour les étages
+        with col1:
+            st.markdown("Te Puni building floor reaction")
+
+            fig, ax = plt.subplots()
+            for j in range(12):
+                b = len(Sa_etage[j])
+                c = len(T0_list_etage)
+                
+                f_interp_etage = interp1d(np.linspace(0,1,b), Sa_etage[j], kind='linear')
+                Sa_interp = f_interp_etage(np.linspace(0,1, c))
+                
+                ax.plot(T0_list_etage, Sa_etage[j], label=f"Floor {j+1}")
+            ax.set_xlabel("Period (s)")
+            ax.set_ylabel("Peak Acceleration")
+            ax.set_title("Acceleration response spectrum per floor")
+            ax.set_xscale(scale)
+            ax.grid()
+            st.pyplot(fig)
+          
+
+        # Hauteur de chaque étage
+        Hauteur_Te_Puni = [0.0, 1.0, 4.0, 7.0, 10.0, 13.0, 16.0, 19.0, 22.0, 25.0, 28.0, 31.0]
+
+        # Calcul du max du spectre par étage
+        max_peak_acceleration = [max(Sa) for Sa in Sa_etage]  # Sa_etage[0]=étage 1, etc.
+
+        # Affichage
+        with col2:
+            st.markdown("Maximum response spectrum per floor")
+            fig, ax = plt.subplots()
+            ax.plot(max_peak_acceleration, Hauteur_Te_Puni, marker="o", color="#1C2D3F")
+            ax.set_xlabel("Max Spectral Acceleration (m/s²)")
+            ax.set_ylabel("Height (m)")
+            ax.set_title("Te Puni building - Max spectral acceleration per floor")
+            ax.grid(True)
+            st.pyplot(fig)
+        
+    # Représentation graphique de la raideur non_linéaire
+    elif graphique_choisi == "Stiffness":    
+        def raideur_non_lineaire(d_non_lineaire):
+            F_raideur_non_lineaire = np.zeros(n)
+            for i in range(n-1):
+                F_raideur_non_lineaire[i] = K * d_non_lineaire[i] + K3 * d_non_lineaire[i] ** 3
+            return F_raideur_non_lineaire
+
+        F_raideur_non_lineaire = raideur_non_lineaire(d_non_lineaire)
+
+        st.markdown("Stiffness")   
+
+        fig, ax = plt.subplots()
+        ax.plot(d_non_lineaire, F_raideur_non_lineaire, color="#002B45")
+        ax.set_xlabel("Displacement (m)")
+        ax.set_ylabel("Stiffness force")
+        ax.set_title(f"Stiffness force - Non Linear model - {selected_component}")
+        ax.grid()
+        st.pyplot(fig)
 
 
 # Affichage
@@ -750,244 +974,8 @@ if uploaded_file is None:
     selected_component = "Vertical"
     st.markdown("### Example of simulation with default data")
     st.info("You are currently viewing a simulation example with predefined data. To use your own seismic data, import a CSV or Excel file at the top of the page.")
-
-# Enregistrement du séisme et spectre de réponse
-if graphique_choisi == "Earthquake input":
-    st.markdown("Earthquake input")
-    
-    
-    col1, col2, col3 = st.columns(3)
-    
-    with col1:
-        fig, ax = plt.subplots()
-        ax.plot(t, F, color="#0072CE")
-        ax.set_xlabel("Time(s)")
-        ax.set_ylabel("Force(N)")
-        ax.set_title(f"Ground acceleration - {selected_component}")
-        ax.grid()
-        st.pyplot(fig)
-        
-    with col2:
-        fig, ax = plt.subplots()
-        ax.plot(T0_list, Sa, color="#002B45")
-        ax.set_xlabel("Period (s)")
-        ax.set_ylabel("Peak Acceleration")
-        ax.set_title(f"Acceleration response spectrum - {selected_component}")
-        ax.set_xscale(scale)
-        ax.grid()
-        st.pyplot(fig)
-        
-    with col3:
-        fig, ax = plt.subplots()
-        ax.plot(T0_list, Sd, color="#002B45")
-        ax.set_xlabel("Period (s)")
-        ax.set_ylabel("Peak Displacement")
-        ax.set_title(f"Displacement response spectrum  - {selected_component}")
-        ax.set_xscale(scale)
-        ax.grid()
-        st.pyplot(fig)    
-    
-    
-# Mode linéaire
-elif graphique_choisi == "SDOF Structural response - Linear Model":
-    st.markdown("SDOF Structural response - Linear Model")   
-    
-    col1, col2, col3 = st.columns(3)
-    
-    with col1:
-        fig, ax = plt.subplots()
-        ax.plot(t, d, color="#002B45")
-        ax.set_xlabel("Time(s)")
-        ax.set_ylabel("Displacement")
-        ax.set_title(f"Displacement time history - Linear model - {selected_component}")
-        ax.grid()
-        st.pyplot(fig)
-    
-    with col2:
-        fig, ax = plt.subplots()
-        ax.plot(t, v, color="#009CA6")
-        ax.set_xlabel("Time (s)")
-        ax.set_ylabel("Velocity")
-        ax.set_title(f"Velocity time history - Linear model - {selected_component}")
-        ax.grid()
-        st.pyplot(fig)
-    
-    with col3:
-        fig, ax = plt.subplots()
-        ax.plot(t, a, color="#1C2D3F")
-        ax.set_xlabel("Time (s)")
-        ax.set_ylabel("Acceleration")
-        ax.set_title(f"Acceleration time history - Linear model - {selected_component}") 
-        ax.grid()
-        st.pyplot(fig)
-
-
-# Mode non-linéaire
-elif graphique_choisi == "SDOF Structural response - Non Linear Model":
-    st.markdown("SDOF Structural response - Non Linear Model")   
-    
-    col1, col2, col3 = st.columns(3)
-    
-    with col1:
-        fig, ax = plt.subplots()
-        ax.plot(t, d_non_lineaire, color="#002B45")
-        ax.set_xlabel("Time(s)")
-        ax.set_ylabel("Displacement")
-        ax.set_title(f"Displacement time history - Non Linear model - {selected_component}")
-        ax.grid()
-        st.pyplot(fig)
-    
-    with col2:
-        fig, ax = plt.subplots()
-        ax.plot(t, v_non_lineaire, color="#009CA6")
-        ax.set_xlabel("Time (s)")
-        ax.set_ylabel("Velocity")
-        ax.set_title(f"Velocity time history - Non Linear model - {selected_component}")
-        ax.grid()
-        st.pyplot(fig)
-    
-    with col3:
-        fig, ax = plt.subplots()
-        ax.plot(t, a_non_lineaire, color="#1C2D3F")
-        ax.set_xlabel("Time (s)")
-        ax.set_ylabel("Acceleration")
-        ax.set_title(f"Acceleration time history - Non Linear model - {selected_component}") 
-        ax.grid()
-        st.pyplot(fig)
-
-   
-# Mode linéaire avec friction
-elif graphique_choisi == "SDOF Structural response - Linear Model with Friction":
-    st.markdown("SDOF Structural response - Linear Model with Friction")   
-    
-    col1, col2, col3 = st.columns(3)  
-       
-    with col1:
-        fig, ax = plt.subplots()
-        ax.plot(t, d_friction, color="red")
-        ax.set_xlabel("Time (s)")
-        ax.set_ylabel("Displacement")
-        ax.set_title(f"Displacement time history - Linear model with friction - {selected_component}")
-        ax.grid()
-        st.pyplot(fig)
-    
-    with col2:
-        fig, ax = plt.subplots()
-        ax.plot(t, v_friction, color="red")
-        ax.set_xlabel("Time (s)")
-        ax.set_ylabel("Velocity")
-        ax.set_title(f"Velocity time history - Linear model with friction - {selected_component}")
-        ax.grid()
-        st.pyplot(fig)
-    
-    with col3:
-        fig, ax = plt.subplots()
-        ax.plot(t, a_friction, color="red")
-        ax.set_xlabel("Time (s)")
-        ax.set_ylabel("Acceleration")
-        ax.set_title(f"Acceleration time history - Linear model with friction - {selected_component}")
-        ax.grid()
-        st.pyplot(fig)
-
-
-# Mode non-linéaire avec friction
-elif graphique_choisi == "SDOF Structural response - Non Linear Model with Friction":
-    st.markdown("SDOF Structural response - Non Linear Model with Friction")   
-    
-    col1, col2, col3 = st.columns(3)
-    
-    with col1:
-        fig, ax = plt.subplots()
-        ax.plot(t, d_non_lineaire_friction, color="#002B45")
-        ax.set_xlabel("Time(s)")
-        ax.set_ylabel("Displacement")
-        ax.set_title(f"Displacement time history - Non Linear model - Friction - {selected_component}")
-        ax.grid()
-        st.pyplot(fig)
-    
-    with col2:
-        fig, ax = plt.subplots()
-        ax.plot(t, v_non_lineaire_friction, color="#009CA6")
-        ax.set_xlabel("Time (s)")
-        ax.set_ylabel("Velocity")
-        ax.set_title(f"Velocity time history - Non Linear model - Friction - {selected_component}")
-        ax.grid()
-        st.pyplot(fig)
-    
-    with col3:
-        fig, ax = plt.subplots()
-        ax.plot(t, a_non_lineaire_friction, color="#1C2D3F")
-        ax.set_xlabel("Time (s)")
-        ax.set_ylabel("Acceleration")
-        ax.set_title(f"Acceleration time history - Non Linear model - Friction - {selected_component}") 
-        ax.grid()
-        st.pyplot(fig)
-   
  
-# Représentation graphique de la raideur non_linéaire
-elif graphique_choisi == "Stiffness":    
-    def raideur_non_lineaire(d_non_lineaire):
-        F_raideur_non_lineaire = np.zeros(n)
-        for i in range(n-1):
-            F_raideur_non_lineaire[i] = K * d_non_lineaire[i] + K3 * d_non_lineaire[i] ** 3
-        return F_raideur_non_lineaire
-
-    F_raideur_non_lineaire = raideur_non_lineaire(d_non_lineaire)
-
-    st.markdown("Stiffness")   
-
-    fig, ax = plt.subplots()
-    ax.plot(d_non_lineaire, F_raideur_non_lineaire, color="#002B45")
-    ax.set_xlabel("Displacement (m)")
-    ax.set_ylabel("Stiffness force")
-    ax.set_title(f"Stiffness force - Non Linear model - {selected_component}")
-    ax.grid()
-    st.pyplot(fig)
- 
-
-elif graphique_choisi == "Te Puni building floor reaction":     
-
-    col1, col2 = st.columns(2) 
-       
-    # Affichage du graphiques pour les étages
-    with col1:
-        st.markdown("Te Puni building floor reaction")
-    
-        fig, ax = plt.subplots()
-        for j in range(12):
-            b = len(Sa_etage[j])
-            c = len(T0_list_etage)
-            
-            f_interp_etage = interp1d(np.linspace(0,1,b), Sa_etage[j], kind='linear')
-            Sa_interp = f_interp_etage(np.linspace(0,1, c))
-            
-            ax.plot(T0_list_etage, Sa_etage[j], label=f"Floor {j+1}")
-        ax.set_xlabel("Period (s)")
-        ax.set_ylabel("Peak Acceleration")
-        ax.set_title("Acceleration response spectrum per floor")
-        ax.set_xscale(scale)
-        ax.grid()
-        st.pyplot(fig)
-      
-    
-    # Hauteur de chaque étage
-    Hauteur_Te_Puni = [0.0, 1.0, 4.0, 7.0, 10.0, 13.0, 16.0, 19.0, 22.0, 25.0, 28.0, 31.0]
-    
-    # Calcul du max du spectre par étage
-    max_peak_acceleration = [max(Sa) for Sa in Sa_etage]  # Sa_etage[0]=étage 1, etc.
-    
-    # Affichage
-    with col2:
-        st.markdown("Maximum response spectrum per floor")
-        fig, ax = plt.subplots()
-        ax.plot(max_peak_acceleration, Hauteur_Te_Puni, marker="o", color="#1C2D3F")
-        ax.set_xlabel("Max Spectral Acceleration (m/s²)")
-        ax.set_ylabel("Height (m)")
-        ax.set_title("Te Puni building - Max spectral acceleration per floor")
-        ax.grid(True)
-        st.pyplot(fig)
-    
-    
+  
 output_df = pd.DataFrame(
     {"Time (s)": t, "Displacement (m)": d, "Velocity (m/s)": v, "Acceleration (m/s²)": a, "Force (N)": F})
 csv = output_df.to_csv(index=False).encode('utf-8')
