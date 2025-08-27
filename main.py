@@ -53,7 +53,7 @@ uploaded_file = st.file_uploader("Upload a CSV or Excel file of an earthquake", 
 # Upload du fichier CSV ou Excel 
 uploaded_file_2 = st.file_uploader("Upload a CSV or Excel file of floor data", type=["csv", "xls", "xlsx"])
 
-df_etage = pd.read_csv(uploaded_file, engine="python", sep=';')
+df_etage = pd.read_csv(uploaded_file_2, engine="python", sep=';')
 time_data_etage = pd.to_numeric(df_etage.iloc[:, 0], errors='coerce').values
  
 #df_etage = pd.read_csv('donnee_10_etages.csv', sep=';')
