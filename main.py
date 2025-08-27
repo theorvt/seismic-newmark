@@ -851,7 +851,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         # Spectre de réponse
         Sa_etage = [[] for m in range(nb_etage)]  # 12 étages
         
-        for j, acc_j in range(len(accel_etage)):
+        for j, acc_j in enumerate(accel_etage):
             
             #acc_j = accel_etage[j]  # accélération interpolée de l’étage j
             
