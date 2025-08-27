@@ -38,7 +38,7 @@ st.sidebar.markdown(f"K3 : Non-linear stiffness = **{K3:.1e} N/m³**")
 
 # Liste des graphiques disponibles
 options = ["Earthquake input","SDOF Structural response - Linear Model","SDOF Structural response - Non Linear Model","SDOF Structural response - Linear Model with Friction",
-           "SDOF Structural response - Non Linear Model with Friction","Stiffness","Te Puni building floor reaction","Maximum response spectrum per floor"]
+           "SDOF Structural response - Non Linear Model with Friction","Stiffness","Te Puni building floor reaction"]
 
 # Sélection par l'utilisateur
 graphique_choisi = st.selectbox("Which graph do you want to display ?", options)
@@ -419,8 +419,8 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         st.info("You are currently viewing a simulation example with predefined data. To use your own seismic data, import a CSV or Excel file at the top of the page.")
 
 
-    if graphique_choisi == "SDOF Structural response - Linear Model":
-        # Modèle linéaire
+    # Modèle linéaire
+    def newmark_lineaire():
         for i in range(n - 1):
             # Prédictions Newmark
             P = v[i] + (1 - gamma) * dt * a[i]
@@ -430,6 +430,106 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
             a[i+1] = (F[i+1] - K * H - C * P) / B
             v[i+1] = P + gamma * dt * a[i+1]
             d[i+1] = H + beta * dt**2 * a[i+1]
+            
+            
+    # Modèle linéaire avec friction        
+    def newmark_lineaire_friction():
+        for i in range(n - 1): 
+            # Friction régulière (approximation continue)
+            friction = mu * N_force * (2 / np.pi) * np.arctan(v_friction[i] / v_eps)
+    
+            # Force totale (avec frottement)
+            F_friction[i+1] = F[i+1] - friction
+             
+            # Mettre à jour les états
+            P_friction = v_friction[i] + (1 - gamma) * dt * a_friction[i]
+            H_friction = d_friction[i] + dt * v_friction[i] + (0.5 - beta) * dt**2 * a_friction[i]
+            
+            a_friction[i + 1] = (F_friction[i + 1] - K * H_friction - C * P_friction) / B 
+            v_friction[i + 1] = P_friction + gamma * dt * a_friction[i + 1] 
+            d_friction[i + 1] = H_friction + beta * dt ** 2 * a_friction[i + 1]
+       
+            
+    # Modèle non-linéaire
+    def newmark_non_lineaire():
+        for i in range(n - 1):
+            # Prédiction
+            H_non_lineaire = d_non_lineaire[i] + dt * v_non_lineaire[i] + (0.5 - beta) * dt ** 2 * a_non_lineaire[i]
+            P_non_lineaire = v_non_lineaire[i] + (1 - gamma) * dt * a_non_lineaire[i]
+        
+            d_guess = d_non_lineaire[i]
+            
+            for it in range(max_iter):
+                a_guess = (d_guess - H_non_lineaire) / (beta * dt**2)
+                v_guess = P_non_lineaire + gamma * dt * a_guess
+        
+                # Résidu
+                R_non_lineaire = M * a_guess + C * v_guess + K * d_guess + K3 * d_guess**3 - F[i+1]
+        
+                # Dérivée du résidu
+                dR_non_lineaire_dd = (M / (beta * dt**2) + gamma * dt * C / (beta * dt**2) + K + 3 * K3 * d_guess**2)
+                
+                delta_d = -R_non_lineaire / dR_non_lineaire_dd
+                d_guess += delta_d
+        
+                if abs(delta_d) < tol:
+                   break
+               
+            else:
+                print(f"Newton-Raphson did not converge at step {i+1}")
+            
+            # Mise à jour des états
+            d_non_lineaire[i+1] = d_guess
+            a_non_lineaire[i+1] = (d_non_lineaire[i+1] - H_non_lineaire) / (beta * dt**2)
+            v_non_lineaire[i+1] = P_non_lineaire + gamma * dt * a_non_lineaire[i+1]
+        
+     
+    # Modèle non-linéaire - avec friction
+    def newmark_non_lineaire_friction():
+        for i in range(n - 1):
+            # Prédiction
+            H_non_lineaire_friction = d_non_lineaire_friction[i] + dt * v_non_lineaire_friction[i] + (0.5 - beta) * dt ** 2 * a_non_lineaire_friction[i]
+            P_non_lineaire_friction = v_non_lineaire_friction[i] + (1 - gamma) * dt * a_non_lineaire_friction[i]
+    
+            d_guess_friction = d_non_lineaire_friction[i]
+            
+            for it in range(max_iter):
+                a_guess_friction = (d_guess_friction - H_non_lineaire_friction) / (beta * dt**2)
+                v_guess_friction = P_non_lineaire_friction + gamma * dt * a_guess_friction
+    
+                # Friction régulière (approximation continue)
+                friction = mu * N_force * (2 / np.pi) * np.arctan(v_guess_friction / v_eps) 
+    
+                # Force totale (avec frottement)
+                F_friction[i+1] = F[i+1] - friction
+    
+                # Résidu
+                R_non_lineaire_friction = M * a_guess_friction + C * v_guess_friction + K * d_guess_friction + K3 * d_guess_friction **3 - F_friction[i+1]
+    
+                # Dérivée du résidu
+                dR_non_lineaire_friction_dd = (M / (beta * dt**2) + gamma * dt * C / (beta * dt**2) + K + 3 * K3 * d_guess_friction ** 2)
+                
+                d_arctan = (2 / np.pi) * 1 / (1 + (v_guess_friction / v_eps)**2) / v_eps
+                dR_non_lineaire_friction_dd += C * gamma * dt * mu * N_force * d_arctan / (beta * dt**2)
+    
+                delta_d_friction = -R_non_lineaire_friction / dR_non_lineaire_friction_dd
+                d_guess_friction += delta_d_friction
+    
+                if abs(delta_d_friction) < tol:
+                   break
+               
+            else:
+                print(f"Newton-Raphson did not converge at step {i+1}")
+            
+            # Mise à jour des états
+            d_non_lineaire_friction[i+1] = d_guess_friction
+            a_non_lineaire_friction[i+1] = (d_non_lineaire_friction[i+1] - H_non_lineaire_friction) / (beta * dt**2)
+            v_non_lineaire_friction[i+1] = P_non_lineaire_friction + gamma * dt * a_non_lineaire_friction[i+1]
+
+    if graphique_choisi == "SDOF Structural response - Linear Model":
+        
+        a, v ,d = newmark_lineaire()
+        
         # Sauvegarde des résultats
         st.session_state.results = {"t": t, "F": F, "d": d, "v": v, "a": a}
         st.session_state.last_params = params_key
@@ -486,22 +586,10 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
 
         
         
-    elif graphique_choisi == "SDOF Structural response - Linear Model with Friction":    
-        # Modèle linéaire avec friction
-        for i in range(n - 1): 
-            # Friction régulière (approximation continue)
-            friction = mu * N_force * (2 / np.pi) * np.arctan(v_friction[i] / v_eps)
-    
-            # Force totale (avec frottement)
-            F_friction[i+1] = F[i+1] - friction
-             
-            # Mettre à jour les états
-            P_friction = v_friction[i] + (1 - gamma) * dt * a_friction[i]
-            H_friction = d_friction[i] + dt * v_friction[i] + (0.5 - beta) * dt**2 * a_friction[i]
-            
-            a_friction[i + 1] = (F_friction[i + 1] - K * H_friction - C * P_friction) / B 
-            v_friction[i + 1] = P_friction + gamma * dt * a_friction[i + 1] 
-            d_friction[i + 1] = H_friction + beta * dt ** 2 * a_friction[i + 1] 
+    elif graphique_choisi == "SDOF Structural response - Linear Model with Friction":   
+        
+        a_friction, v_friction, d_friction = newmark_lineaire_friction()
+        
         # Sauvegarde des résultats
         st.session_state.results = {"t": t, "F": F, "d_friction": d_friction, "v_friction": v_friction, "a_friction": a_friction}
         st.session_state.last_params = params_key
@@ -559,38 +647,9 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         
         
     elif graphique_choisi == "SDOF Structural response - Non Linear Model":
-        # Modèle non-linéaire
-        for i in range(n - 1):
-            # Prédiction
-            H_non_lineaire = d_non_lineaire[i] + dt * v_non_lineaire[i] + (0.5 - beta) * dt ** 2 * a_non_lineaire[i]
-            P_non_lineaire = v_non_lineaire[i] + (1 - gamma) * dt * a_non_lineaire[i]
-    
-            d_guess = d_non_lineaire[i]
-            
-            for it in range(max_iter):
-                a_guess = (d_guess - H_non_lineaire) / (beta * dt**2)
-                v_guess = P_non_lineaire + gamma * dt * a_guess
-    
-                # Résidu
-                R_non_lineaire = M * a_guess + C * v_guess + K * d_guess + K3 * d_guess**3 - F[i+1]
-    
-                # Dérivée du résidu
-                dR_non_lineaire_dd = (M / (beta * dt**2) + gamma * dt * C / (beta * dt**2) + K + 3 * K3 * d_guess**2)
-                
-                delta_d = -R_non_lineaire / dR_non_lineaire_dd
-                d_guess += delta_d
-    
-                if abs(delta_d) < tol:
-                   break
-               
-            else:
-                print(f"Newton-Raphson did not converge at step {i+1}")
-            
-            # Mise à jour des états
-            d_non_lineaire[i+1] = d_guess
-            a_non_lineaire[i+1] = (d_non_lineaire[i+1] - H_non_lineaire) / (beta * dt**2)
-            v_non_lineaire[i+1] = P_non_lineaire + gamma * dt * a_non_lineaire[i+1]
-     
+        
+        a_non_lineaire, v_non_lineaire, d_non_lineaire = newmark_non_lineaire()
+        
         # Sauvegarde des résultats
         st.session_state.results = {"t": t, "F": F, "d_non_lineaire": d_non_lineaire, "v_non_lineaire": v_non_lineaire, "a_non_lineaire": a_non_lineaire}
         st.session_state.last_params = params_key
@@ -648,46 +707,8 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         
         
     elif graphique_choisi == "SDOF Structural response - Non Linear Model with Friction":    
-        # Modèle non-linéaire - avec friction
-        for i in range(n - 1):
-            # Prédiction
-            H_non_lineaire_friction = d_non_lineaire_friction[i] + dt * v_non_lineaire_friction[i] + (0.5 - beta) * dt ** 2 * a_non_lineaire_friction[i]
-            P_non_lineaire_friction = v_non_lineaire_friction[i] + (1 - gamma) * dt * a_non_lineaire_friction[i]
-    
-            d_guess_friction = d_non_lineaire_friction[i]
-            
-            for it in range(max_iter):
-                a_guess_friction = (d_guess_friction - H_non_lineaire_friction) / (beta * dt**2)
-                v_guess_friction = P_non_lineaire_friction + gamma * dt * a_guess_friction
-    
-                # Friction régulière (approximation continue)
-                friction = mu * N_force * (2 / np.pi) * np.arctan(v_guess_friction / v_eps) 
-    
-                # Force totale (avec frottement)
-                F_friction[i+1] = F[i+1] - friction
-    
-                # Résidu
-                R_non_lineaire_friction = M * a_guess_friction + C * v_guess_friction + K * d_guess_friction + K3 * d_guess_friction **3 - F_friction[i+1]
-    
-                # Dérivée du résidu
-                dR_non_lineaire_friction_dd = (M / (beta * dt**2) + gamma * dt * C / (beta * dt**2) + K + 3 * K3 * d_guess_friction ** 2)
-                
-                d_arctan = (2 / np.pi) * 1 / (1 + (v_guess_friction / v_eps)**2) / v_eps
-                dR_non_lineaire_friction_dd += C * gamma * dt * mu * N_force * d_arctan / (beta * dt**2)
-    
-                delta_d_friction = -R_non_lineaire_friction / dR_non_lineaire_friction_dd
-                d_guess_friction += delta_d_friction
-    
-                if abs(delta_d_friction) < tol:
-                   break
-               
-            else:
-                print(f"Newton-Raphson did not converge at step {i+1}")
-            
-            # Mise à jour des états
-            d_non_lineaire_friction[i+1] = d_guess_friction
-            a_non_lineaire_friction[i+1] = (d_non_lineaire_friction[i+1] - H_non_lineaire_friction) / (beta * dt**2)
-            v_non_lineaire_friction[i+1] = P_non_lineaire_friction + gamma * dt * a_non_lineaire_friction[i+1]
+        
+        a_non_lineaire_friction, v_non_lineaire_friction, d_non_lineaire_friction = newmark_non_lineaire_friction()
             
         # Sauvegarde des résultats
         st.session_state.results = {"t": t, "F": F, "d_non_lineaire_friction": d_non_lineaire_friction, "v_non_lineaire_friction": v_non_lineaire_friction, "a_non_lineaire_friction": a_non_lineaire_friction}
