@@ -1008,16 +1008,11 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         Hauteur_Te_Puni = np.linspace(0, 3*(nb_etage-1), nb_etage)  # Exemple : 3 m par étage
 
         # Calcul du max du spectre par étage
-        #Version avec les etages 
-        acc_interp_etage = []
-        accel_etage = []
-    
-        for i in range(len(acc_data_etage)):
-            f_interp = interp1d(time_data_etage, acc_data_etage[i], kind='linear', fill_value='extrapolate')
-            acc_interp_etage.append(f_interp)   # stocke la fonction
-            accel_etage.append(f_interp(t))     # applique la fonction tout de suite
+        acc_data_etage = []
+        for l in range(1, n_floors+1):
+            acc_data_etage.append(pd.to_numeric(df_etage.iloc[:, l], errors='coerce').values)
             
-        max_peak_acceleration = [max(Ac) for Ac in accel_etage]
+        max_peak_acceleration = [max(Ac) for Ac in acc_data_etage]
         Amplitude_factor = np.abs(max_peak_acceleration / max(acc_data))
 
         # Affichage
