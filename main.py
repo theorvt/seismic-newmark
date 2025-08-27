@@ -40,7 +40,7 @@ st.sidebar.markdown(f"K3 : Non-linear stiffness = **{K3:.1e} N/m³**")
 options = ["Earthquake input", "Acceleration and Displacement spectrum", "SDOF Structural response - Linear Model","SDOF Structural response - Non Linear Model","SDOF Structural response - Linear Model with Friction",
            "SDOF Structural response - Non Linear Model with Friction","Te Puni building floor reaction", "Stiffness"]
 
-n_floors = st.number_input("Enter the number of floor you want to consider", min_value=1, max_value=100, value=10, step=1)
+n_floors = st.number_input("Enter the number of floor you want to consider", min_value=1, max_value=100, value=12, step=1)
 
 # Sélection par l'utilisateur
 graphique_choisi = st.selectbox("Which graph do you want to display ?", options)
@@ -61,7 +61,7 @@ time_data_etage = pd.to_numeric(df_etage.iloc[:, 0], errors='coerce').values
 #df_etage = pd.read_csv('donnee_10_etages.csv', sep=';')
  
 acc_data_etage = []
-for l in range(1, n_floors):
+for l in range(1, n_floors+1):
     acc_data_etage.append(pd.to_numeric(df_etage.iloc[:, l], errors='coerce').values)
     
 nb_etage = len(acc_data_etage) 
