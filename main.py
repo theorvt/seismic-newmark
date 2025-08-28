@@ -993,10 +993,12 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
         with col1:
             st.markdown("Te Puni building floor reaction")
 
+            colors = plt.cm.viridis(np.linspace(0, 1, nb_etage))
+
             fig, ax = plt.subplots()
             for j in range(nb_etage):
                 etage = j + 1
-                ax.plot(T0_list_etage, Sa_etage[j], label=f"Floor {etage}")
+                ax.plot(T0_list_etage, Sa_etage[j], color=colors[j], label=f"Floor {etage}")
             ax.set_xlabel("Period (s)")
             ax.set_ylabel("Peak Acceleration")
             ax.set_title("Acceleration response spectrum per floor")
