@@ -226,7 +226,7 @@ acc_data = acc_data[valid_indices]
 # Filtrer les NaN
 acc_data_etage = []
 for i in range(1, nb_etage):  # Étages 1 à 10
-    acc_data_etage.append(pd.to_numeric(df_etage.iloc[:,i], errors="coerce").values)
+    acc_data_etage.append(pd.to_numeric(df_etage.iloc[:,i+1], errors="coerce").values)
 
 # Masque global
 global_valid = ~np.isnan(time_data_etage)
