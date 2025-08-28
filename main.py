@@ -5,7 +5,7 @@ from math import sqrt, pi
 import pandas as pd
 from scipy.interpolate import interp1d
 
-# Réduire les marges
+# Réduire les marges 
 st.set_page_config(layout="wide")
  
 # Titre
