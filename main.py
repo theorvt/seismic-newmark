@@ -996,7 +996,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
             fig, ax = plt.subplots()
             for j in range(nb_etage):
                 etage = nb_etage - j
-                ax.plot(T0_list_etage, Sa_etage[j], label=f"Floor {j+1}")
+                ax.plot(T0_list_etage, Sa_etage[j], label=f"Floor {etage}")
             ax.set_xlabel("Period (s)")
             ax.set_ylabel("Peak Acceleration")
             ax.set_title("Acceleration response spectrum per floor")
