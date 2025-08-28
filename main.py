@@ -225,8 +225,8 @@ acc_data = acc_data[valid_indices]
 # Pour les etages
 # Filtrer les NaN
 acc_data_etage = []
-for i in range(1, 12):  # Étages 1 à 10
-    acc_data_etage.append(pd.to_numeric(df_etage.iloc[:, 13 - i], errors="coerce").values)
+for i in range(1, nb_etage):  # Étages 1 à 10
+    acc_data_etage.append(pd.to_numeric(df_etage.iloc[:, nb_etage - i], errors="coerce").values)
 
 # Masque global
 global_valid = ~np.isnan(time_data_etage)
@@ -995,7 +995,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
 
             fig, ax = plt.subplots()
             for j in range(nb_etage):
-                etage = nb_etage - j
+                etage = j + 1
                 ax.plot(T0_list_etage, Sa_etage[j], label=f"Floor {etage}")
             ax.set_xlabel("Period (s)")
             ax.set_ylabel("Peak Acceleration")
