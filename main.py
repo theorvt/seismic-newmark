@@ -1001,6 +1001,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
             ax.set_title("Acceleration response spectrum per floor")
             ax.set_xscale(scale)
             ax.grid()
+            ax.legend()
             st.pyplot(fig)
           
 
