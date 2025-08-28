@@ -996,7 +996,7 @@ if "results" not in st.session_state or st.session_state.get("last_params") != p
             colors = plt.cm.viridis(np.linspace(0, 1, nb_etage))
 
             fig, ax = plt.subplots()
-            for j in range(nb_etage):
+            for j in range(min(nb_etage, len(Sa_etage))):
                 etage = j + 1
                 ax.plot(T0_list_etage, Sa_etage[j], color=colors[j], label=f"Floor {etage}")
             ax.set_xlabel("Period (s)")
